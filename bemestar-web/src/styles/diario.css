@@ -1,0 +1,215 @@
+.diario { max-width: 640px; margin: 0 auto; }
+
+/* ---------- Topo ---------- */
+.diario-topo { margin-bottom: 28px; }
+.diario-topo h1 {
+  margin: 0;
+  color: var(--marrom);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2.2rem;
+  font-weight: 400;
+}
+.diario-sub { margin: 10px 0 0; color: #7a6a5a; font-size: 1.05rem; }
+.diario-privado {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding: 8px 16px;
+  border: 1px solid #e9dfd1;
+  border-radius: 999px;
+  background: #fff;
+  color: #7a6a5a;
+  font-size: 0.9rem;
+}
+
+/* ---------- Formulário ---------- */
+.diario-form { display: flex; flex-direction: column; gap: 18px; }
+
+.humor-card,
+.texto-card {
+  min-width: 0;
+  margin: 0;
+  padding: 22px;
+  border: 1px solid #eadfce;
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 6px 20px rgba(91, 70, 54, 0.06);
+  transition: border-color 0.2s;
+}
+.diario-form.editando .texto-card { border-color: var(--verde); }
+
+/* humor: bolinhas coloridas */
+.humor-lista { display: flex; justify-content: space-between; gap: 6px; }
+.humor-opcao {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  cursor: pointer;
+}
+.humor-opcao input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.humor-bolinha {
+  width: min(56px, 100%);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transition: transform 0.2s var(--ease), box-shadow 0.2s;
+}
+.humor-opcao:hover .humor-bolinha { transform: scale(1.06); }
+.humor-opcao input:checked + .humor-bolinha {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--marrom);
+}
+.humor-opcao input:focus-visible + .humor-bolinha { outline: 3px solid var(--verde); outline-offset: 5px; }
+.humor-rotulo { color: #7a6a5a; font-size: 0.8rem; text-align: center; }
+.humor-opcao input:checked ~ .humor-rotulo { color: var(--marrom); font-weight: 700; }
+
+/* texto */
+.texto-titulo {
+  display: block;
+  margin-bottom: 14px;
+  color: var(--marrom);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.2rem;
+}
+.diario-textarea {
+  width: 100%;
+  min-height: 170px;
+  padding: 16px;
+  border: 2px solid #eadfce;
+  border-radius: 16px;
+  background: var(--campo);
+  color: var(--texto);
+  font: inherit;
+  line-height: 1.6;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.diario-textarea:focus { border-color: var(--verde); background: #fff; }
+.diario-textarea.invalido { border-color: var(--erro); }
+.texto-rodape { display: flex; justify-content: flex-end; margin-top: 8px; }
+.contador { color: #9a8d80; font-size: 0.8rem; }
+.contador.estourou { color: var(--erro); }
+
+/* botões */
+.diario-acoes { display: flex; gap: 12px; }
+.diario-form .diario-salvar {
+  flex: 1;
+  width: 100%;
+  padding: 16px 24px;
+  font-size: 1.05rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.diario-form .btn-secundario { letter-spacing: 0; text-transform: none; }
+
+/* ---------- Lista ---------- */
+.diario-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 36px 0 0;
+  padding: 0;
+  list-style: none;
+  transition: opacity 0.2s;
+}
+.diario-lista.carregando { opacity: 0.55; }
+
+.entrada {
+  padding: 20px 22px;
+  border: 1px solid #eadfce;
+  border-left: 5px solid var(--verde); /* a cor do humor sobrescreve esta, via style */
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(91, 70, 54, 0.05);
+}
+.entrada-topo { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.entrada-info { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+.humor-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--bege-claro);
+  color: var(--marrom);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+.humor-ponto { width: 10px; height: 10px; border-radius: 50%; }
+.entrada-data { color: #9a8d80; font-size: 0.82rem; }
+.editado { font-style: italic; }
+.entrada-texto {
+  margin: 12px 0 0;
+  line-height: 1.7;
+  white-space: pre-wrap; /* preserva as quebras de linha que a pessoa escreveu */
+  overflow-wrap: anywhere;
+}
+.entrada-texto.recortado {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+  overflow: hidden;
+}
+.ler-mais {
+  margin-top: 8px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--verde-escuro);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.entrada-acoes { display: flex; flex: none; gap: 4px; }
+.icone-botao {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #8a7d70;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.icone-botao:hover:not(:disabled) { background: #f0e6d6; color: var(--marrom); }
+.icone-botao.perigo:hover:not(:disabled) { background: #fdecea; color: var(--erro); }
+.icone-botao:disabled { opacity: 0.4; cursor: default; }
+
+.diario-vazio {
+  margin-top: 32px;
+  padding: 36px 24px;
+  border: 2px dashed #e0d3bf;
+  border-radius: 20px;
+  color: #8a7d70;
+  text-align: center;
+}
+.diario-vazio p { margin: 0 0 12px; }
+
+/* ---------- Paginação ---------- */
+.paginacao { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 28px; }
+.paginacao button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border: 1.5px solid var(--verde);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--verde-escuro);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.paginacao button:hover:not(:disabled) { background: #eef7f5; }
+.paginacao button:disabled { opacity: 0.4; cursor: default; }
+.paginacao span { color: #7a6a5a; font-size: 0.9rem; }
