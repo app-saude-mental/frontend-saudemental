@@ -6,6 +6,7 @@ import DiarioPage from "./pages/Diario";
 import PerfilPage from "./pages/Perfil";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import HabitosPage from "./pages/Habitos";
+import MedicamentosPage from "./pages/Medicamentos";
 
 
 export default function App() {
@@ -23,6 +24,7 @@ export default function App() {
           <Route path="/diario" element={<DiarioPage />} />
           <Route path="/perfil" element={<PerfilPage />} />
           <Route path="/habitos" element={<HabitosPage />} />
+          <Route path="/medicamentos" element={<MedicamentosPage />} />
         </Route>
       </Route>
 
