@@ -6,5 +6,5 @@ export function getErrorMessage(error: unknown): string {
   if (!error.response) return "Não foi possível conectar ao servidor.";
 
   const data = error.response.data as Partial<ErrorResponse & ValidationErrorResponse>;
-  return data?.mensagem ?? data?.mesangem ?? "Erro inesperado. Tente novamente.";
+  return data?.mensagem ?? "Erro inesperado. Tente novamente.";
 }

@@ -1,4 +1,3 @@
-
 export type Plano = "GRATUITO" | "PREMIUM";
 export type Perfil = "COMUM" | "ASSINANTE" | "ADMIN" | "PACIENTE";
 
@@ -34,7 +33,6 @@ export interface LoginResponse {
 // Erros que o back devolve
 export interface ErrorResponse {
   status: number;
-  mesangem?: string; // typo atual do back
   mensagem?: string;
 }
 
