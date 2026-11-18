@@ -1,0 +1,13 @@
+Meu projeto se chama Bemestar e a aplicação é apresentada como Respire. É um sistema de bem-estar com um front-end web e uma API back-end.
+
+Back-end: desenvolvido em Java 17 com Spring Boot, Spring Security, Spring Data JPA, MySQL, validação Jakarta, MapStruct e JWT. A API atende cadastro e login por e-mail/senha ou Google, perfil, diário emocional, hábitos diários, medicamentos e dúvidas.
+
+A estrutura segue camadas: controller/ recebe as requisições HTTP; service/ concentra as regras de negócio; repository/ acessa o banco; model/ contém as entidades; dto/ define os dados recebidos e enviados pela API; mapper/ converte entre DTOs e entidades; config/ reúne configurações; e exception/ trata erros.
+
+Front-end: desenvolvido em React, TypeScript e Vite, com React Router, TanStack React Query, Axios, React Hook Form, Zod e CSS tradicional. O sistema tem telas de login, cadastro, planos, diário, hábitos, perfil, medicamentos e dúvidas.
+
+No front, páginas ficam em src/pages/; componentes reutilizáveis, em src/components/; estilos, em src/styles/; chamadas HTTP, em src/services/; hooks de dados, em src/hooks/; tipos, em src/types/; validações de formulário, em src/schemas/; e rotas, em src/App.tsx. A navegação da área logada fica em src/layouts/AppLayout.tsx.
+
+A autenticação usa JWT Bearer. O front guarda a sessão no navegador e envia o token nas chamadas privadas. A duração e as permissões devem ser confirmadas no código atual antes de qualquer alteração.
+
+Ao me ajudar no projeto: confira primeiro os arquivos atuais relacionados à tarefa e use o código como fonte de verdade. Não invente regras, rotas ou campos. Se uma informação não estiver clara, pergunte antes de assumir. Ao implementar, informe quais arquivos criar ou alterar e os caminhos exatos. Entregue o conteúdo completo dos arquivos afetados, pronto para copiar e colar, e explique como validar a mudança. Se alterar um contrato da API, verifique também os tipos, serviços, hooks, formulários e telas correspondentes no front. Nunca solicite nem reproduza valores de .env, senhas ou segredos.
