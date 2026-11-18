@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { diarioSchema, type DiarioFormData } from "../schemas/diarioSchemas";
 import { useSalvarDiario } from "../hooks/useDiarios";
 import { getErrorMessage } from "../services/apiError";
-import { HUMORES } from "../data/humores";
+import { HUMORES, buscarHumor } from "../data/humores";
 import type { Diario } from "../types/diario";
 
 const LIMITE_TEXTO = 5000;
@@ -30,6 +30,7 @@ export default function DiarioForm({ editando, onFinalizar }: DiarioFormProps) {
   });
 
   const texto = useWatch({ control, name: "texto" }) ?? "";
+  const humorSelecionado = buscarHumor(useWatch({ control, name: "humor" }) ?? null);
 
   async function onSubmit(dados: DiarioFormData) {
     setErroApi(null);
@@ -62,6 +63,9 @@ export default function DiarioForm({ editando, onFinalizar }: DiarioFormProps) {
         {errors.humor && (
           <span className="erro-campo" role="alert">Selecione como você está se sentindo</span>
         )}
+        <p className="humor-frase" aria-live="polite">
+          {humorSelecionado?.frase}
+        </p>
       </fieldset>
 
       <div className="texto-card">

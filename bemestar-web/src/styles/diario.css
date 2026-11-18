@@ -40,11 +40,11 @@
 .diario-form.editando .texto-card { border-color: var(--verde); }
 
 /* humor: bolinhas coloridas */
-.humor-lista { display: flex; justify-content: space-between; gap: 6px; }
+.humor-lista { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px 6px; }
 .humor-opcao {
   position: relative;
   display: flex;
-  flex: 1;
+  flex: 1 1 64px;
   flex-direction: column;
   align-items: center;
   gap: 10px;
@@ -66,6 +66,19 @@
 .humor-opcao input:focus-visible + .humor-bolinha { outline: 3px solid var(--verde); outline-offset: 5px; }
 .humor-rotulo { color: #7a6a5a; font-size: 0.8rem; text-align: center; }
 .humor-opcao input:checked ~ .humor-rotulo { color: var(--marrom); font-weight: 700; }
+
+/* frase de acolhimento do humor escolhido */
+.humor-frase {
+  margin: 20px 0 0;
+  padding: 14px 18px;
+  border-radius: 16px;
+  background: var(--bege-claro);
+  color: var(--marrom);
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  line-height: 1.65;
+}
+.humor-frase:empty { display: none; }
 
 /* texto */
 .texto-titulo {

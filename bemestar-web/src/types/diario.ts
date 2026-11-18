@@ -1,4 +1,4 @@
-export const HUMORES_VALORES = ["EM_PAZ", "BEM", "NEUTRO", "CANSADO", "TRISTE"] as const;
+export const HUMORES_VALORES = ["EM_PAZ", "BEM", "FELIZ", "ESTRESSADO", "TRISTE", "ANSIOSO", "BRAVO"] as const;
 export type Humor = (typeof HUMORES_VALORES)[number];
 
 export interface Diario {
