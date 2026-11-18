@@ -8,6 +8,7 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import HabitosPage from "./pages/Habitos";
 import MedicamentosPage from "./pages/Medicamentos";
 import DuvidasPage from "./pages/Duvidas";
+import MomentoPazPage from "./pages/MomentoPaz";
 
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="/habitos" element={<HabitosPage />} />
           <Route path="/medicamentos" element={<MedicamentosPage />} />
           <Route path="/duvidas" element={<DuvidasPage />} />
+          <Route path="/meditacao" element={<MomentoPazPage />} />
         </Route>
       </Route>
 
