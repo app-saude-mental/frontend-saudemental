@@ -2,7 +2,7 @@ import { NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "../contexts/useAuth";
 import "../styles/app.css";
 import { useTransicao } from "../contexts/useTransicao";
-import { BookOpen, Crown, Leaf, ListChecks, LogOut, Pill, User } from "lucide-react";
+import { BookOpen, Crown, Leaf, ListChecks, LogOut, MessageCircle, Pill, User } from "lucide-react";
 
 
 const LINKS = [
@@ -11,6 +11,7 @@ const LINKS = [
   { to: "/habitos", rotulo: "Hábitos", Icone: ListChecks },
   { to: "/perfil", rotulo: "Perfil", Icone: User },
   { to: "/medicamentos", rotulo: "Medicamentos", Icone: Pill },
+  { to: "/duvidas", rotulo: "Dúvidas", Icone: MessageCircle },
 ];
 
 export default function AppLayout() {

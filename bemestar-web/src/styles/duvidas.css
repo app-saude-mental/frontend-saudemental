@@ -1,0 +1,290 @@
+/* Usa as variáveis de auth.css. Os valores depois da vírgula só valem
+   se a variável (ex.: --cartao, do tema escuro) ainda não existir. */
+
+.duv-pagina {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+  color: var(--texto);
+}
+
+/* ---------- Cabeçalho ---------- */
+.duv-topo { margin-bottom: 24px; }
+.duv-topo h1 {
+  margin: 0 0 6px;
+  font-family: var(--fonte-titulo, Georgia, "Times New Roman", serif);
+  font-weight: 400;
+  font-size: clamp(1.9rem, 5vw, 2.5rem);
+  color: var(--marrom);
+}
+.duv-sub { margin: 0; color: var(--suave, #7d7165); }
+.duv-subtitulo {
+  margin: 32px 0 14px;
+  font-family: var(--fonte-titulo, Georgia, "Times New Roman", serif);
+  font-weight: 400;
+  font-size: 1.4rem;
+  color: var(--marrom);
+}
+
+/* ---------- Caixa de escrever ---------- */
+.duv-caixa {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px;
+  background: var(--cartao, #fff);
+  border: 1px solid var(--linha, #e6ded3);
+  border-radius: 22px;
+  box-shadow: 0 8px 24px -18px rgba(91, 70, 54, 0.4);
+}
+.duv-rotulo {
+  font-weight: 700;
+  color: var(--marrom);
+}
+.duv-caixa textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 14px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  background: var(--campo);
+  color: var(--texto);
+  font: inherit;
+  font-size: 16px; /* evita o zoom automático do iPhone */
+  line-height: 1.5;
+  resize: vertical;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.duv-caixa textarea::placeholder { color: var(--suave, #7d7165); opacity: 0.8; }
+.duv-caixa textarea:focus-visible {
+  outline: none;
+  border-color: var(--verde);
+  background: var(--campo-foco, #fff);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--verde) 22%, transparent);
+}
+.duv-caixa textarea[aria-invalid="true"] { border-color: var(--erro); }
+
+.duv-linha { display: flex; justify-content: flex-end; }
+.duv-contador { font-size: 0.8rem; color: var(--suave, #7d7165); }
+.duv-contador.excedido { color: var(--erro); font-weight: 700; }
+
+.duv-erro { margin: 0; font-size: 0.85rem; color: var(--erro); }
+.duv-erro-api {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--erro-fundo, #fdecea);
+  color: var(--erro);
+  font-size: 0.9rem;
+}
+.duv-ok {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--verde) 16%, transparent);
+  color: var(--verde-escuro);
+  font-size: 0.9rem;
+  animation: duv-surge 0.4s var(--ease, ease);
+}
+.duv-aviso {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--suave, #7d7165);
+}
+
+.duv-acoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+.duv-acoes .btn-contorno,
+.duv-acoes .btn-principal,
+.duv-perigo {
+  min-height: 48px;
+  padding: 10px 24px;
+}
+
+/* ---------- Lista ---------- */
+.duv-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.duv-item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 22px;
+  background: var(--cartao, #fff);
+  border: 1px solid var(--linha, #e6ded3);
+  border-radius: 22px;
+  box-shadow: 0 8px 24px -18px rgba(91, 70, 54, 0.4);
+  animation: duv-surge 0.5s var(--ease, ease) both;
+}
+.duv-item:nth-child(2) { animation-delay: 0.05s; }
+.duv-item:nth-child(3) { animation-delay: 0.1s; }
+.duv-item:nth-child(4) { animation-delay: 0.15s; }
+.duv-item:nth-child(5) { animation-delay: 0.2s; }
+
+.duv-data { margin: 0; font-size: 0.85rem; color: var(--suave, #7d7165); }
+.duv-mensagem {
+  margin: 0;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.duv-resposta {
+  padding: 14px 16px;
+  border-left: 4px solid var(--verde);
+  border-radius: 0 12px 12px 0;
+  background: color-mix(in srgb, var(--verde) 10%, transparent);
+}
+.duv-resposta h3 {
+  margin: 0 0 6px;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--verde-escuro);
+}
+.duv-resposta p { margin: 0; line-height: 1.5; overflow-wrap: anywhere; }
+.duv-resposta-texto { white-space: pre-wrap; }
+.duv-pendente { color: var(--suave, #7d7165); font-style: italic; }
+
+.duv-acoes-item { display: flex; justify-content: flex-end; gap: 8px; }
+.duv-acao {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1.5px solid var(--linha, #e6ded3);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--marrom);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.duv-acao:hover { background: var(--suave-hover, #eef7f5); }
+.duv-acao:active { transform: scale(0.96); }
+.duv-acao.perigo {
+  color: var(--erro);
+  border-color: color-mix(in srgb, var(--erro) 40%, transparent);
+}
+.duv-acao.perigo:hover { background: var(--erro-fundo, #fdecea); }
+.duv-acao:focus-visible,
+.duv-perigo:focus-visible {
+  outline: 3px solid var(--verde);
+  outline-offset: 3px;
+}
+
+/* ---------- Estados e paginação ---------- */
+.duv-estado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 16px;
+  padding: 28px 20px;
+  border: 1px dashed var(--linha, #e6ded3);
+  border-radius: 22px;
+  color: var(--suave, #7d7165);
+  text-align: center;
+}
+.duv-estado p { margin: 0; }
+.duv-estado-erro {
+  border-style: solid;
+  border-color: color-mix(in srgb, var(--erro) 40%, transparent);
+  background: var(--erro-fundo, #fdecea);
+  color: var(--erro);
+}
+.duv-paginacao {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 24px;
+  color: var(--suave, #7d7165);
+}
+.duv-paginacao .btn-contorno { min-height: 44px; padding: 8px 24px; }
+.duv-paginacao .btn-contorno:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* ---------- Modal de exclusão ---------- */
+.duv-modal {
+  width: min(480px, calc(100% - 32px));
+  padding: 0;
+  border: 0;
+  border-radius: 24px;
+  background: var(--cartao, #fff);
+  color: var(--texto);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+}
+.duv-modal::backdrop {
+  background: rgba(40, 30, 22, 0.55);
+  backdrop-filter: blur(3px);
+}
+.duv-modal[open] { animation: duv-modal-entra 0.3s var(--ease, ease); }
+.duv-modal-corpo {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 26px 24px 22px;
+}
+.duv-modal-corpo h2 {
+  margin: 0;
+  font-family: var(--fonte-titulo, Georgia, "Times New Roman", serif);
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--verde-escuro);
+}
+.duv-modal-texto { margin: 0; line-height: 1.5; overflow-wrap: anywhere; }
+.duv-perigo {
+  border: 0;
+  border-radius: 999px;
+  background: var(--erro);
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: filter 0.2s, transform 0.15s, opacity 0.2s;
+}
+.duv-perigo:hover { filter: brightness(0.92); }
+.duv-perigo:active { transform: scale(0.97); }
+.duv-perigo:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* ---------- Animações ---------- */
+@keyframes duv-surge {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes duv-modal-entra {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- Celular ---------- */
+@media (max-width: 600px) {
+  .duv-pagina { padding: 28px 16px 72px; }
+  .duv-caixa { padding: 18px; }
+  .duv-item { padding: 18px; }
+  .duv-acoes { flex-direction: column-reverse; }
+  .duv-acoes .btn-contorno,
+  .duv-acoes .btn-principal,
+  .duv-perigo { width: 100%; }
+}
+
+/* quem pediu menos movimento no aparelho não vê animações */
+@media (prefers-reduced-motion: reduce) {
+  .duv-item,
+  .duv-ok,
+  .duv-modal[open] { animation: none; }
+  .duv-acao,
+  .duv-perigo,
+  .duv-caixa textarea { transition: none; }
+}
