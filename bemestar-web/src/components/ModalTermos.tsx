@@ -40,8 +40,8 @@ export default function ModalTermos({ aberto, onFechar, onAceitar }: ModalTermos
 
           <h3>1. Quem é o responsável</h3>
           <p>
-            [Nome do responsável/empresa] é o controlador dos seus dados. Contato para assuntos de
-            privacidade: [e-mail de contato].
+            Guilherme Carvalho (Respire) é o controlador dos seus dados. Contato para assuntos de
+            privacidade: <a href="mailto:euguilhermecarvalho@gmail.com">euguilhermecarvalho@gmail.com</a>.
           </p>
 
           <h3>2. Quais dados coletamos</h3>
@@ -58,7 +58,8 @@ export default function ModalTermos({ aberto, onFechar, onAceitar }: ModalTermos
           <h3>3. Para que usamos</h3>
           <p>
             Para criar e manter sua conta, autenticar seu acesso, oferecer as funcionalidades do
-            aplicativo e manter o serviço seguro. [Descreva outras finalidades, se houver.]
+            aplicativo e manter o serviço seguro. Nos planos premium, também para registrar a
+            liberação do seu plano e permitir o acompanhamento pelo enfermeiro responsável.
           </p>
 
           <h3>4. Seu consentimento</h3>
@@ -70,8 +71,11 @@ export default function ModalTermos({ aberto, onFechar, onAceitar }: ModalTermos
 
           <h3>5. Compartilhamento</h3>
           <p>
-            [Informe com quem os dados podem ser compartilhados, por exemplo provedores de
-            hospedagem e infraestrutura, e em quais situações.]
+            Não vendemos seus dados. O enfermeiro responsável pelo Respire vê seu nome, e-mail,
+            plano, hábitos, medicamentos e dúvidas para acompanhar você; o seu diário emocional é
+            visível só para você. Se você entrar com o Google, recebemos dele apenas seu nome e
+            e-mail. Os dados ficam em servidores de hospedagem contratados para manter o
+            aplicativo funcionando, e podem ser informados a autoridades quando a lei exigir.
           </p>
 
           <h3>6. Seus direitos</h3>
@@ -88,7 +92,8 @@ export default function ModalTermos({ aberto, onFechar, onAceitar }: ModalTermos
           <h3>7. Segurança e guarda</h3>
           <p>
             Adotamos medidas técnicas para proteger seus dados. Eles ficam armazenados enquanto sua
-            conta estiver ativa [ou informe outro prazo].
+            conta estiver ativa. Ao excluir a conta (no Perfil), todos os seus registros são
+            apagados de forma definitiva.
           </p>
         </div>
 
