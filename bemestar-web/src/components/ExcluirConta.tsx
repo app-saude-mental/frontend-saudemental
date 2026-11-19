@@ -28,7 +28,7 @@ export default function ExcluirConta({ usuario }: { usuario: Usuario }) {
     try {
       await excluir.mutateAsync();
       setAberto(false);
-      await comTransicao("Sua conta foi excluída. Cuide-se.", sair);
+      await comTransicao("Encerrando sua conta…", sair, "Sua conta foi excluída. Cuide-se.");
     } catch (error) {
       setErro(getErrorMessage(error));
     }

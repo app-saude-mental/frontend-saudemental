@@ -1,0 +1,161 @@
+/* ---------- Planos: complementos (a base dos cartões está em app.css) ---------- */
+.planos-vigencia { margin: 10px 0 0; color: var(--suave); }
+.planos-atualizar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.preco-indisponivel { font-size: 1rem; font-weight: 700; opacity: 0.8; }
+.beneficio-detalhe { font-weight: 700; }
+
+.planos-regras {
+  max-width: 820px;
+  margin: 40px auto 0;
+  padding: 24px 28px;
+  border: 1px solid var(--linha);
+  border-radius: 24px;
+  background: var(--cartao);
+}
+.planos-regras h2 {
+  margin: 0 0 12px;
+  color: var(--marrom);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+}
+.planos-regras ul { margin: 0; padding-left: 20px; color: var(--suave); line-height: 1.7; }
+
+/* ---------- Guia "Ser premium" ---------- */
+.guia { max-width: 640px; margin: 0 auto; }
+.guia-voltar {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 16px;
+  color: var(--verde-escuro);
+  font-weight: 600;
+  text-decoration: none;
+}
+.guia-voltar:focus-visible { outline: 3px solid var(--verde); outline-offset: 3px; border-radius: 6px; }
+.guia-topo { margin-bottom: 24px; }
+.guia-topo h1 {
+  margin: 0;
+  color: var(--marrom);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2.2rem;
+  font-weight: 400;
+}
+.guia-topo p { margin: 10px 0 0; color: var(--suave); }
+
+.guia-passos { display: flex; flex-direction: column; gap: 16px; margin: 0; padding: 0; list-style: none; }
+.guia-cartao {
+  padding: 22px 24px;
+  border: 1px solid var(--linha);
+  border-radius: 24px;
+  background: var(--cartao);
+  box-shadow: 0 6px 20px var(--sombra);
+}
+.guia-cartao h2 {
+  margin: 0 0 14px;
+  color: var(--marrom);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+.guia-cartao p { margin: 0; color: var(--suave); line-height: 1.6; }
+.guia-final { background: var(--bege-claro); }
+
+.guia-opcoes { display: flex; flex-wrap: wrap; gap: 10px; }
+.guia-opcao {
+  flex: 1 1 200px;
+  padding: 14px 16px;
+  border: 2px solid var(--linha);
+  border-radius: 16px;
+  background: var(--cartao);
+  color: var(--marrom);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.guia-opcao.ativa { border-color: var(--verde); background: var(--verde-suave); }
+.guia-opcao:focus-visible { outline: 3px solid var(--verde); outline-offset: 2px; }
+.guia-nota { margin-top: 12px !important; }
+
+.guia-pix { display: flex; flex-direction: column; gap: 14px; margin: 0; }
+.guia-pix dt { color: var(--suave-2); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+.guia-pix dd { margin: 4px 0 0; color: var(--texto); overflow-wrap: anywhere; }
+.guia-valor { color: var(--marrom) !important; font-size: 1.3rem; font-weight: 700; }
+.guia-chave { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.guia-chave code {
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: var(--campo);
+  font-size: 0.95rem;
+}
+.guia-mensagem {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--linha);
+  border-radius: 12px;
+  background: var(--campo);
+  color: var(--texto);
+  font: inherit;
+  font-size: 16px; /* evita o zoom automático do iPhone */
+  resize: vertical;
+}
+.guia-mensagem:focus-visible { outline: none; border-color: var(--verde); background: var(--cartao); }
+.guia-copiar { display: inline-flex; align-items: center; gap: 8px; letter-spacing: 0; text-transform: none; }
+
+.guia-enfermeiro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--linha-forte);
+}
+.guia-contato { color: var(--verde-escuro); font-weight: 600; }
+
+.guia-rotulo { display: block; margin-bottom: 8px; color: var(--marrom); font-weight: 600; }
+.guia-contador { margin: 4px 0 12px !important; font-size: 0.8rem; text-align: right; }
+.guia-entendi { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 14px; color: var(--texto); cursor: pointer; }
+.guia-entendi input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--verde); }
+.guia-cartao .erro-api { margin-bottom: 12px; }
+.guia-enviar { display: block; width: 100%; padding: 14px 24px; letter-spacing: 0; text-transform: none; }
+.guia-nota-topo { margin: -4px 0 14px !important; }
+.guia-whatsapp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 13px 24px;
+  border: 1.5px solid #25a35a;
+  border-radius: 999px;
+  color: #1f8a4c;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.guia-whatsapp:hover { background: var(--verde-suave); }
+.guia-whatsapp.desabilitado { opacity: 0.5; cursor: not-allowed; }
+.guia-whatsapp:focus-visible { outline: 3px solid var(--verde); outline-offset: 2px; }
+.guia-contato { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
+:root[data-tema="escuro"] .guia-whatsapp { color: #6fd39a; border-color: #3f9f67; }
+.planos-desistir { max-width: 820px; margin: 0 auto 8px; }
+
+@media (max-width: 760px) {
+  .guia-topo h1 { font-size: 1.8rem; }
+  .guia-cartao { padding: 18px; }
+  .planos-regras { padding: 20px; }
+}
+.guia-opcao { display: flex; flex-direction: column; gap: 4px; }
+.guia-opcao-preco { color: var(--suave); font-size: 0.85rem; font-weight: 600; }
+.guia-enfermeiro .guia-enviar { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.guia-cartao .erro-api { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.guia-cartao .erro-api p { margin: 0; color: inherit; }

@@ -4,18 +4,21 @@ import { Check, X } from "lucide-react";
 interface ItemBeneficio {
   texto: string;
   incluso: boolean;
+  detalhe?: string; // ex.: "2 sons"
 }
 
 interface PlanoCardProps {
   nome: string;
   subtitulo: string;
-  preco: number;
+  preco: string | null; // "29,90"; null = valor indisponível
   icone: ReactNode;
   beneficios: ItemBeneficio[];
   atual: boolean;
   rotuloBotao: string;
   destaque?: boolean;
   desabilitado?: boolean;
+  selo?: string; // situação do plano atual, ex.: "Suspenso"
+  semPreco?: string; // texto no lugar do preço quando preco = null
   onEscolher?: () => void;
 }
 
@@ -29,24 +32,32 @@ export default function PlanoCard({
   rotuloBotao,
   destaque = false,
   desabilitado = false,
+  selo,
+  semPreco = "Valor com o enfermeiro",
   onEscolher,
 }: PlanoCardProps) {
   return (
     <article className={`plano-card ${destaque ? "destaque" : ""} ${atual ? "atual" : ""}`}>
-      {destaque && <span className="plano-fita">Recomendado</span>}
+      {destaque && <span className="plano-fita">Acompanhamento</span>}
 
       <div className="plano-cabecalho">
         <span className="plano-icone">{icone}</span>
-        {atual && <span className="plano-selo">Seu plano</span>}
+        {atual && <span className="plano-selo">{selo ?? "Seu plano"}</span>}
       </div>
 
       <h2 className="plano-nome">{nome}</h2>
       <p className="plano-desc">{subtitulo}</p>
 
       <p className="plano-preco">
-        <span className="preco-moeda">R$</span>
-        <span className="preco-valor">{preco}</span>
-        <span className="preco-periodo">/mês</span>
+        {preco === null ? (
+          <span className="preco-indisponivel">{semPreco}</span>
+        ) : (
+          <>
+            <span className="preco-moeda">R$</span>
+            <span className="preco-valor">{preco}</span>
+            <span className="preco-periodo">/mês</span>
+          </>
+        )}
       </p>
 
       <ul className="beneficios">
@@ -56,7 +67,10 @@ export default function PlanoCard({
               {b.incluso ? <Check size={14} /> : <X size={14} />}
             </span>
             <span className="sr-only">{b.incluso ? "Incluso: " : "Não incluso: "}</span>
-            <span className="beneficio-texto">{b.texto}</span>
+            <span className="beneficio-texto">
+              {b.texto}
+              {b.detalhe && <strong className="beneficio-detalhe"> — {b.detalhe}</strong>}
+            </span>
           </li>
         ))}
       </ul>

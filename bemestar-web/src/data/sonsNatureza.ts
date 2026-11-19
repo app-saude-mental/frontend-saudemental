@@ -21,6 +21,10 @@ export const SONS_NATUREZA: SomInfo[] = [
 
 export const SOM_INICIAL: SomId = "chuva";
 
+// Plano Gratuito: só estes dois. Os demais exigem o recurso SONS_COMPLETOS.
+// Limite apenas de interface: os sons são gerados no navegador, sem passar pelo servidor.
+export const SONS_GRATUITOS: SomId[] = ["chuva", "mar"];
+
 export const DURACOES_MINUTOS = [5, 10, 15, 20];
 export const DURACAO_PADRAO_MINUTOS = 10;
 

@@ -1,9 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
-import { Volume2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Lock, Volume2 } from "lucide-react";
+import { useAuth } from "../contexts/useAuth";
 import {
   DURACAO_PADRAO_MINUTOS,
   DURACOES_MINUTOS,
   SOM_INICIAL,
+  SONS_GRATUITOS,
   SONS_NATUREZA,
   VOLUME_PADRAO,
   type SomId,
@@ -27,7 +30,15 @@ function formatarTempo(ms: number) {
 }
 
 export default function MomentoPazPage() {
-  const [somId, setSomId] = useState<SomId>(SOM_INICIAL);
+  const navigate = useNavigate();
+  const { pode } = useAuth();
+  // Gratuito: só Chuva e Mar. Limite de interface (os sons são gerados no navegador).
+  const todosLiberados = pode("SONS_COMPLETOS");
+  const somLiberado = (id: SomId) => todosLiberados || SONS_GRATUITOS.includes(id);
+
+  const [somEscolhido, setSomId] = useState<SomId>(SOM_INICIAL);
+  // se o plano mudou e o som escolhido ficou bloqueado, volta ao som inicial
+  const somId = somLiberado(somEscolhido) ? somEscolhido : SOM_INICIAL;
   const [duracaoMin, setDuracaoMin] = useState(DURACAO_PADRAO_MINUTOS);
   const [volume, setVolume] = useState(VOLUME_PADRAO);
   const [estado, setEstado] = useState<Estado>("parado");
@@ -87,6 +98,10 @@ export default function MomentoPazPage() {
   }
 
   function escolherSom(id: SomId) {
+    if (!somLiberado(id)) {
+      navigate("/planos");
+      return;
+    }
     if (id === somId) return;
     setSomId(id);
     if (tocando) audio.trocar(id);
@@ -175,18 +190,33 @@ export default function MomentoPazPage() {
         {estado === "concluido" && <p className="paz-mensagem">{MENSAGEM_FIM}</p>}
 
         <div className="paz-chips" role="group" aria-label="Natureza anti-estresse">
-          {SONS_NATUREZA.map((som) => (
-            <button
-              key={som.id}
-              type="button"
-              className="paz-chip"
-              aria-pressed={som.id === somId}
-              title={som.nome}
-              onClick={() => escolherSom(som.id)}
-            >
-              {som.rotulo}
-            </button>
-          ))}
+          {SONS_NATUREZA.map((som) =>
+            somLiberado(som.id) ? (
+              <button
+                key={som.id}
+                type="button"
+                className="paz-chip"
+                aria-pressed={som.id === somId}
+                title={som.nome}
+                onClick={() => escolherSom(som.id)}
+              >
+                {som.rotulo}
+              </button>
+            ) : (
+              // bloqueado no Gratuito: leva à tela de planos
+              <button
+                key={som.id}
+                type="button"
+                className="paz-chip bloqueado"
+                aria-label={`${som.nome} (disponível no Premium)`}
+                title="Disponível no Premium"
+                onClick={() => escolherSom(som.id)}
+              >
+                <Lock size={13} aria-hidden="true" />
+                {som.rotulo}
+              </button>
+            ),
+          )}
         </div>
       </div>
 

@@ -1,22 +1,57 @@
 import { useState } from "react";
-import { Crown, Leaf } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Crown, HeartHandshake, Leaf, RefreshCw } from "lucide-react";
 import PlanoCard from "../components/PlanoCard";
+import DesistirPlano from "../components/DesistirPlano";
 import { useAuth } from "../contexts/useAuth";
-import { BENEFICIOS } from "../data/beneficios";
+import { itensDoPlano } from "../data/beneficios";
+import { REGRAS_PLANO, TEXTOS_ASSINATURA } from "../data/regrasPlano";
+import { usePagamento } from "../hooks/useAssinatura";
+import type { PlanoPremium, TipoPlano } from "../types/auth";
+import { ROTULO_STATUS, nomeDoPlano, textoVigencia } from "../utils/plano";
+import "../styles/planos.css";
+
+function formatarValor(valor: string | null | undefined): string | null {
+  return valor ? valor.replace(".", ",") : null;
+}
 
 export default function Planos() {
-  const { usuario } = useAuth();
-  const [aviso, setAviso] = useState<string | null>(null);
+  const { usuario, atualizarStatus } = useAuth();
+  const navigate = useNavigate();
+  const pagamento = usePagamento();
+  const [atualizando, setAtualizando] = useState(false);
 
   if (!usuario) return null;
 
+  const plano = usuario.planoEfetivo;
   const primeiroNome = usuario.nome.trim().split(" ")[0];
-  const ehPremium = usuario.plano === "PREMIUM";
-  // Premium sem acesso liberado = assinatura vencida (regra do seu back)
-  const assinaturaInativa = ehPremium && !usuario.acessoLiberado;
+  const vigencia = textoVigencia(plano);
+  const contratado: TipoPlano = plano.contratado ?? plano.tipo;
+  const pendente = usuario.solicitacaoPendente;
+  const ehAdmin = usuario.perfil === "ADMIN";
 
-  function escolherPremium() {
-    setAviso("O pagamento ainda não está disponível. Em breve você poderá assinar por aqui.");
+  const valor = (p: PlanoPremium) => formatarValor(pagamento.data?.planos.find((x) => x.plano === p)?.valor);
+
+  function serPremium(p: PlanoPremium) {
+    navigate(`/planos/premium?plano=${p}`);
+  }
+
+  // texto do botão de um cartão premium
+  function rotulo(p: PlanoPremium): string {
+    if (ehAdmin) return "Incluso no seu acesso";
+    if (pendente) return "Aguardando o enfermeiro";
+    if (plano.tipo === p) return "Renovar (+30 dias)";
+    if (contratado === p && plano.status === "SUSPENSO") return "Plano suspenso";
+    return p === "PACIENTE" ? "Falar com o enfermeiro" : "Ser premium";
+  }
+
+  async function aoAtualizar() {
+    setAtualizando(true);
+    try {
+      await atualizarStatus();
+    } finally {
+      setAtualizando(false);
+    }
   }
 
   return (
@@ -24,52 +59,89 @@ export default function Planos() {
       <header className="planos-topo">
         <h1 className="planos-ola">Olá, {primeiroNome}</h1>
         <p className="planos-seu">
-          Seu plano <span className="selo-plano">{ehPremium ? "Premium" : "Gratuito"}</span>
+          Seu plano <span className="selo-plano">{nomeDoPlano(plano)}</span>
         </p>
-        <p className="planos-sub">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Escolha o plano que cabe melhor
-          na sua rotina.
-        </p>
+        {(plano.status || vigencia) && (
+          <p className="planos-vigencia">
+            {plano.status && ROTULO_STATUS[plano.status]}
+            {plano.status && vigencia && " · "}
+            {vigencia}
+          </p>
+        )}
+        <button type="button" className="btn-secundario planos-atualizar" onClick={aoAtualizar} disabled={atualizando}>
+          <RefreshCw size={16} aria-hidden="true" />
+          {atualizando ? "Atualizando…" : "Atualizar status"}
+        </button>
       </header>
 
-      {assinaturaInativa && (
-        <p className="aviso alerta" role="alert">
-          Sua assinatura Premium está inativa. Renove para voltar a usar os benefícios.
+      {plano.status === "SUSPENSO" && (
+        <p className="aviso alerta" role="status">
+          Seu plano {plano.nomeContratado} está suspenso. Fale com o enfermeiro para reativá-lo.
         </p>
       )}
-      {aviso && (
+      {plano.status === "VENCIDO" && (
+        <p className="aviso alerta" role="status">
+          Seu plano venceu e sua conta voltou ao Gratuito. Seus registros continuam guardados.
+        </p>
+      )}
+      {pendente && pendente.tipo !== "ARREPENDIMENTO" && (
         <p className="aviso" role="status">
-          {aviso}
+          {TEXTOS_ASSINATURA.aguardando}
         </p>
       )}
+      <div className="planos-desistir">
+        <DesistirPlano />
+      </div>
 
       <div className="planos-grid">
         <PlanoCard
           nome="Gratuito"
-          subtitulo="Lorem ipsum dolor sit amet, consectetur."
-          preco={0}
+          subtitulo="O essencial para cuidar de você todos os dias."
+          preco="0"
           icone={<Leaf size={24} />}
-          beneficios={BENEFICIOS.map((b) => ({ texto: b.texto, incluso: b.gratuito }))}
-          atual={!ehPremium}
-          rotuloBotao={!ehPremium ? "Seu plano atual" : "Plano básico"}
+          beneficios={itensDoPlano("gratuito")}
+          atual={plano.tipo === "GRATUITO" && !plano.contratado}
+          rotuloBotao={plano.tipo === "GRATUITO" ? "Seu plano atual" : "Plano básico"}
           desabilitado
         />
 
         <PlanoCard
-          nome="Premium"
-          subtitulo="Sed ut perspiciatis unde omnis iste natus."
-          preco={25}
-          destaque
+          nome="Premium Assinante"
+          subtitulo="Todos os sons da natureza para relaxar."
+          preco={valor("ASSINANTE") ?? "30"}
           icone={<Crown size={24} />}
-          beneficios={BENEFICIOS.map((b) => ({ texto: b.texto, incluso: true }))}
-          atual={ehPremium}
-          rotuloBotao={
-            !ehPremium ? "Quero ser Premium" : assinaturaInativa ? "Renovar assinatura" : "Seu plano atual"
-          }
-          desabilitado={ehPremium && !assinaturaInativa}
-          onEscolher={escolherPremium}
+          beneficios={itensDoPlano("assinante")}
+          atual={contratado === "ASSINANTE"}
+          selo={contratado === "ASSINANTE" && plano.status ? ROTULO_STATUS[plano.status] : undefined}
+          rotuloBotao={rotulo("ASSINANTE")}
+          desabilitado={ehAdmin || !!pendente || (contratado === "ASSINANTE" && plano.status === "SUSPENSO")}
+          onEscolher={() => serPremium("ASSINANTE")}
+        />
+
+        <PlanoCard
+          nome="Premium Paciente"
+          subtitulo="Acompanhamento do enfermeiro: medicamentos, dúvidas e orientações."
+          preco={valor("PACIENTE")}
+          semPreco="Valor definido na consulta com o enfermeiro"
+          destaque
+          icone={<HeartHandshake size={24} />}
+          beneficios={itensDoPlano("paciente")}
+          atual={contratado === "PACIENTE"}
+          selo={contratado === "PACIENTE" && plano.status ? ROTULO_STATUS[plano.status] : undefined}
+          rotuloBotao={rotulo("PACIENTE")}
+          desabilitado={ehAdmin || !!pendente || (contratado === "PACIENTE" && plano.status === "SUSPENSO")}
+          onEscolher={() => serPremium("PACIENTE")}
         />
       </div>
+
+      <section className="planos-regras" aria-labelledby="planos-regras-titulo">
+        <h2 id="planos-regras-titulo">{REGRAS_PLANO.titulo}</h2>
+        <ul>
+          {REGRAS_PLANO.itens.map((regra) => (
+            <li key={regra}>{regra}</li>
+          ))}
+        </ul>
+      </section>
     </section>
   );
 }

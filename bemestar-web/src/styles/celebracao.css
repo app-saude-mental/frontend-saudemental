@@ -1,0 +1,87 @@
+/* ---------- Celebração: plano liberado/renovado ---------- */
+.celebracao {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(90, 175, 156, 0.35), transparent 60%),
+    rgba(20, 16, 12, 0.55);
+  animation: celebracao-fundo 0.35s ease;
+}
+
+.celebracao-cartao {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: min(420px, 100%);
+  padding: 32px 26px 26px;
+  border-radius: 28px;
+  background: var(--cartao);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  animation: celebracao-cartao 0.6s var(--ease);
+}
+.celebracao-cartao h2 {
+  margin: 0;
+  color: var(--marrom);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.6rem;
+  font-weight: 400;
+}
+.celebracao-validade { margin: 0; color: var(--verde-escuro); font-weight: 700; }
+.celebracao-ganhos {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin: 6px 0 0;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: var(--bege-claro);
+  list-style: none;
+  text-align: left;
+}
+.celebracao-ganhos li { display: flex; align-items: flex-start; gap: 8px; color: var(--texto); }
+.celebracao-ganhos svg { flex: none; margin-top: 3px; color: var(--verde-escuro); }
+.celebracao-botao { width: 100%; margin-top: 8px; padding: 14px 24px; letter-spacing: 0; text-transform: none; }
+
+/* folhas e confetes caindo */
+.celebracao-confetes { position: absolute; inset: 0; pointer-events: none; }
+.confete {
+  position: absolute;
+  top: -24px;
+  width: 10px;
+  height: 16px;
+  border-radius: 2px;
+  opacity: 0.9;
+  animation-name: confete-cai;
+  animation-timing-function: linear;
+  animation-iteration-count: 2;
+  animation-fill-mode: both;
+}
+.confete.tipo-0 { width: 16px; height: 16px; border-radius: 0 100% 0 100%; background: #5aaf9c; } /* folha */
+.confete.tipo-1 { background: #8fd3c1; }
+.confete.tipo-2 { background: #e2b85a; }
+
+@keyframes confete-cai {
+  0% { transform: translateY(0) rotate(0); }
+  100% { transform: translateY(110vh) rotate(540deg); }
+}
+@keyframes celebracao-fundo { from { opacity: 0; } to { opacity: 1; } }
+@keyframes celebracao-cartao {
+  0% { opacity: 0; transform: translateY(24px) scale(0.92); }
+  100% { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .celebracao-confetes { display: none; }
+  .celebracao,
+  .celebracao-cartao { animation: none; }
+}
