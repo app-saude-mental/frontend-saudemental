@@ -40,7 +40,7 @@ export default function FormCadastro() {
       aceitouTermos: dados.aceitouTermos,
     });
     await entrar({ email: dados.email, senha: dados.senha });
-    await comTransicao("Conta criada! Preparando seu espaço...", () => navigate("/"));
+    await comTransicao("Criando o seu espaço…", () => navigate("/"), "Conta criada! Respire fundo.");
   } catch (error) {
     setErroApi(getErrorMessage(error));
   }

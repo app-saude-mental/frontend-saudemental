@@ -26,7 +26,7 @@ async function onSubmit(dados: LoginFormData) {
   setErroApi(null);
   try {
     await entrar(dados);
-    await comTransicao("Entrando no seu espaço...", () => navigate("/"));
+    await comTransicao("Preparando o seu espaço…", () => navigate("/"), "Bem-vindo de volta!");
   } catch (error) {
     setErroApi(getErrorMessage(error));
   }

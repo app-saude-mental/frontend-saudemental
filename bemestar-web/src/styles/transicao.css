@@ -1,35 +1,95 @@
+/* ---------- Cortina de entrada/saída (login, logout, cadastro) ---------- */
 .transicao {
   position: fixed;
   inset: 0;
   z-index: 1000;
   display: grid;
   place-items: center;
-  background: var(--bege);
+  background:
+    radial-gradient(circle at 50% 38%, var(--verde-suave) 0%, transparent 55%),
+    linear-gradient(180deg, var(--bege-claro) 0%, var(--bege) 100%);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.4s ease, visibility 0s linear 0.4s;
+  backdrop-filter: blur(0);
+  transition: opacity 0.45s ease, visibility 0s linear 0.45s;
 }
 .transicao.visivel {
   opacity: 1;
   visibility: visible;
-  pointer-events: auto; /* bloqueia cliques na tela enquanto a cortina está fechada */
-  transition: opacity 0.4s ease, visibility 0s;
+  pointer-events: auto; /* bloqueia cliques enquanto a cortina está fechada */
+  transition: opacity 0.35s ease, visibility 0s;
 }
 
 .transicao-conteudo {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 22px;
   padding: 0 24px;
   text-align: center;
-  transform: translateY(14px) scale(0.96);
-  transition: transform 0.6s var(--ease);
+  transform: translateY(16px) scale(0.97);
+  opacity: 0;
+  transition: transform 0.6s var(--ease), opacity 0.4s ease;
 }
-.transicao.visivel .transicao-conteudo { transform: none; }
+.transicao.visivel .transicao-conteudo { transform: none; opacity: 1; }
 
-.transicao-icone {
+.transicao-mensagem {
+  margin: 0;
+  color: var(--marrom);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.45rem;
+  animation: mensagem-entra 0.45s var(--ease);
+}
+
+/* barra fina indeterminada */
+.transicao-barra {
+  position: relative;
+  width: 140px;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--trilho);
+}
+.transicao-barra::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  border-radius: inherit;
+  background: var(--verde);
+  animation: barra-corre 1.1s ease-in-out infinite;
+}
+.fase-concluida .transicao-barra::after { width: 100%; animation: none; transition: width 0.3s; }
+
+/* ---------- Marca com anel girando (também usada na espera da sessão) ---------- */
+.marca-carregando {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 108px;
+  height: 108px;
+}
+.marca-anel {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  animation: anel-gira 1.2s linear infinite;
+}
+.marca-anel-trilho,
+.marca-anel-arco { fill: none; stroke-width: 4; }
+.marca-anel-trilho { stroke: var(--trilho); }
+.marca-anel-arco {
+  stroke: var(--verde);
+  stroke-linecap: round;
+  stroke-dasharray: 72 217; /* ~25% do perímetro */
+  transition: stroke-dasharray 0.4s ease;
+}
+.marca-carregando.concluido .marca-anel { animation: none; }
+.marca-carregando.concluido .marca-anel-arco { stroke-dasharray: 289 0; } /* fecha o círculo */
+
+.marca-icone {
   display: grid;
   place-items: center;
   width: 72px;
@@ -38,16 +98,45 @@
   background: var(--verde);
   color: #fff;
   box-shadow: 0 12px 30px rgba(63, 147, 130, 0.35);
-  animation: pulso-icone 2.2s ease-in-out infinite;
+  animation: icone-respira 2.4s ease-in-out infinite;
 }
-.transicao p {
+.marca-carregando.concluido .marca-icone { animation: icone-confirma 0.45s var(--ease); }
+
+/* espera da renovação da sessão ao abrir o app */
+.carregando-sessao {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
   margin: 0;
-  color: var(--marrom);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.5rem;
+  background: var(--bege-claro);
+  color: var(--suave);
 }
 
-@keyframes pulso-icone {
+@keyframes anel-gira { to { transform: rotate(360deg); } }
+@keyframes icone-respira {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.08); }
+  50% { transform: scale(1.06); }
+}
+@keyframes icone-confirma {
+  0% { transform: scale(0.8); }
+  60% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+@keyframes mensagem-entra {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes barra-corre {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(250%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marca-anel,
+  .marca-icone,
+  .transicao-barra::after,
+  .transicao-mensagem { animation: none; }
 }

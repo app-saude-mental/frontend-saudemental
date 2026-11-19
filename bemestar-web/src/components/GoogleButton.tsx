@@ -20,7 +20,7 @@ export default function GoogleButton({ onErro }: GoogleButtonProps) {
     }
     try {
       await entrarComGoogle(resposta.credential);
-      await comTransicao("Entrando no seu espaço...", () => navigate("/"));
+      await comTransicao("Preparando o seu espaço…", () => navigate("/"), "Bem-vindo!");
     } catch (error) {
       onErro(getErrorMessage(error));
     }
