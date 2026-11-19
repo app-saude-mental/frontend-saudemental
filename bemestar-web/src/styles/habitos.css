@@ -8,7 +8,7 @@
   font-size: 2.2rem;
   font-weight: 400;
 }
-.habitos-topo p { margin: 10px 0 0; color: #7a6a5a; font-size: 1.05rem; }
+.habitos-topo p { margin: 10px 0 0; color: var(--suave); font-size: 1.05rem; }
 
 /* ---------- Lista ---------- */
 .habitos-lista {
@@ -18,10 +18,10 @@
   margin: 0 0 18px;
   padding: 14px;
   list-style: none;
-  border: 1px solid #eadfce;
+  border: 1px solid var(--linha);
   border-radius: 24px;
-  background: #fff;
-  box-shadow: 0 6px 20px rgba(91, 70, 54, 0.06);
+  background: var(--cartao);
+  box-shadow: 0 6px 20px var(--sombra);
 }
 
 .habito {
@@ -43,9 +43,9 @@
   place-items: center;
   width: 30px;
   height: 30px;
-  border: 2px solid #d9cdbb;
+  border: 2px solid var(--linha-forte);
   border-radius: 8px;
-  background: #fff;
+  background: var(--cartao);
   color: #fff;
   transition: background 0.2s, border-color 0.2s, transform 0.2s var(--ease);
 }
@@ -56,20 +56,20 @@
 .habito input:focus-visible + .habito-caixa { outline: 3px solid var(--verde); outline-offset: 3px; }
 
 .habito-texto { color: var(--texto); font-size: 1.05rem; line-height: 1.4; transition: color 0.2s; }
-.habito.feito .habito-texto { color: #9a8d80; }
+.habito.feito .habito-texto { color: var(--suave-2); }
 
 /* ---------- Progresso ---------- */
 .habitos-progresso {
   padding: 22px 24px;
-  border: 1px solid #eadfce;
+  border: 1px solid var(--linha);
   border-radius: 24px;
-  background: #fff;
-  box-shadow: 0 6px 20px rgba(91, 70, 54, 0.06);
+  background: var(--cartao);
+  box-shadow: 0 6px 20px var(--sombra);
 }
-.habitos-progresso p { margin: 0 0 14px; color: #7a6a5a; }
+.habitos-progresso p { margin: 0 0 14px; color: var(--suave); }
 .habitos-progresso strong { color: var(--marrom); }
 
-.barra { height: 10px; overflow: hidden; border-radius: 999px; background: #efe6d8; }
+.barra { height: 10px; overflow: hidden; border-radius: 999px; background: var(--trilho); }
 .barra span {
   display: block;
   height: 100%;
@@ -81,9 +81,9 @@
 
 .habitos-aviso {
   padding: 36px 24px;
-  border: 2px dashed #e0d3bf;
+  border: 2px dashed var(--linha-forte);
   border-radius: 20px;
-  color: #8a7d70;
+  color: var(--suave-2);
   text-align: center;
 }
 .habitos-aviso p { margin: 0 0 12px; }

@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import { Download } from "lucide-react";
 import Meditacao from "../components/Meditacao";
 import FormLogin from "../components/FormLogin";
 import FormCadastro from "../components/FormCadastro";
@@ -42,6 +43,10 @@ export default function AuthShell() {
           <FormCadastro />
         </section>
       </div>
+
+      <Link to="/instalar" className="auth-instalar">
+        <Download size={16} aria-hidden="true" /> Como instalar o app no celular ou computador
+      </Link>
     </div>
   );
 }

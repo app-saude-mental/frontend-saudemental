@@ -1,17 +1,64 @@
 /* ---------- Reset e variáveis ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 
+/* Tema claro (padrão). As telas usam só estas variáveis; o tema escuro as redefine abaixo.
+   O index.html aplica data-tema="escuro" antes do primeiro desenho (sem piscar). */
 :root {
+  color-scheme: light;
   --bege: #f1e6d6;
-  --bege-claro: #f8f2e9;
-  --marrom: #5b4636;
+  --bege-claro: #f8f2e9;   /* fundo da página */
+  --marrom: #5b4636;       /* títulos e textos de destaque */
+  --marrom-fixo: #5b4636;  /* fundos escuros que não mudam com o tema */
   --verde: #5aaf9c;
   --verde-escuro: #3f9382;
   --texto: #4a5a57;
   --campo: #f3efe9;
   --erro: #c0392b;
   --ease: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --cartao: #fff;
+  --suave: #7a6a5a;        /* texto secundário */
+  --suave-2: #9a8d80;      /* texto terciário, placeholders */
+  --linha: #eadfce;
+  --linha-forte: #e0d3bf;
+  --hover: #f0e6d6;
+  --trilho: #efe6d8;
+  --verde-suave: #eef7f5;
+  --erro-suave: #fdecea;
+  --alerta-suave: #fdf1e3;
+  --alerta-texto: #9a5b13;
+  --perigo-fundo: #fffaf9;
+  --alerta-fundo: #fffaf2;
+  --sombra: var(--sombra);
 }
+
+/* Tema escuro: tons quentes e baixo contraste para descanso dos olhos */
+:root[data-tema="escuro"] {
+  color-scheme: dark;
+  --bege: #2e3437;
+  --bege-claro: #15191b;
+  --marrom: #f0e6d3;
+  --texto: #d6dcd9;
+  --campo: #1c2225;
+  --erro: #f08a7c;
+
+  --cartao: #20262a;
+  --suave: #b8ada0;
+  --suave-2: #8f877d;
+  --linha: #333b40;
+  --linha-forte: #475056;
+  --hover: #2b3337;
+  --trilho: #2d3539;
+  --verde-suave: #1d3933;
+  --erro-suave: #3b2420;
+  --alerta-suave: #3a2f1d;
+  --alerta-texto: #f0c48a;
+  --perigo-fundo: #261d1c;
+  --alerta-fundo: #29241b;
+  --sombra: rgba(0, 0, 0, 0.35);
+}
+
+body { background: var(--bege-claro); transition: background 0.3s; }
 
 /* defesa contra restos do template do Vite (body flex, #root com largura máxima) */
 body {
@@ -36,7 +83,7 @@ body {
   position: relative;
   width: min(1000px, 100%);
   min-height: 660px;
-  background: #fff;
+  background: var(--cartao);
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(91, 70, 54, 0.12);
@@ -163,9 +210,9 @@ body {
   background: var(--campo);
   border: 2px solid transparent;
   border-radius: 6px;
-  color: #8a7d70;
+  color: var(--suave-2);
 }
-.campo:focus-within { border-color: var(--verde); background: #fff; }
+.campo:focus-within { border-color: var(--verde); background: var(--cartao); }
 .campo.invalido { border-color: var(--erro); }
 .campo input {
   flex: 1;
@@ -183,7 +230,7 @@ body {
   margin: 0;
   padding: 10px 12px;
   border-radius: 6px;
-  background: #fdecea;
+  background: var(--erro-suave);
   color: var(--erro);
   font-size: 0.9rem;
 }
@@ -218,7 +265,7 @@ body {
   background: transparent;
   color: var(--marrom);
 }
-.btn-contorno:hover { background: var(--marrom); color: var(--bege-claro); }
+.btn-contorno:hover { background: var(--marrom); color: var(--bege-claro); } /* no escuro inverte: fundo claro, texto escuro */
 
 .btn-secundario {
   padding: 10px 24px;
@@ -226,21 +273,21 @@ body {
   background: transparent;
   color: var(--verde-escuro);
 }
-.btn-secundario:hover { background: #eef7f5; }
+.btn-secundario:hover { background: var(--verde-suave); }
 
 /* ---------- Google ---------- */
 .google-wrap { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-.google-aviso { font-size: 0.75rem; color: #9a8d80; }
+.google-aviso { font-size: 0.75rem; color: var(--suave-2); }
 
 .divisor {
   display: flex;
   align-items: center;
   gap: 12px;
   font-size: 0.9rem;
-  color: #9a8d80;
+  color: var(--suave-2);
 }
 .divisor::before,
-.divisor::after { content: ""; flex: 1; height: 1px; background: #e6ded3; }
+.divisor::after { content: ""; flex: 1; height: 1px; background: var(--trilho); }
 
 /* ---------- Termos ---------- */
 .termos {
@@ -271,7 +318,7 @@ body {
 }
 .modal::backdrop { background: rgba(40, 30, 22, 0.55); }
 .modal-corpo { display: flex; flex-direction: column; max-height: 85vh; }
-.modal-topo { padding: 20px 24px; border-bottom: 1px solid #ece5db; }
+.modal-topo { padding: 20px 24px; border-bottom: 1px solid var(--linha); }
 .modal-topo h2 { margin: 0; color: var(--verde); font-size: 1.3rem; }
 .modal-texto { padding: 20px 24px; overflow-y: auto; line-height: 1.6; font-size: 0.95rem; }
 .modal-texto h3 { margin: 18px 0 4px; font-size: 1rem; color: var(--verde-escuro); }
@@ -282,7 +329,7 @@ body {
   justify-content: flex-end;
   gap: 12px;
   padding: 16px 24px;
-  border-top: 1px solid #ece5db;
+  border-top: 1px solid var(--linha);
 }
 
 /* ---------- Celular: sem deslizar, mostra um formulário por vez ---------- */
@@ -318,3 +365,17 @@ body {
     animation: none !important;
   }
 }
+/* link para a página de instalação (abaixo do cartão de login) */
+.auth-pagina { gap: 18px; }
+.auth-instalar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  color: var(--verde-escuro);
+  font-weight: 600;
+  text-decoration: none;
+}
+.auth-instalar:hover { background: var(--verde-suave); }
+.auth-instalar:focus-visible { outline: 3px solid var(--verde); outline-offset: 2px; }

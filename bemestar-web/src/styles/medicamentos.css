@@ -26,7 +26,7 @@
 }
 .med-sub {
   margin: 0;
-  color: var(--suave, #7d7165);
+  color: var(--suave);
 }
 .med-novo {
   align-self: auto;
@@ -36,7 +36,7 @@
 .med-contagem {
   margin: 0 0 12px;
   font-size: 0.9rem;
-  color: var(--suave, #7d7165);
+  color: var(--suave);
 }
 
 /* ---------- Lista ---------- */
@@ -54,8 +54,8 @@
   align-items: center;
   gap: 18px;
   padding: 18px 22px;
-  background: var(--cartao, #fff);
-  border: 1px solid var(--linha, #e6ded3);
+  background: var(--cartao);
+  border: 1px solid var(--linha);
   border-radius: 22px;
   box-shadow: 0 8px 24px -18px rgba(91, 70, 54, 0.4);
   animation: med-surge 0.5s var(--ease, ease) both;
@@ -88,7 +88,7 @@
   overflow-wrap: anywhere;
 }
 .med-info span {
-  color: var(--suave, #7d7165);
+  color: var(--suave);
   overflow-wrap: anywhere;
 }
 
@@ -99,7 +99,7 @@
 .med-acao {
   min-height: 44px;
   padding: 0 16px;
-  border: 1.5px solid var(--linha, #e6ded3);
+  border: 1.5px solid var(--linha);
   border-radius: 999px;
   background: transparent;
   color: var(--marrom);
@@ -108,13 +108,13 @@
   cursor: pointer;
   transition: background 0.2s, transform 0.15s;
 }
-.med-acao:hover { background: var(--suave-hover, #eef7f5); }
+.med-acao:hover { background: var(--verde-suave); }
 .med-acao:active { transform: scale(0.96); }
 .med-acao.perigo {
   color: var(--erro);
   border-color: color-mix(in srgb, var(--erro) 40%, transparent);
 }
-.med-acao.perigo:hover { background: var(--erro-fundo, #fdecea); }
+.med-acao.perigo:hover { background: var(--erro-fundo, var(--erro-suave)); }
 .med-acao:focus-visible,
 .med-perigo:focus-visible {
   outline: 3px solid var(--verde);
@@ -130,9 +130,9 @@
   gap: 14px;
   margin: 0 0 16px;
   padding: 32px 20px;
-  border: 1px dashed var(--linha, #e6ded3);
+  border: 1px dashed var(--linha);
   border-radius: 22px;
-  color: var(--suave, #7d7165);
+  color: var(--suave);
   text-align: center;
 }
 .med-aviso p,
@@ -140,7 +140,7 @@
 .med-aviso-erro {
   border-style: solid;
   border-color: color-mix(in srgb, var(--erro) 40%, transparent);
-  background: var(--erro-fundo, #fdecea);
+  background: var(--erro-fundo, var(--erro-suave));
   color: var(--erro);
 }
 
@@ -152,7 +152,7 @@
   flex-wrap: wrap;
   gap: 16px;
   margin-top: 24px;
-  color: var(--suave, #7d7165);
+  color: var(--suave);
 }
 .med-paginacao .btn-contorno {
   min-height: 44px;
@@ -169,7 +169,7 @@
   padding: 0;
   border: 0;
   border-radius: 24px;
-  background: var(--cartao, #fff);
+  background: var(--cartao);
   color: var(--texto);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
 }
@@ -207,7 +207,7 @@
 .med-campo label {
   font-size: 0.9rem;
   font-weight: 600;
-  color: var(--suave, #7d7165);
+  color: var(--suave);
 }
 /* 16px evita o zoom automático do iPhone ao tocar no campo */
 .med-campo input {
@@ -222,11 +222,11 @@
   font-size: 16px;
   transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 }
-.med-campo input::placeholder { color: var(--suave, #7d7165); opacity: 0.8; }
+.med-campo input::placeholder { color: var(--suave); opacity: 0.8; }
 .med-campo input:focus-visible {
   outline: none;
   border-color: var(--verde);
-  background: var(--campo-foco, #fff);
+  background: var(--campo-foco, var(--cartao));
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--verde) 22%, transparent);
 }
 .med-campo input[aria-invalid="true"] { border-color: var(--erro); }
@@ -240,7 +240,7 @@
   margin: 0;
   padding: 10px 12px;
   border-radius: 8px;
-  background: var(--erro-fundo, #fdecea);
+  background: var(--erro-fundo, var(--erro-suave));
   color: var(--erro);
   font-size: 0.9rem;
 }
