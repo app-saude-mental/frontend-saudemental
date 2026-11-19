@@ -3,9 +3,9 @@ export interface Duvida {
   mensagem: string;
   criadoEm: string;
   atualizadoEm: string;
-  // Resposta do enfermeiro. O back ainda não envia este campo (fica para o painel
-  // do enfermeiro); quando existir, a tela já mostra o texto.
-  resposta?: string | null;
+  // resposta do enfermeiro (null enquanto não respondida)
+  resposta: string | null;
+  respondidaEm: string | null;
 }
 
 export interface DuvidaRequest {

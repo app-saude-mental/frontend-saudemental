@@ -25,16 +25,24 @@ export default function DuvidaCard({ duvida, onEditar, onExcluir }: Props) {
       <div className="duv-resposta">
         <h3>Resposta do enfermeiro</h3>
         {duvida.resposta ? (
-          <p className="duv-resposta-texto">{duvida.resposta}</p>
+          <>
+            <p className="duv-resposta-texto">{duvida.resposta}</p>
+            {duvida.respondidaEm && (
+              <p className="duv-data">Respondida em {formatar(duvida.respondidaEm)}</p>
+            )}
+          </>
         ) : (
           <p className="duv-pendente">O enfermeiro ainda não respondeu.</p>
         )}
       </div>
 
       <div className="duv-acoes-item">
-        <button type="button" className="duv-acao" onClick={() => onEditar(duvida)}>
-          Editar
-        </button>
+        {/* depois de respondida, a pergunta não muda (o back também recusa com 409) */}
+        {!duvida.resposta && (
+          <button type="button" className="duv-acao" onClick={() => onEditar(duvida)}>
+            Editar
+          </button>
+        )}
         <button type="button" className="duv-acao perigo" onClick={() => onExcluir(duvida)}>
           Excluir
         </button>

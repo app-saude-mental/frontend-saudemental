@@ -1,0 +1,94 @@
+/* ---------- Dicas para o seu bem-estar (/dicas) ----------
+   Segue o padrão claro das telas logadas (variáveis de auth.css). */
+.dicas { max-width: 640px; margin: 0 auto; }
+
+/* ---------- Topo ---------- */
+.dicas-topo { margin-bottom: 28px; }
+.dicas-topo h1 {
+  margin: 0;
+  color: var(--marrom);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2.2rem;
+  font-weight: 400;
+}
+.dicas-sub {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 0;
+  color: var(--suave);
+  font-size: 1.05rem;
+}
+.dicas-sub svg { flex: none; color: var(--verde-escuro); }
+
+/* ---------- Seções ---------- */
+.dicas-secao { margin-bottom: 36px; }
+.dicas-secao-titulo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 14px;
+  color: var(--marrom);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.45rem;
+  font-weight: 400;
+}
+.dicas-secao-titulo svg { flex: none; color: var(--verde-escuro); }
+.dicas-secao-sub { margin: -6px 0 14px; color: var(--suave); }
+
+/* ---------- Lista ---------- */
+.dicas-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transition: opacity 0.2s;
+}
+.dicas-lista[aria-busy="true"] { opacity: 0.7; }
+
+.dicas-cartao {
+  padding: 22px 24px;
+  border: 1px solid var(--linha);
+  border-left: 5px solid var(--verde);
+  border-radius: 24px;
+  background: var(--cartao);
+  box-shadow: 0 6px 20px var(--sombra);
+}
+/* orientação individual do enfermeiro: borda em marrom para diferenciar das dicas gerais */
+.dicas-cartao.enfermeiro { border-left-color: var(--marrom); }
+.dicas-cartao h3 {
+  margin: 0 0 8px;
+  color: var(--marrom);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+}
+.dicas-cartao p {
+  margin: 0;
+  color: var(--texto);
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Carregando, erro e vazio ---------- */
+.dicas-estado {
+  margin: 0;
+  padding: 36px 24px;
+  border: 2px dashed var(--linha-forte);
+  border-radius: 20px;
+  color: var(--suave-2);
+  text-align: center;
+}
+.dicas-estado p { margin: 0 0 12px; }
+
+/* ---------- Celular ---------- */
+@media (max-width: 760px) {
+  .dicas-topo h1 { font-size: 1.8rem; }
+  .dicas-cartao { padding: 18px 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dicas-lista { transition: none; }
+}
