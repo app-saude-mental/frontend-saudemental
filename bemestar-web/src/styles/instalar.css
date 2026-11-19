@@ -1,0 +1,215 @@
+/* ---------- /instalar (página pública, pensada para quem não é de tecnologia) ---------- */
+.instalar-pagina { min-height: 100vh; padding: 28px 16px 64px; background: var(--bege-claro); }
+.instalar { max-width: 620px; margin: 0 auto; }
+
+.instalar-voltar {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 18px;
+  color: var(--verde-escuro);
+  font-weight: 600;
+  text-decoration: none;
+}
+.instalar-voltar:focus-visible { outline: 3px solid var(--verde); outline-offset: 3px; border-radius: 6px; }
+
+.instalar-topo { margin-bottom: 22px; text-align: center; }
+.instalar-icone { border-radius: 20px; box-shadow: 0 10px 24px rgba(63, 147, 130, 0.3); }
+.instalar-topo h1 {
+  margin: 14px 0 0;
+  color: var(--marrom);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2.1rem;
+  font-weight: 400;
+}
+.instalar-topo p { margin: 8px 0 0; color: var(--suave); font-size: 1.05rem; }
+
+.instalar-cartao {
+  margin-bottom: 16px;
+  padding: 22px;
+  border: 1px solid var(--linha);
+  border-radius: 24px;
+  background: var(--cartao);
+  box-shadow: 0 6px 20px var(--sombra);
+}
+.instalar-cartao h2 {
+  margin: 0 0 14px;
+  color: var(--marrom);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.3rem;
+  font-weight: 400;
+}
+
+.instalar-vantagens { display: flex; flex-direction: column; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.instalar-vantagens li { display: flex; align-items: flex-start; gap: 12px; color: var(--texto); line-height: 1.5; }
+.instalar-vantagens svg { flex: none; margin-top: 1px; color: var(--verde-escuro); }
+
+.instalar-rapido { border-color: var(--verde); background: var(--verde-suave); text-align: center; }
+.instalar-botao {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 16px 24px;
+  font-size: 1.1rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.instalar-ok {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 16px;
+  padding: 16px 20px;
+  border-radius: 16px;
+  background: var(--verde-suave);
+  color: var(--verde-escuro);
+  font-weight: 600;
+}
+.instalar-nota { margin: 12px 0 0; color: var(--suave-2); font-size: 0.9rem; line-height: 1.6; }
+.instalar-nota-topo { display: flex; align-items: center; gap: 6px; margin: -6px 0 10px; }
+
+/* ---------- Abas de aparelho ---------- */
+.instalar-abas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  margin-bottom: 18px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--bege-claro);
+}
+.instalar-aba {
+  padding: 10px 6px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--suave);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.instalar-aba.ativa { background: var(--verde); color: #fff; }
+.instalar-aba:focus-visible { outline: 3px solid var(--verde-escuro); outline-offset: 2px; }
+
+/* ---------- Passos ---------- */
+.instalar-lista { display: flex; flex-direction: column; gap: 18px; margin: 0; padding: 0; list-style: none; }
+.instalar-passo { display: flex; gap: 14px; }
+.instalar-numero {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--verde);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+.instalar-passo-texto { flex: 1; min-width: 0; }
+.instalar-passo-texto h3 { margin: 6px 0 4px; color: var(--marrom); font-size: 1.08rem; }
+.instalar-passo-texto p { margin: 0; color: var(--texto); line-height: 1.6; }
+.instalar-passo-texto p svg { vertical-align: -2px; }
+
+/* ---------- Mini ilustrações ---------- */
+.ilu-barra {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--linha);
+  border-radius: 14px;
+  background: var(--bege-claro);
+  color: var(--suave);
+  font-size: 0.85rem;
+}
+.ilu-endereco {
+  display: inline-flex;
+  flex: 1;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--cartao);
+}
+.ilu-icone,
+.ilu-alvo { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; }
+.ilu-alvo {
+  background: var(--verde);
+  color: #fff;
+  box-shadow: 0 0 0 4px rgba(90, 175, 156, 0.3);
+  animation: ilu-pulsa 1.6s ease-in-out infinite;
+}
+.ilu-safari { justify-content: space-around; }
+
+.ilu-menu {
+  max-width: 280px;
+  margin: 10px 0 0;
+  padding: 6px;
+  border: 1px solid var(--linha);
+  border-radius: 14px;
+  background: var(--cartao);
+  list-style: none;
+  font-size: 0.9rem;
+  box-shadow: 0 8px 20px var(--sombra);
+}
+.ilu-menu li { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 10px; color: var(--suave); }
+.ilu-menu .ilu-menu-alvo { background: var(--verde-suave); color: var(--verde-escuro); font-weight: 700; outline: 2px solid var(--verde); }
+
+.ilu-dialogo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 280px;
+  margin-top: 10px;
+  padding: 14px;
+  border: 1px solid var(--linha);
+  border-radius: 16px;
+  background: var(--cartao);
+  box-shadow: 0 8px 20px var(--sombra);
+  font-size: 0.9rem;
+}
+.ilu-app { display: flex; align-items: center; gap: 10px; color: var(--marrom); font-weight: 700; }
+.ilu-app img { border-radius: 8px; }
+.ilu-botoes { display: flex; justify-content: flex-end; gap: 16px; color: var(--suave); }
+.ilu-alvo-texto { padding: 4px 12px; border-radius: 999px; background: var(--verde); color: #fff; font-weight: 700; }
+
+/* ---------- Deu certo / perguntas ---------- */
+.instalar-certo { display: flex; align-items: center; gap: 16px; }
+.instalar-certo img { flex: none; border-radius: 14px; }
+.instalar-certo p { margin: 0; color: var(--texto); line-height: 1.6; }
+
+.instalar-faq details { border-top: 1px solid var(--linha); }
+.instalar-faq details:first-child { border-top: 0; }
+.instalar-faq summary {
+  padding: 14px 4px;
+  color: var(--marrom);
+  font-weight: 700;
+  cursor: pointer;
+}
+.instalar-faq summary:focus-visible { outline: 3px solid var(--verde); outline-offset: 2px; border-radius: 8px; }
+.instalar-resposta { padding: 0 4px 14px; color: var(--texto); line-height: 1.6; }
+.instalar-resposta ul { margin: 0; padding-left: 20px; }
+
+@keyframes ilu-pulsa {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(90, 175, 156, 0.35); }
+  50% { box-shadow: 0 0 0 7px rgba(90, 175, 156, 0.15); }
+}
+
+@media (max-width: 760px) {
+  .instalar-topo h1 { font-size: 1.7rem; }
+  .instalar-cartao { padding: 18px 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ilu-alvo { animation: none; }
+}
+
+/* dentro do app logado: o topo e o menu já existem */
+.app-conteudo .instalar-pagina { min-height: 0; padding: 0; background: transparent; }
+.app-conteudo .instalar-voltar { display: none; }

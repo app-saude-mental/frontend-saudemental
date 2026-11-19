@@ -1,0 +1,65 @@
+<!doctype html>
+<!--
+  Gera os ícones PNG do PWA a partir dos SVGs de public/icons, sem nenhuma dependência.
+  Uso: abra este arquivo no navegador (duplo clique), clique em cada "Baixar" e salve
+  os PNGs em public/icons/ com os nomes indicados. Este arquivo não entra no build.
+-->
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Gerar ícones do Respire</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 32px; color: #4a5a57; background: #f8f2e9; }
+      ul { display: flex; flex-wrap: wrap; gap: 24px; padding: 0; list-style: none; }
+      li { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+      canvas { width: 128px; height: 128px; border: 1px solid #eadfce; background: #fff; }
+      a { color: #3f9382; font-weight: 700; }
+    </style>
+  </head>
+  <body>
+    <h1>Ícones do Respire</h1>
+    <p>Edite os SVGs abaixo (são os mesmos de <code>public/icons/</code>) se mudar a marca.</p>
+    <ul id="lista"></ul>
+
+    <script>
+      const FOLHA =
+        '<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>' +
+        '<path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>';
+      const TRACO = 'fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+
+      // padrão: cantos arredondados; maskable: fundo inteiro e folha dentro da zona segura (80%)
+      const SVG_PADRAO =
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="112" fill="#5aaf9c"/>' +
+        `<g transform="translate(96 96) scale(13.333)" ${TRACO}>${FOLHA}</g></svg>`;
+      const SVG_MASKABLE =
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" fill="#5aaf9c"/>' +
+        `<g transform="translate(124 124) scale(11)" ${TRACO}>${FOLHA}</g></svg>`;
+
+      const ICONES = [
+        { nome: "icon-192.png", tamanho: 192, svg: SVG_PADRAO },
+        { nome: "icon-512.png", tamanho: 512, svg: SVG_PADRAO },
+        { nome: "icon-maskable-512.png", tamanho: 512, svg: SVG_MASKABLE },
+        { nome: "apple-touch-icon-180.png", tamanho: 180, svg: SVG_MASKABLE }, // o iPhone arredonda sozinho
+      ];
+
+      for (const icone of ICONES) {
+        const canvas = document.createElement("canvas");
+        canvas.width = canvas.height = icone.tamanho;
+        const img = new Image();
+        img.onload = () => {
+          canvas.getContext("2d").drawImage(img, 0, 0, icone.tamanho, icone.tamanho);
+          link.href = canvas.toDataURL("image/png");
+        };
+        img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(icone.svg);
+
+        const link = document.createElement("a");
+        link.download = icone.nome;
+        link.textContent = `Baixar ${icone.nome}`;
+
+        const item = document.createElement("li");
+        item.append(canvas, link);
+        document.getElementById("lista").append(item);
+      }
+    </script>
+  </body>
+</html>
