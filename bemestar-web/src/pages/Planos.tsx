@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Crown, HeartHandshake, Leaf, RefreshCw } from "lucide-react";
+import { Crown, HeartHandshake, RefreshCw, Sprout } from "lucide-react";
 import PlanoCard from "../components/PlanoCard";
 import DesistirPlano from "../components/DesistirPlano";
+import ModalPlano from "../components/ModalPlano";
 import { useAuth } from "../contexts/useAuth";
 import { itensDoPlano } from "../data/beneficios";
-import { REGRAS_PLANO, TEXTOS_ASSINATURA } from "../data/regrasPlano";
+import { REGRAS_PLANO, TEXTOS_ASSINATURA, type ChavePlano } from "../data/regrasPlano";
 import { usePagamento } from "../hooks/useAssinatura";
 import type { PlanoPremium, TipoPlano } from "../types/auth";
 import { ROTULO_STATUS, nomeDoPlano, textoVigencia } from "../utils/plano";
@@ -20,6 +21,7 @@ export default function Planos() {
   const navigate = useNavigate();
   const pagamento = usePagamento();
   const [atualizando, setAtualizando] = useState(false);
+  const [planoInfo, setPlanoInfo] = useState<ChavePlano | null>(null);
 
   if (!usuario) return null;
 
@@ -98,39 +100,42 @@ export default function Planos() {
           nome="Gratuito"
           subtitulo="O essencial para cuidar de você todos os dias."
           preco="0"
-          icone={<Leaf size={24} />}
+          icone={<Sprout size={22} />}
           beneficios={itensDoPlano("gratuito")}
           atual={plano.tipo === "GRATUITO" && !plano.contratado}
           rotuloBotao={plano.tipo === "GRATUITO" ? "Seu plano atual" : "Plano básico"}
           desabilitado
+          onInfo={() => setPlanoInfo("gratuito")}
         />
 
         <PlanoCard
           nome="Premium Assinante"
-          subtitulo="Todos os sons da natureza para relaxar."
+          subtitulo="Todos os sons da natureza e a organização dos seus medicamentos."
           preco={valor("ASSINANTE") ?? "30"}
-          icone={<Crown size={24} />}
+          icone={<Crown size={22} />}
           beneficios={itensDoPlano("assinante")}
           atual={contratado === "ASSINANTE"}
           selo={contratado === "ASSINANTE" && plano.status ? ROTULO_STATUS[plano.status] : undefined}
           rotuloBotao={rotulo("ASSINANTE")}
           desabilitado={ehAdmin || !!pendente || (contratado === "ASSINANTE" && plano.status === "SUSPENSO")}
           onEscolher={() => serPremium("ASSINANTE")}
+          onInfo={() => setPlanoInfo("assinante")}
         />
 
         <PlanoCard
           nome="Premium Paciente"
-          subtitulo="Acompanhamento do enfermeiro: medicamentos, dúvidas e orientações."
+          subtitulo="Tudo do app, com contato direto e orientações do enfermeiro."
           preco={valor("PACIENTE")}
           semPreco="Valor definido na consulta com o enfermeiro"
           destaque
-          icone={<HeartHandshake size={24} />}
+          icone={<HeartHandshake size={22} />}
           beneficios={itensDoPlano("paciente")}
           atual={contratado === "PACIENTE"}
           selo={contratado === "PACIENTE" && plano.status ? ROTULO_STATUS[plano.status] : undefined}
           rotuloBotao={rotulo("PACIENTE")}
           desabilitado={ehAdmin || !!pendente || (contratado === "PACIENTE" && plano.status === "SUSPENSO")}
           onEscolher={() => serPremium("PACIENTE")}
+          onInfo={() => setPlanoInfo("paciente")}
         />
       </div>
 
@@ -142,6 +147,8 @@ export default function Planos() {
           ))}
         </ul>
       </section>
+
+      <ModalPlano plano={planoInfo} onFechar={() => setPlanoInfo(null)} />
     </section>
   );
 }

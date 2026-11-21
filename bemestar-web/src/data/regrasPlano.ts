@@ -41,3 +41,48 @@ export const TEXTOS_ARREPENDIMENTO = {
   enviado: "Pedido de desistência enviado. O enfermeiro vai devolver o PIX e encerrar o plano.",
   pendente: "Seu pedido de desistência está com o enfermeiro.",
 } as const;
+
+/**
+ * Explicação de cada plano (botão "i" no cartão da tela Planos).
+ * Atenção ao texto do Paciente: o enfermeiro vê hábitos, medicamentos e dúvidas,
+ * mas NUNCA o diário (regra de LGPD garantida no back por teste).
+ */
+export const DETALHES_PLANO = {
+  gratuito: {
+    titulo: "Plano Gratuito",
+    resumo:
+      "Este é o plano padrão de quem cria uma conta. Ele reúne o essencial para cuidar de você no dia a dia, com algumas atividades limitadas.",
+    itens: [
+      "Meditação com 2 sons da natureza (chuva e mar).",
+      "Diário de emoções e humor.",
+      "Checklist diário de hábitos.",
+      "Dicas gerais de saúde mental.",
+    ],
+    rodape: "Sem custo e sem prazo para acabar.",
+  },
+  assinante: {
+    titulo: "Premium Assinante",
+    resumo:
+      "Para você que ainda não passou por uma consulta com o enfermeiro e quer ter acesso aos recursos premium.",
+    itens: [
+      "Tudo o que o plano Gratuito oferece.",
+      "Os 7 sons da natureza liberados para meditar.",
+      "Organização dos seus medicamentos por horário do dia, para manter uma rotina em ordem.",
+    ],
+    rodape: "R$ 30 por mês, pago por PIX e liberado pelo enfermeiro.",
+  },
+  paciente: {
+    titulo: "Premium Paciente",
+    resumo:
+      "Você adquire este plano depois de passar por uma consulta com o enfermeiro. Ele inclui tudo do app, e o diferencial é o contato direto com o enfermeiro.",
+    itens: [
+      "Tudo o que o Premium Assinante oferece.",
+      "Dúvidas respondidas diretamente pelo enfermeiro.",
+      "Um espaço de orientações de bem-estar, em que o enfermeiro acompanha você no dia a dia com base nos registros que ele pode ver: hábitos, medicamentos e dúvidas.",
+    ],
+    rodape:
+      "O valor é combinado na consulta. Seu diário emocional continua visível só para você.",
+  },
+} as const;
+
+export type ChavePlano = keyof typeof DETALHES_PLANO;

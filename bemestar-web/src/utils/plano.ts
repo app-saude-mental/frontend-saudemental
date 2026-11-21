@@ -10,7 +10,7 @@ export const ROTULO_STATUS: Record<StatusPlano, string> = {
 
 // Plano que libera cada recurso restrito (para o cartão de bloqueio)
 export const PLANO_DO_RECURSO: Partial<Record<Recurso, string>> = {
-  MEDICAMENTOS: "Premium Paciente",
+  MEDICAMENTOS: "Premium",
   DUVIDAS: "Premium Paciente",
   ORIENTACOES: "Premium Paciente",
   SONS_COMPLETOS: "Premium",

@@ -47,10 +47,11 @@ export default function App() {
           <Route path="/meditacao" element={<MomentoPazPage />} />
           <Route path="/dicas" element={<DicasPage />} />
 
-          {/* Premium Paciente (o back também recusa com 403) */}
+          {/* Premium Assinante e Paciente (o back também recusa com 403) */}
           <Route element={<RequerRecurso recurso="MEDICAMENTOS" titulo="Medicamentos" />}>
             <Route path="/medicamentos" element={<MedicamentosPage />} />
           </Route>
+          {/* Só Premium Paciente */}
           <Route element={<RequerRecurso recurso="DUVIDAS" titulo="Dúvidas com o enfermeiro" />}>
             <Route path="/duvidas" element={<DuvidasPage />} />
           </Route>

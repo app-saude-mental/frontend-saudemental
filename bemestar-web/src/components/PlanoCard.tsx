@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Check, X } from "lucide-react";
+import { Check, Info, X } from "lucide-react";
 
 interface ItemBeneficio {
   texto: string;
@@ -20,6 +20,7 @@ interface PlanoCardProps {
   selo?: string; // situação do plano atual, ex.: "Suspenso"
   semPreco?: string; // texto no lugar do preço quando preco = null
   onEscolher?: () => void;
+  onInfo?: () => void; // abre a explicação do plano (botão "i")
 }
 
 export default function PlanoCard({
@@ -35,6 +36,7 @@ export default function PlanoCard({
   selo,
   semPreco = "Valor com o enfermeiro",
   onEscolher,
+  onInfo,
 }: PlanoCardProps) {
   return (
     <article className={`plano-card ${destaque ? "destaque" : ""} ${atual ? "atual" : ""}`}>
@@ -42,7 +44,20 @@ export default function PlanoCard({
 
       <div className="plano-cabecalho">
         <span className="plano-icone">{icone}</span>
-        {atual && <span className="plano-selo">{selo ?? "Seu plano"}</span>}
+        <div className="plano-cabecalho-acoes">
+          {atual && <span className="plano-selo">{selo ?? "Seu plano"}</span>}
+          {onInfo && (
+            <button
+              type="button"
+              className="plano-info"
+              onClick={onInfo}
+              aria-label={`Saiba mais sobre o plano ${nome}`}
+              title="Saiba mais sobre este plano"
+            >
+              <Info size={18} aria-hidden="true" />
+            </button>
+          )}
+        </div>
       </div>
 
       <h2 className="plano-nome">{nome}</h2>

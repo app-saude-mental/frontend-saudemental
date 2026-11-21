@@ -15,7 +15,7 @@ export const BENEFICIOS: Beneficio[] = [
   { texto: "Diário (emoções e humor)", gratuito: true, assinante: true, paciente: true },
   { texto: "Hábitos (checklist diário)", gratuito: true, assinante: true, paciente: true },
   { texto: "Dicas gerais de saúde mental", gratuito: true, assinante: true, paciente: true },
-  { texto: "Medicamentos (editar e organizar)", gratuito: false, assinante: false, paciente: true },
+  { texto: "Medicamentos organizados por horário", gratuito: false, assinante: true, paciente: true },
   { texto: "Dúvidas com resposta do enfermeiro", gratuito: false, assinante: false, paciente: true },
   { texto: "Orientações do seu enfermeiro", gratuito: false, assinante: false, paciente: true },
 ];
