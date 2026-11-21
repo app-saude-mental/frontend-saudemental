@@ -7,7 +7,6 @@ import {
   Download,
   Headphones,
   LayoutDashboard,
-  Leaf,
   Lightbulb,
   ListChecks,
   LogOut,
@@ -28,6 +27,7 @@ import { nomeDoPlano } from "../utils/plano";
 import SinoNotificacoes from "../components/admin/SinoNotificacoes";
 import CelebracaoPlano from "../components/CelebracaoPlano";
 import DicaInstalar from "../components/DicaInstalar";
+import Logo from "../components/Logo";
 import "../styles/app.css";
 
 interface ItemMenu {
@@ -35,6 +35,7 @@ interface ItemMenu {
   rotulo: string;
   Icone: LucideIcon;
   recurso?: Recurso; // só aparece se o plano incluir o recurso
+  soGaveta?: boolean; // no topo já existe atalho (avatar/ícone): só aparece na gaveta
 }
 
 // Menu de quem usa o app
@@ -46,16 +47,16 @@ const LINKS_USUARIO: ItemMenu[] = [
   { to: "/dicas", rotulo: "Dicas", Icone: Lightbulb },
   { to: "/medicamentos", rotulo: "Medicamentos", Icone: Pill, recurso: "MEDICAMENTOS" },
   { to: "/duvidas", rotulo: "Dúvidas", Icone: MessageCircle, recurso: "DUVIDAS" },
-  { to: "/perfil", rotulo: "Perfil", Icone: User },
-  { to: "/instalar", rotulo: "Instalar", Icone: Download },
+  { to: "/perfil", rotulo: "Perfil", Icone: User, soGaveta: true },
+  { to: "/instalar", rotulo: "Instalar", Icone: Download, soGaveta: true },
 ];
 
 // Menu do enfermeiro (ADMIN): só o que faz sentido para ele
 const LINKS_ADMIN: ItemMenu[] = [
   { to: "/admin", rotulo: "Painel", Icone: LayoutDashboard },
   { to: "/planos", rotulo: "Planos", Icone: Crown },
-  { to: "/perfil", rotulo: "Perfil", Icone: User },
-  { to: "/instalar", rotulo: "Instalar", Icone: Download },
+  { to: "/perfil", rotulo: "Perfil", Icone: User, soGaveta: true },
+  { to: "/instalar", rotulo: "Instalar", Icone: Download, soGaveta: true },
 ];
 
 const classeLink = ({ isActive }: { isActive: boolean }) => `app-link ${isActive ? "ativo" : ""}`;
@@ -105,7 +106,7 @@ export default function AppLayout() {
 
   return (
     <div className="app-shell">
-      <header className={`app-topo ${links.length > 5 ? "muitos-links" : ""}`}>
+      <header className="app-topo">
         <button
           ref={botaoMenuRef}
           type="button"
@@ -119,23 +120,30 @@ export default function AppLayout() {
         </button>
 
         <Link to="/" className="app-marca" aria-label="Respire — início">
-          <span className="app-marca-icone">
-            <Leaf size={20} aria-hidden="true" />
-          </span>
-          <span>Respire</span>
+          <Logo tamanho={30} />
         </Link>
 
         <nav className="app-nav" aria-label="Principal">
-          {links.map(({ to, rotulo, Icone }) => (
-            <NavLink key={to} to={to} className={classeLink}>
-              <Icone size={18} aria-hidden="true" />
-              <span>{rotulo}</span>
-            </NavLink>
-          ))}
+          {/* no topo, só texto (mais leve); os ícones ficam na gaveta */}
+          {links
+            .filter((link) => !link.soGaveta)
+            .map(({ to, rotulo }) => (
+              <NavLink key={to} to={to} className={classeLink}>
+                {rotulo}
+              </NavLink>
+            ))}
         </nav>
 
         <div className="app-usuario">
           {ehAdmin && <SinoNotificacoes />}
+          <NavLink
+            to="/instalar"
+            className={({ isActive }) => `app-icone-botao so-desktop ${isActive ? "ativo" : ""}`}
+            aria-label="Instalar o app"
+            title="Instalar o app"
+          >
+            <Download size={18} aria-hidden="true" />
+          </NavLink>
           <button type="button" className="app-icone-botao" onClick={alternar} aria-label={rotuloTema} title={rotuloTema}>
             {tema === "escuro" ? <Sun size={19} aria-hidden="true" /> : <Moon size={19} aria-hidden="true" />}
           </button>
@@ -153,7 +161,7 @@ export default function AppLayout() {
         </div>
       </header>
 
-      {/* ---------- Gaveta lateral (telas até 1100px) ---------- */}
+      {/* ---------- Gaveta lateral (telas abaixo de 1024px) ---------- */}
       <div className={`menu-fundo ${menuAberto ? "aberto" : ""}`} onClick={fecharMenu} aria-hidden="true" />
       <nav
         id="menu-lateral"
@@ -164,10 +172,7 @@ export default function AppLayout() {
       >
         <div className="menu-cabecalho">
           <span className="app-marca">
-            <span className="app-marca-icone">
-              <Leaf size={20} aria-hidden="true" />
-            </span>
-            <span>Respire</span>
+            <Logo tamanho={28} />
           </span>
           <button type="button" className="app-icone-botao" onClick={fecharMenu} aria-label="Fechar menu">
             <X size={22} aria-hidden="true" />

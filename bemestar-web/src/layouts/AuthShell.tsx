@@ -3,6 +3,7 @@ import { Download } from "lucide-react";
 import Meditacao from "../components/Meditacao";
 import FormLogin from "../components/FormLogin";
 import FormCadastro from "../components/FormCadastro";
+import Logo from "../components/Logo";
 import "../styles/auth.css";
 
 export default function AuthShell() {
@@ -11,6 +12,8 @@ export default function AuthShell() {
 
   return (
     <div className="auth-pagina">
+      <Logo tamanho={38} className="auth-logo" />
+
       {/* data-modo é o "interruptor": o CSS reage a ele */}
       <div className="auth-cartao" data-modo={modo}>
         <aside className="auth-painel">

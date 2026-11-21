@@ -3,8 +3,13 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import "@fontsource/open-sans/400.css";
-import "@fontsource/open-sans/700.css";
+// Tipografia: Inter (texto) e Cormorant Garamond (títulos). Só os pesos usados.
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/500.css";
+import "@fontsource/inter/600.css";
+import "@fontsource/cormorant-garamond/500.css";
+import "@fontsource/cormorant-garamond/600.css";
+import "@fontsource/cormorant-garamond/500-italic.css";
 // PWA: guarda o evento de instalação o quanto antes e registra o service worker (só em produção)
 import "./pwa/instalacao";
 import { registrarServiceWorker } from "./pwa/registrarSW";

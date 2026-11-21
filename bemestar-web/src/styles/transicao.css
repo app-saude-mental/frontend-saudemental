@@ -37,7 +37,7 @@
 .transicao-mensagem {
   margin: 0;
   color: var(--marrom);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--fonte-titulo);
   font-size: 1.45rem;
   animation: mensagem-entra 0.45s var(--ease);
 }
@@ -78,7 +78,7 @@
   animation: anel-gira 1.2s linear infinite;
 }
 .marca-anel-trilho,
-.marca-anel-arco { fill: none; stroke-width: 4; }
+.marca-anel-arco { fill: none; stroke-width: 2; }
 .marca-anel-trilho { stroke: var(--trilho); }
 .marca-anel-arco {
   stroke: var(--verde);
@@ -94,10 +94,7 @@
   place-items: center;
   width: 72px;
   height: 72px;
-  border-radius: 24px;
-  background: var(--verde);
-  color: #fff;
-  box-shadow: 0 12px 30px rgba(63, 147, 130, 0.35);
+  color: var(--verde);
   animation: icone-respira 2.4s ease-in-out infinite;
 }
 .marca-carregando.concluido .marca-icone { animation: icone-confirma 0.45s var(--ease); }

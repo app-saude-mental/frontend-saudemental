@@ -16,13 +16,13 @@
   margin: 40px auto 0;
   padding: 24px 28px;
   border: 1px solid var(--linha);
-  border-radius: 24px;
+  border-radius: var(--raio-cartao);
   background: var(--cartao);
 }
 .planos-regras h2 {
   margin: 0 0 12px;
   color: var(--marrom);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--fonte-titulo);
   font-size: 1.25rem;
   font-weight: 400;
 }
@@ -44,7 +44,7 @@
 .guia-topo h1 {
   margin: 0;
   color: var(--marrom);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--fonte-titulo);
   font-size: 2.2rem;
   font-weight: 400;
 }
@@ -54,14 +54,14 @@
 .guia-cartao {
   padding: 22px 24px;
   border: 1px solid var(--linha);
-  border-radius: 24px;
+  border-radius: var(--raio-cartao);
   background: var(--cartao);
   box-shadow: 0 6px 20px var(--sombra);
 }
 .guia-cartao h2 {
   margin: 0 0 14px;
   color: var(--marrom);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--fonte-titulo);
   font-size: 1.2rem;
   font-weight: 400;
 }
@@ -73,7 +73,7 @@
   flex: 1 1 200px;
   padding: 14px 16px;
   border: 2px solid var(--linha);
-  border-radius: 16px;
+  border-radius: var(--raio-medio);
   background: var(--cartao);
   color: var(--marrom);
   font: inherit;
@@ -136,7 +136,7 @@
   margin-top: 10px;
   padding: 13px 24px;
   border: 1.5px solid #25a35a;
-  border-radius: 999px;
+  border-radius: var(--raio);
   color: #1f8a4c;
   font-weight: 700;
   text-decoration: none;

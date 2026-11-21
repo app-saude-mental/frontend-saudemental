@@ -5,7 +5,7 @@
 .adm-topo h1 {
   margin: 0;
   color: var(--marrom);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--fonte-titulo);
   font-size: 2.2rem;
   font-weight: 400;
 }
@@ -24,7 +24,7 @@
   flex: none;
   padding: 9px 18px;
   border: 1px solid var(--linha);
-  border-radius: 999px;
+  border-radius: var(--raio);
   background: var(--cartao);
   color: var(--suave);
   font: inherit;
@@ -42,7 +42,7 @@
   margin: 0 0 18px;
   padding: 32px 24px;
   border: 2px dashed var(--linha-forte);
-  border-radius: 20px;
+  border-radius: var(--raio-cartao);
   color: var(--suave-2);
   text-align: center;
 }
@@ -67,17 +67,17 @@
   height: 100%;
   padding: 20px;
   border: 1px solid var(--linha);
-  border-radius: 20px;
+  border-radius: var(--raio-cartao);
   background: var(--cartao);
   color: var(--marrom);
   text-decoration: none;
   box-shadow: 0 6px 20px var(--sombra);
   transition: transform 0.2s var(--ease), box-shadow 0.2s;
 }
-.adm-contador:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(91, 70, 54, 0.12); }
+.adm-contador:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(43, 47, 46, 0.12); }
 .adm-contador:focus-visible { outline: 3px solid var(--verde); outline-offset: 3px; }
 .adm-contador.alerta { border-color: #e9b97a; background: var(--alerta-fundo); }
-.adm-contador-valor { font-family: Georgia, "Times New Roman", serif; font-size: 2rem; }
+.adm-contador-valor { font-family: var(--fonte-titulo); font-size: 2rem; }
 .adm-contador-rotulo { color: var(--suave); font-size: 0.9rem; }
 
 /* ---------- Filtros ---------- */
@@ -88,7 +88,7 @@
   margin-bottom: 18px;
   padding: 18px;
   border: 1px solid var(--linha);
-  border-radius: 20px;
+  border-radius: var(--raio-cartao);
   background: var(--cartao);
 }
 .adm-busca { grid-column: 1 / -1; }
@@ -133,7 +133,7 @@
   gap: 6px;
   padding: 7px 14px;
   border: 1.5px solid var(--verde);
-  border-radius: 999px;
+  border-radius: var(--raio);
   background: var(--cartao);
   color: var(--verde-escuro);
   font: inherit;
@@ -159,7 +159,7 @@
   border-spacing: 0;
   overflow: hidden;
   border: 1px solid var(--linha);
-  border-radius: 20px;
+  border-radius: var(--raio-cartao);
   background: var(--cartao);
   transition: opacity 0.2s;
 }
@@ -181,7 +181,7 @@
 .adm-selo {
   display: inline-block;
   padding: 2px 10px;
-  border-radius: 999px;
+  border-radius: var(--raio);
   background: var(--bege-claro);
   color: var(--marrom);
   font-size: 0.8rem;
@@ -191,7 +191,7 @@
   display: inline-block;
   margin-left: 6px;
   padding: 2px 8px;
-  border-radius: 999px;
+  border-radius: var(--raio);
   background: var(--verde-suave);
   color: var(--verde-escuro);
   font-size: 0.75rem;
@@ -206,7 +206,7 @@
   display: inline-block;
   margin: 0 6px 6px 0;
   padding: 2px 10px;
-  border-radius: 999px;
+  border-radius: var(--raio);
   background: var(--alerta-suave);
   color: var(--alerta-texto);
   font-size: 0.8rem;
@@ -218,14 +218,14 @@
 .adm-cartao {
   padding: 22px 24px;
   border: 1px solid var(--linha);
-  border-radius: 24px;
+  border-radius: var(--raio-cartao);
   background: var(--cartao);
   box-shadow: 0 6px 20px var(--sombra);
 }
 .adm-cartao h2 {
   margin: 0 0 14px;
   color: var(--marrom);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--fonte-titulo);
   font-size: 1.3rem;
   font-weight: 400;
 }
@@ -281,7 +281,7 @@
   gap: 4px;
   padding: 7px 14px;
   border: 1px solid var(--linha);
-  border-radius: 999px;
+  border-radius: var(--raio);
   background: var(--cartao);
   color: var(--marrom);
   font: inherit;
@@ -316,7 +316,7 @@
     margin-bottom: 12px;
     padding: 6px 4px;
     border: 1px solid var(--linha);
-    border-radius: 18px;
+    border-radius: var(--raio-medio);
     background: var(--cartao);
   }
   .adm-tabela td { padding: 8px 14px; border-top: 0; }
@@ -351,7 +351,7 @@
   min-width: 20px;
   padding: 1px 6px;
   border-radius: 999px;
-  background: #e0453a;
+  background: var(--erro);
   color: #fff;
   font-size: 0.72rem;
   font-weight: 800;

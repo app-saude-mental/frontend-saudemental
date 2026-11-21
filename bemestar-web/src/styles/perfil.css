@@ -4,7 +4,7 @@
 .perfil-topo h1 {
   margin: 0;
   color: var(--marrom);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--fonte-titulo);
   font-size: 2.2rem;
   font-weight: 400;
 }
@@ -14,14 +14,14 @@
   margin-bottom: 20px;
   padding: 26px;
   border: 1px solid var(--linha);
-  border-radius: 24px;
+  border-radius: var(--raio-cartao);
   background: var(--cartao);
   box-shadow: 0 6px 20px var(--sombra);
 }
 .perfil-cartao h2 {
   margin: 0 0 18px;
   color: var(--marrom);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--fonte-titulo);
   font-size: 1.2rem;
   font-weight: 400;
 }
@@ -37,7 +37,7 @@
   border-radius: 50%;
   background: var(--bege);
   color: var(--marrom);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--fonte-titulo);
   font-size: 2.2rem;
   box-shadow: 0 0 0 4px var(--cartao), 0 0 0 6px var(--verde);
 }
@@ -47,7 +47,7 @@
 .perfil-selos { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .perfil-selo {
   padding: 4px 12px;
-  border-radius: 999px;
+  border-radius: var(--raio);
   background: var(--bege-claro);
   color: var(--marrom);
   font-size: 0.8rem;
@@ -94,7 +94,7 @@
 .btn-excluir-conta {
   padding: 10px 24px;
   border: 1.5px solid var(--erro);
-  border-radius: 999px;
+  border-radius: var(--raio);
   background: transparent;
   color: var(--erro);
   font: inherit;
@@ -108,7 +108,7 @@
 .perfil-aviso {
   padding: 36px 24px;
   border: 2px dashed var(--linha-forte);
-  border-radius: 20px;
+  border-radius: var(--raio-cartao);
   color: var(--suave-2);
   text-align: center;
 }

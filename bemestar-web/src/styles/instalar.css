@@ -14,11 +14,11 @@
 .instalar-voltar:focus-visible { outline: 3px solid var(--verde); outline-offset: 3px; border-radius: 6px; }
 
 .instalar-topo { margin-bottom: 22px; text-align: center; }
-.instalar-icone { border-radius: 20px; box-shadow: 0 10px 24px rgba(63, 147, 130, 0.3); }
+.instalar-icone { border-radius: var(--raio-cartao); box-shadow: 0 10px 24px rgba(74, 99, 88, 0.3); }
 .instalar-topo h1 {
   margin: 14px 0 0;
   color: var(--marrom);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--fonte-titulo);
   font-size: 2.1rem;
   font-weight: 400;
 }
@@ -28,14 +28,14 @@
   margin-bottom: 16px;
   padding: 22px;
   border: 1px solid var(--linha);
-  border-radius: 24px;
+  border-radius: var(--raio-cartao);
   background: var(--cartao);
   box-shadow: 0 6px 20px var(--sombra);
 }
 .instalar-cartao h2 {
   margin: 0 0 14px;
   color: var(--marrom);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--fonte-titulo);
   font-size: 1.3rem;
   font-weight: 400;
 }
@@ -63,7 +63,7 @@
   gap: 10px;
   margin: 0 0 16px;
   padding: 16px 20px;
-  border-radius: 16px;
+  border-radius: var(--raio-medio);
   background: var(--verde-suave);
   color: var(--verde-escuro);
   font-weight: 600;
@@ -78,13 +78,13 @@
   gap: 4px;
   margin-bottom: 18px;
   padding: 4px;
-  border-radius: 999px;
+  border-radius: var(--raio);
   background: var(--bege-claro);
 }
 .instalar-aba {
   padding: 10px 6px;
   border: 0;
-  border-radius: 999px;
+  border-radius: var(--raio);
   background: transparent;
   color: var(--suave);
   font: inherit;
@@ -134,7 +134,7 @@
   align-items: center;
   gap: 6px;
   padding: 6px 10px;
-  border-radius: 999px;
+  border-radius: var(--raio);
   background: var(--cartao);
 }
 .ilu-icone,
@@ -142,7 +142,7 @@
 .ilu-alvo {
   background: var(--verde);
   color: #fff;
-  box-shadow: 0 0 0 4px rgba(90, 175, 156, 0.3);
+  box-shadow: 0 0 0 4px rgba(94, 122, 110, 0.3);
   animation: ilu-pulsa 1.6s ease-in-out infinite;
 }
 .ilu-safari { justify-content: space-around; }
@@ -169,7 +169,7 @@
   margin-top: 10px;
   padding: 14px;
   border: 1px solid var(--linha);
-  border-radius: 16px;
+  border-radius: var(--raio-medio);
   background: var(--cartao);
   box-shadow: 0 8px 20px var(--sombra);
   font-size: 0.9rem;
@@ -177,7 +177,7 @@
 .ilu-app { display: flex; align-items: center; gap: 10px; color: var(--marrom); font-weight: 700; }
 .ilu-app img { border-radius: 8px; }
 .ilu-botoes { display: flex; justify-content: flex-end; gap: 16px; color: var(--suave); }
-.ilu-alvo-texto { padding: 4px 12px; border-radius: 999px; background: var(--verde); color: #fff; font-weight: 700; }
+.ilu-alvo-texto { padding: 4px 12px; border-radius: var(--raio); background: var(--verde); color: #fff; font-weight: 700; }
 
 /* ---------- Deu certo / perguntas ---------- */
 .instalar-certo { display: flex; align-items: center; gap: 16px; }
@@ -197,8 +197,8 @@
 .instalar-resposta ul { margin: 0; padding-left: 20px; }
 
 @keyframes ilu-pulsa {
-  0%, 100% { box-shadow: 0 0 0 3px rgba(90, 175, 156, 0.35); }
-  50% { box-shadow: 0 0 0 7px rgba(90, 175, 156, 0.15); }
+  0%, 100% { box-shadow: 0 0 0 3px rgba(94, 122, 110, 0.35); }
+  50% { box-shadow: 0 0 0 7px rgba(94, 122, 110, 0.15); }
 }
 
 @media (max-width: 760px) {

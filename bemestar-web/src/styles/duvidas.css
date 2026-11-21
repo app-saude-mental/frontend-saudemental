@@ -12,7 +12,7 @@
 .duv-topo { margin-bottom: 24px; }
 .duv-topo h1 {
   margin: 0 0 6px;
-  font-family: var(--fonte-titulo, Georgia, "Times New Roman", serif);
+  font-family: var(--fonte-titulo, var(--fonte-titulo));
   font-weight: 400;
   font-size: clamp(1.9rem, 5vw, 2.5rem);
   color: var(--marrom);
@@ -20,7 +20,7 @@
 .duv-sub { margin: 0; color: var(--suave); }
 .duv-subtitulo {
   margin: 32px 0 14px;
-  font-family: var(--fonte-titulo, Georgia, "Times New Roman", serif);
+  font-family: var(--fonte-titulo, var(--fonte-titulo));
   font-weight: 400;
   font-size: 1.4rem;
   color: var(--marrom);
@@ -34,8 +34,8 @@
   padding: 22px;
   background: var(--cartao);
   border: 1px solid var(--linha);
-  border-radius: 22px;
-  box-shadow: 0 8px 24px -18px rgba(91, 70, 54, 0.4);
+  border-radius: var(--raio-cartao);
+  box-shadow: 0 8px 24px -18px rgba(43, 47, 46, 0.4);
 }
 .duv-rotulo {
   font-weight: 700;
@@ -121,8 +121,8 @@
   padding: 20px 22px;
   background: var(--cartao);
   border: 1px solid var(--linha);
-  border-radius: 22px;
-  box-shadow: 0 8px 24px -18px rgba(91, 70, 54, 0.4);
+  border-radius: var(--raio-cartao);
+  box-shadow: 0 8px 24px -18px rgba(43, 47, 46, 0.4);
   animation: duv-surge 0.5s var(--ease, ease) both;
 }
 .duv-item:nth-child(2) { animation-delay: 0.05s; }
@@ -160,7 +160,7 @@
   min-height: 44px;
   padding: 0 16px;
   border: 1.5px solid var(--linha);
-  border-radius: 999px;
+  border-radius: var(--raio);
   background: transparent;
   color: var(--marrom);
   font: inherit;
@@ -190,7 +190,7 @@
   margin: 0 0 16px;
   padding: 28px 20px;
   border: 1px dashed var(--linha);
-  border-radius: 22px;
+  border-radius: var(--raio-cartao);
   color: var(--suave);
   text-align: center;
 }
@@ -218,13 +218,13 @@
   width: min(480px, calc(100% - 32px));
   padding: 0;
   border: 0;
-  border-radius: 24px;
+  border-radius: var(--raio-cartao);
   background: var(--cartao);
   color: var(--texto);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
 }
 .duv-modal::backdrop {
-  background: rgba(40, 30, 22, 0.55);
+  background: rgba(28, 32, 31, 0.55);
   backdrop-filter: blur(3px);
 }
 .duv-modal[open] { animation: duv-modal-entra 0.3s var(--ease, ease); }
@@ -236,7 +236,7 @@
 }
 .duv-modal-corpo h2 {
   margin: 0;
-  font-family: var(--fonte-titulo, Georgia, "Times New Roman", serif);
+  font-family: var(--fonte-titulo, var(--fonte-titulo));
   font-weight: 600;
   font-size: 1.5rem;
   color: var(--verde-escuro);
@@ -244,7 +244,7 @@
 .duv-modal-texto { margin: 0; line-height: 1.5; overflow-wrap: anywhere; }
 .duv-perigo {
   border: 0;
-  border-radius: 999px;
+  border-radius: var(--raio);
   background: var(--erro);
   color: #fff;
   font: inherit;

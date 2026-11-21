@@ -8,8 +8,8 @@
   padding: 16px;
   overflow: hidden;
   background:
-    radial-gradient(circle at 50% 40%, rgba(90, 175, 156, 0.35), transparent 60%),
-    rgba(20, 16, 12, 0.55);
+    radial-gradient(circle at 50% 40%, rgba(94, 122, 110, 0.35), transparent 60%),
+    rgba(28, 32, 31, 0.55);
   animation: celebracao-fundo 0.35s ease;
 }
 
@@ -31,7 +31,7 @@
 .celebracao-cartao h2 {
   margin: 0;
   color: var(--marrom);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--fonte-titulo);
   font-size: 1.6rem;
   font-weight: 400;
 }
@@ -43,7 +43,7 @@
   width: 100%;
   margin: 6px 0 0;
   padding: 14px 16px;
-  border-radius: 16px;
+  border-radius: var(--raio-medio);
   background: var(--bege-claro);
   list-style: none;
   text-align: left;
@@ -66,9 +66,9 @@
   animation-iteration-count: 2;
   animation-fill-mode: both;
 }
-.confete.tipo-0 { width: 16px; height: 16px; border-radius: 0 100% 0 100%; background: #5aaf9c; } /* folha */
-.confete.tipo-1 { background: #8fd3c1; }
-.confete.tipo-2 { background: #e2b85a; }
+.confete.tipo-0 { width: 16px; height: 16px; border-radius: 0 100% 0 100%; background: #5e7a6e; } /* folha */
+.confete.tipo-1 { background: #a8bfb3; }
+.confete.tipo-2 { background: #d8cdb8; }
 
 @keyframes confete-cai {
   0% { transform: translateY(0) rotate(0); }

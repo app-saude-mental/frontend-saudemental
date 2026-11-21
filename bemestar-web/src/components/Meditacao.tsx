@@ -3,21 +3,21 @@ export default function Meditacao() {
     <svg className="med" viewBox="0 0 300 300" role="img" aria-label="Pessoa meditando">
       {/* aura */}
       <g className="aura">
-        <circle cx="150" cy="140" r="112" fill="#ead8c0" />
-        <circle cx="150" cy="140" r="84" fill="#f0e2cf" />
+        <circle cx="150" cy="140" r="112" fill="#e6e0d3" />
+        <circle cx="150" cy="140" r="84" fill="#efebe2" />
       </g>
 
-      <ellipse className="sombra" cx="150" cy="262" rx="96" ry="9" fill="#5b4636" opacity="0.12" />
+      <ellipse className="sombra" cx="150" cy="262" rx="96" ry="9" fill="#2b2f2e" opacity="0.1" />
 
       <g className="pessoa">
         {/* pernas cruzadas */}
         <path
           d="M62 238 C80 208 120 212 150 226 C180 212 220 208 238 238 C215 262 180 258 150 246 C120 258 85 262 62 238Z"
-          fill="#5aaf9c"
+          fill="#7d978b"
         />
         <path
           d="M110 240 C130 232 170 232 190 240"
-          stroke="#3f9382"
+          stroke="#5e7a6e"
           strokeWidth="3"
           fill="none"
           strokeLinecap="round"
@@ -25,10 +25,10 @@ export default function Meditacao() {
 
         <g className="tronco">
           {/* corpo */}
-          <path d="M112 140 C120 124 180 124 188 140 L196 226 C170 238 130 238 104 226 Z" fill="#e9a27a" />
+          <path d="M112 140 C120 124 180 124 188 140 L196 226 C170 238 130 238 104 226 Z" fill="#b4c4ba" />
           {/* braços e mãos */}
-          <path d="M118 146 C96 172 92 202 104 226" stroke="#e9a27a" strokeWidth="16" fill="none" strokeLinecap="round" />
-          <path d="M182 146 C204 172 208 202 196 226" stroke="#e9a27a" strokeWidth="16" fill="none" strokeLinecap="round" />
+          <path d="M118 146 C96 172 92 202 104 226" stroke="#b4c4ba" strokeWidth="16" fill="none" strokeLinecap="round" />
+          <path d="M182 146 C204 172 208 202 196 226" stroke="#b4c4ba" strokeWidth="16" fill="none" strokeLinecap="round" />
           <circle cx="104" cy="228" r="8" fill="#e3b08c" />
           <circle cx="196" cy="228" r="8" fill="#e3b08c" />
           {/* pescoço e cabeça */}
@@ -45,9 +45,9 @@ export default function Meditacao() {
       </g>
 
       {/* brilhos que sobem no hover */}
-      <circle className="brilho b1" cx="70" cy="120" r="4" fill="#d9a441" />
-      <circle className="brilho b2" cx="232" cy="100" r="3.5" fill="#5aaf9c" />
-      <circle className="brilho b3" cx="205" cy="55" r="4" fill="#d9a441" />
+      <circle className="brilho b1" cx="70" cy="120" r="4" fill="#c9b48a" />
+      <circle className="brilho b2" cx="232" cy="100" r="3.5" fill="#8fab9e" />
+      <circle className="brilho b3" cx="205" cy="55" r="4" fill="#c9b48a" />
     </svg>
   );
 }

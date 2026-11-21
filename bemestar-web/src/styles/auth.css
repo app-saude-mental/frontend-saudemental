@@ -3,59 +3,74 @@
 
 /* Tema claro (padrão). As telas usam só estas variáveis; o tema escuro as redefine abaixo.
    O index.html aplica data-tema="escuro" antes do primeiro desenho (sem piscar). */
+/* Paleta "sálvia e areia": neutra, calma e clínica. Os nomes antigos dos tokens
+   (bege, marrom, verde) foram mantidos para não quebrar as telas; os valores mudaram. */
 :root {
   color-scheme: light;
-  --bege: #f1e6d6;
-  --bege-claro: #f8f2e9;   /* fundo da página */
-  --marrom: #5b4636;       /* títulos e textos de destaque */
-  --marrom-fixo: #5b4636;  /* fundos escuros que não mudam com o tema */
-  --verde: #5aaf9c;
-  --verde-escuro: #3f9382;
-  --texto: #4a5a57;
-  --campo: #f3efe9;
-  --erro: #c0392b;
+  --bege: #ebe7de;         /* superfícies de apoio (painéis, ícones) */
+  --bege-claro: #f6f4ef;   /* fundo da página (areia) */
+  --marrom: #2b2f2e;       /* títulos e textos de destaque (grafite) */
+  --marrom-fixo: #2b2f2e;  /* fundos escuros que não mudam com o tema */
+  --verde: #5e7a6e;        /* cor principal (sálvia) */
+  --verde-escuro: #4a6358;
+  --texto: #3d4341;
+  --campo: #f3f1ec;
+  --erro: #a94438;
+  --erro-escuro: #8c3529;
   --ease: cubic-bezier(0.65, 0, 0.35, 1);
 
   --cartao: #fff;
-  --suave: #7a6a5a;        /* texto secundário */
-  --suave-2: #9a8d80;      /* texto terciário, placeholders */
-  --linha: #eadfce;
-  --linha-forte: #e0d3bf;
-  --hover: #f0e6d6;
-  --trilho: #efe6d8;
-  --verde-suave: #eef7f5;
-  --erro-suave: #fdecea;
-  --alerta-suave: #fdf1e3;
-  --alerta-texto: #9a5b13;
-  --perigo-fundo: #fffaf9;
-  --alerta-fundo: #fffaf2;
-  --sombra: var(--sombra);
+  --suave: #6b716e;        /* texto secundário */
+  --suave-2: #8a8f8c;      /* texto terciário, placeholders */
+  --linha: #e4e0d7;
+  --linha-forte: #d6d1c6;
+  --hover: #eeebe4;
+  --trilho: #e8e4dc;
+  --verde-suave: #ebf0ed;
+  --erro-suave: #f7e9e6;
+  --alerta-suave: #f6eedd;
+  --alerta-texto: #7a5a1e;
+  --perigo-fundo: #fcf8f7;
+  --alerta-fundo: #fcfaf4;
+  --sombra: rgba(43, 47, 46, 0.06);
+
+  /* tipografia: serifa fina nos títulos, sans limpa no texto */
+  --fonte-titulo: "Cormorant Garamond", Georgia, serif;
+  --fonte-texto: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* cantos discretos (nada de "pílulas") */
+  --raio: 8px;
+  --raio-medio: 10px;
+  --raio-cartao: 14px;
 }
 
-/* Tema escuro: tons quentes e baixo contraste para descanso dos olhos */
+/* Tema escuro: grafite esverdeado, baixo contraste para descanso dos olhos */
 :root[data-tema="escuro"] {
   color-scheme: dark;
-  --bege: #2e3437;
-  --bege-claro: #15191b;
-  --marrom: #f0e6d3;
-  --texto: #d6dcd9;
-  --campo: #1c2225;
-  --erro: #f08a7c;
+  --bege: #262c2a;
+  --bege-claro: #161a19;
+  --marrom: #ecebe6;
+  --texto: #cdd2cf;
+  --campo: #1b201f;
+  --verde: #6e8c7f;
+  --verde-escuro: #8fab9e;
+  --erro: #e08a7e;
+  --erro-escuro: #c7685b;
 
-  --cartao: #20262a;
-  --suave: #b8ada0;
-  --suave-2: #8f877d;
-  --linha: #333b40;
-  --linha-forte: #475056;
-  --hover: #2b3337;
-  --trilho: #2d3539;
-  --verde-suave: #1d3933;
-  --erro-suave: #3b2420;
-  --alerta-suave: #3a2f1d;
-  --alerta-texto: #f0c48a;
-  --perigo-fundo: #261d1c;
-  --alerta-fundo: #29241b;
-  --sombra: rgba(0, 0, 0, 0.35);
+  --cartao: #1e2322;
+  --suave: #a9aeab;
+  --suave-2: #868b88;
+  --linha: #2f3634;
+  --linha-forte: #414946;
+  --hover: #2a302e;
+  --trilho: #2b3230;
+  --verde-suave: #22302b;
+  --erro-suave: #3a2522;
+  --alerta-suave: #362f20;
+  --alerta-texto: #e6c88e;
+  --perigo-fundo: #251e1d;
+  --alerta-fundo: #27241c;
+  --sombra: rgba(0, 0, 0, 0.3);
 }
 
 body { background: var(--bege-claro); transition: background 0.3s; }
@@ -65,9 +80,22 @@ body {
   margin: 0;
   display: block;
   min-width: 0;
-  font-family: "Open Sans", system-ui, sans-serif;
+  font-family: var(--fonte-texto);
+  font-size: 15px;
+  line-height: 1.55;
   color: var(--texto);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* títulos em serifa fina */
+h1, h2 {
+  font-family: var(--fonte-titulo);
+  font-weight: 600;
+  letter-spacing: 0.005em;
+  line-height: 1.15;
+}
+h3 { font-weight: 600; letter-spacing: -0.005em; }
 #root { max-width: none; margin: 0; padding: 0; text-align: initial; }
 
 /* ---------- Página e cartão ---------- */
@@ -84,9 +112,10 @@ body {
   width: min(1000px, 100%);
   min-height: 660px;
   background: var(--cartao);
-  border-radius: 20px;
+  border-radius: var(--raio-cartao);
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(91, 70, 54, 0.12);
+  border: 1px solid var(--linha);
+  box-shadow: 0 24px 60px -30px rgba(43, 47, 46, 0.25);
 }
 
 /* ---------- Painel bege (é ele que desliza) ---------- */
@@ -134,7 +163,7 @@ body {
   visibility: visible;
   transition: opacity 0.5s ease 0.3s, visibility 0s;
 }
-.painel-texto h2 { margin: 0; font-size: 1.7rem; }
+.painel-texto h2 { margin: 0; font-size: 2.1rem; font-weight: 500; }
 .painel-texto p { margin: 0 0 8px; line-height: 1.5; text-wrap: balance; }
 .painel-texto h2,
 .painel-texto p { max-width: 100%; overflow-wrap: anywhere; }
@@ -200,7 +229,7 @@ body {
   gap: 12px;
   text-align: center;
 }
-.auth-form h1 { margin: 0; color: var(--verde); font-size: 2rem; }
+.auth-form h1 { margin: 0 0 4px; color: var(--marrom); font-size: 2.4rem; font-weight: 500; }
 
 .campo {
   display: flex;
@@ -239,11 +268,10 @@ body {
 .btn-principal,
 .btn-contorno,
 .btn-secundario {
-  border-radius: 999px;
+  border-radius: var(--raio);
   font: inherit;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.01em;
   text-decoration: none;
   cursor: pointer;
   transition: background 0.2s, color 0.2s, opacity 0.2s;
@@ -313,15 +341,18 @@ body {
   width: min(640px, calc(100% - 32px));
   padding: 0;
   border: 0;
-  border-radius: 16px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  border-radius: var(--raio-medio);
+  border: 1px solid var(--linha);
+  background: var(--cartao);
+  color: var(--texto);
+  box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.35);
 }
-.modal::backdrop { background: rgba(40, 30, 22, 0.55); }
+.modal::backdrop { background: rgba(28, 32, 31, 0.55); }
 .modal-corpo { display: flex; flex-direction: column; max-height: 85vh; }
 .modal-topo { padding: 20px 24px; border-bottom: 1px solid var(--linha); }
-.modal-topo h2 { margin: 0; color: var(--verde); font-size: 1.3rem; }
+.modal-topo h2 { margin: 0; color: var(--marrom); font-size: 1.6rem; font-weight: 500; }
 .modal-texto { padding: 20px 24px; overflow-y: auto; line-height: 1.6; font-size: 0.95rem; }
-.modal-texto h3 { margin: 18px 0 4px; font-size: 1rem; color: var(--verde-escuro); }
+.modal-texto h3 { margin: 18px 0 4px; font-size: 0.95rem; color: var(--marrom); }
 .modal-texto p, .modal-texto ul { margin: 0 0 8px; }
 .modal-aviso { padding: 10px 12px; border-radius: 6px; background: var(--bege-claro); font-size: 0.85rem; }
 .modal-rodape {
@@ -372,10 +403,14 @@ body {
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  border-radius: 999px;
+  border-radius: var(--raio);
   color: var(--verde-escuro);
   font-weight: 600;
   text-decoration: none;
 }
 .auth-instalar:hover { background: var(--verde-suave); }
 .auth-instalar:focus-visible { outline: 3px solid var(--verde); outline-offset: 2px; }
+
+/* logo acima do cartão de login/cadastro */
+.auth-logo { color: var(--marrom); }
+.auth-logo .logo-nome { font-size: 2rem; }
