@@ -9,6 +9,7 @@ import { usePerfil } from "../hooks/usePerfil";
 import { getErrorMessage } from "../services/apiError";
 import { ROTULO_STATUS, nomeDoPlano, textoVigencia } from "../utils/plano";
 import "../styles/perfil.css";
+import CabecalhoPagina from "../components/CabecalhoPagina";
 
 export default function PerfilPage() {
   const { atualizarStatus, sairDeTodos } = useAuth();
@@ -47,10 +48,7 @@ export default function PerfilPage() {
 
   return (
     <section className="perfil">
-      <header className="perfil-topo">
-        <h1>Seu perfil</h1>
-        <p>Gerencie seus dados e sua conta.</p>
-      </header>
+      <CabecalhoPagina sobretitulo="Sua conta" titulo="Seu perfil" subtitulo="Gerencie seus dados, seu plano e sua conta." ilustracao="pessoa" />
 
       {isPending && <p className="perfil-aviso">Carregando seus dados...</p>}
 

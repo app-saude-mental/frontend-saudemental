@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { ChevronLeft, ChevronRight, Lock } from "lucide-react";
 import DiarioCard from "../components/DiarioCard";
 import DiarioForm from "../components/DiarioForm";
@@ -6,8 +7,10 @@ import ModalExclusao from "../components/ModalExclusao";
 import { useAuth } from "../contexts/useAuth";
 import { useDiarios, useExcluirDiario } from "../hooks/useDiarios";
 import { getErrorMessage } from "../services/apiError";
-import type { Diario } from "../types/diario";
+import { HUMORES_VALORES, type Diario, type Humor } from "../types/diario";
 import "../styles/diario.css";
+import CabecalhoPagina from "../components/CabecalhoPagina";
+import EstadoVazio from "../components/EstadoVazio";
 
 function saudacao() {
   const hora = new Date().getHours();
@@ -29,6 +32,10 @@ export default function DiarioPage() {
   const excluir = useExcluirDiario();
 
   const primeiroNome = usuario?.nome.trim().split(" ")[0] ?? "";
+  // /diario?humor=TRISTE (check-in da tela Início) já abre com o humor marcado
+  const [params] = useSearchParams();
+  const humorUrl = params.get("humor");
+  const humorInicial = HUMORES_VALORES.includes(humorUrl as Humor) ? (humorUrl as Humor) : null;
 
   function irParaTopo() {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -60,21 +67,23 @@ export default function DiarioPage() {
 
   return (
     <section className="diario">
-      <header className="diario-topo">
-        <h1>
-          {saudacao()}, {primeiroNome}
-        </h1>
-        <p className="diario-sub">Respire fundo. Como você está se sentindo hoje?</p>
+      <CabecalhoPagina
+        sobretitulo="Seu diário"
+        titulo={`${saudacao()}, ${primeiroNome}`}
+        subtitulo="Respire fundo. Como você está se sentindo hoje?"
+        ilustracao="caderno"
+      >
         <p className="diario-privado">
           <Lock size={15} aria-hidden="true" />
-          Só você pode ler o que escreve aqui.
+          Só você pode ler o que escreve aqui. Nem o enfermeiro tem acesso.
         </p>
-      </header>
+      </CabecalhoPagina>
 
       {/* a key recria o formulário ao trocar entre "nova entrada" e "editar" */}
       <DiarioForm
-        key={editando?.id ?? "novo"}
+        key={editando?.id ?? `novo-${humorInicial ?? ""}`}
         editando={editando}
+        humorInicial={humorInicial}
         onFinalizar={() => setEditando(null)}
       />
 
@@ -94,7 +103,11 @@ export default function DiarioPage() {
       )}
 
       {data && data.conteudo.length === 0 && (
-        <p className="diario-vazio">Nada por aqui ainda. Que tal escrever a primeira entrada?</p>
+        <EstadoVazio
+          ilustracao="caderno"
+          titulo="Seu diário está esperando"
+          texto="Escreva sem pressa e sem julgamento. Colocar em palavras ajuda a entender o que você sente."
+        />
       )}
 
       {data && data.conteudo.length > 0 && (

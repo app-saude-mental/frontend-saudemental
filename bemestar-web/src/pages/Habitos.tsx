@@ -5,6 +5,7 @@ import { useHabitosDoDia, useMarcarHabito } from "../hooks/useHabitos";
 import { getErrorMessage } from "../services/apiError";
 import { hojeISO } from "../utils/data";
 import "../styles/habitos.css";
+import CabecalhoPagina from "../components/CabecalhoPagina";
 
 type Aba = "hoje" | "evolucao";
 
@@ -13,10 +14,12 @@ export default function HabitosPage() {
 
   return (
     <section className="habitos">
-      <header className="habitos-topo">
-        <h1>Hábitos</h1>
-        <p>Pequenos cuidados que fazem diferença.</p>
-      </header>
+      <CabecalhoPagina
+        sobretitulo="Seu cuidado diário"
+        titulo="Hábitos"
+        subtitulo="Pequenos cuidados que fazem diferença. Marque o que fez hoje e acompanhe sua evolução."
+        ilustracao="broto"
+      />
 
       <div className="habitos-abas" role="tablist" aria-label="Hábitos">
         <button

@@ -300,3 +300,74 @@ body:has(.mini-player) .app-conteudo { padding-bottom: 104px; }
   .mini-player { animation: none; }
   .mini-player-onda.ativa span { animation: none; height: 12px; }
 }
+
+/* ---------- Atmosferas por categoria ----------
+   Cada categoria muda a cor da esfera e o "céu" do player. Tudo suave e de baixo contraste. */
+.paz { --paz-cor: var(--verde); --paz-ceu-1: color-mix(in srgb, var(--verde) 14%, var(--cartao)); --paz-ceu-2: var(--cartao); }
+.paz[data-atmosfera="meditar"] { --paz-cor: #b08d6a; --paz-ceu-1: color-mix(in srgb, #d9b98f 26%, var(--cartao)); }
+.paz[data-atmosfera="dormir"] { --paz-cor: #56607f; --paz-ceu-1: color-mix(in srgb, #3d4766 32%, var(--cartao)); }
+.paz[data-atmosfera="concentracao"] { --paz-cor: #5d7f8c; --paz-ceu-1: color-mix(in srgb, #8fb0bb 26%, var(--cartao)); }
+.paz[data-atmosfera="sensorial"] { --paz-cor: #7c8380; --paz-ceu-1: color-mix(in srgb, #a9b0ad 24%, var(--cartao)); }
+
+.paz-player {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--paz-ceu-1), var(--paz-ceu-2) 75%);
+  transition: background 0.8s ease;
+}
+/* estrelas discretas na atmosfera de dormir */
+.paz[data-atmosfera="dormir"] .paz-player::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 18%, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1px 1px at 28% 8%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1.5px 1.5px at 72% 14%, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1px 1px at 86% 30%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1px 1px at 55% 6%, rgba(255, 255, 255, 0.6), transparent);
+  opacity: 0.8;
+}
+.paz-player > * { position: relative; }
+.paz-esfera-forma {
+  background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--paz-cor) 55%, #fff), var(--paz-cor) 72%);
+  box-shadow: 0 14px 40px -10px color-mix(in srgb, var(--paz-cor) 70%, transparent);
+  transition: transform 0.6s var(--ease), box-shadow 0.6s, background 0.8s;
+}
+.paz-esfera:hover:not(:disabled) .paz-esfera-forma {
+  box-shadow: 0 18px 46px -10px color-mix(in srgb, var(--paz-cor) 80%, transparent);
+}
+@keyframes paz-respirar {
+  0%, 100% { transform: scale(0.86); box-shadow: 0 10px 30px -10px color-mix(in srgb, var(--paz-cor) 60%, transparent); }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 18px color-mix(in srgb, var(--paz-cor) 14%, transparent), 0 20px 50px -10px color-mix(in srgb, var(--paz-cor) 75%, transparent);
+  }
+}
+.paz-chip[aria-pressed="true"] { border-color: var(--paz-cor, var(--verde)); background: var(--paz-cor, var(--verde)); }
+.paz-categoria[aria-selected="true"] { border-bottom-color: var(--paz-cor, var(--verde)); }
+
+/* atalho para a respiração guiada */
+.paz-respirar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+  padding: 16px 20px;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio-grande);
+  background: var(--cartao);
+  box-shadow: var(--sombra-1);
+  color: var(--verde-escuro);
+  text-decoration: none;
+  transition: transform 0.2s var(--ease), box-shadow 0.2s;
+}
+.paz-respirar:hover { transform: translateY(-2px); box-shadow: var(--sombra-2); }
+.paz-respirar:focus-visible { outline: 3px solid var(--verde); outline-offset: 2px; }
+.paz-respirar > span { flex: 1; }
+.paz-respirar strong { display: block; color: var(--marrom); }
+.paz-respirar span span { color: var(--suave); font-size: 0.88rem; }
+@media (prefers-reduced-motion: reduce) {
+  .paz-player, .paz-esfera-forma, .paz-respirar { transition: none; }
+}
