@@ -14,6 +14,8 @@ import MomentoPazPage from "./pages/MomentoPaz";
 import DicasPage from "./pages/Dicas";
 import RequerAdmin from "./routes/RequerAdmin";
 import Inicio from "./routes/Inicio";
+import InicioPage from "./pages/Inicio";
+import RespirarPage from "./pages/Respirar";
 import Instalar from "./pages/Instalar";
 import LayoutInstalar from "./routes/LayoutInstalar";
 import AdminLayout from "./pages/admin/AdminLayout";
@@ -39,6 +41,8 @@ export default function App() {
       <Route element={<ProtectedRoute />}>
         <Route element={<AppLayout />}>
           <Route path="/" element={<Inicio />} />
+          <Route path="/inicio" element={<InicioPage />} />
+          <Route path="/respirar" element={<RespirarPage />} />
           <Route path="/planos" element={<Planos />} />
           <Route path="/planos/premium" element={<SerPremium />} />
           <Route path="/diario" element={<DiarioPage />} />

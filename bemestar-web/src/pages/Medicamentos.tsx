@@ -6,6 +6,8 @@ import ConfirmarExclusaoMedicamento from "../components/ConfirmarExclusaoMedicam
 import { useMedicamentos } from "../hooks/useMedicamentos";
 import { getErrorMessage } from "../services/apiError";
 import type { Medicamento } from "../types/medicamento";
+import CabecalhoPagina from "../components/CabecalhoPagina";
+import EstadoVazio from "../components/EstadoVazio";
 
 export default function MedicamentosPage() {
   const [pagina, setPagina] = useState(0);
@@ -34,15 +36,17 @@ export default function MedicamentosPage() {
 
   return (
     <section className="med-pagina">
-      <header className="med-topo">
-        <div>
-          <h1>Meus medicamentos</h1>
-          <p className="med-sub">Anote o que você precisa tomar e a que horas, para não esquecer.</p>
-        </div>
-        <button type="button" className="btn-principal med-novo" onClick={abrirNovo}>
-          + Adicionar
-        </button>
-      </header>
+      <CabecalhoPagina
+        sobretitulo="Rotina de cuidado"
+        titulo="Meus medicamentos"
+        subtitulo="Anote o que você precisa tomar e a que horas, para não esquecer."
+        ilustracao="capsula"
+        acao={
+          <button type="button" className="btn-principal med-novo" onClick={abrirNovo}>
+            + Adicionar
+          </button>
+        }
+      />
 
       {isPending && (
         <p className="med-aviso" role="status">
@@ -60,12 +64,15 @@ export default function MedicamentosPage() {
       )}
 
       {data && data.conteudo.length === 0 && (
-        <div className="med-vazio">
-          <p>Você ainda não cadastrou nenhuma medicação.</p>
+        <EstadoVazio
+          ilustracao="capsula"
+          titulo="Nenhum remédio por aqui"
+          texto="Cadastre o que você toma e os horários. A tela Início mostra sempre o próximo."
+        >
           <button type="button" className="btn-secundario" onClick={abrirNovo}>
-            Adicionar a primeira
+            Adicionar o primeiro
           </button>
-        </div>
+        </EstadoVazio>
       )}
 
       {data && data.conteudo.length > 0 && (

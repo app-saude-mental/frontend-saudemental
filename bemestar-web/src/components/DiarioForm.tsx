@@ -5,16 +5,17 @@ import { diarioSchema, type DiarioFormData } from "../schemas/diarioSchemas";
 import { useSalvarDiario } from "../hooks/useDiarios";
 import { getErrorMessage } from "../services/apiError";
 import { HUMORES, buscarHumor } from "../data/humores";
-import type { Diario } from "../types/diario";
+import type { Diario, Humor } from "../types/diario";
 
 const LIMITE_TEXTO = 5000;
 
 interface DiarioFormProps {
   editando: Diario | null;
   onFinalizar: () => void;
+  humorInicial?: Humor | null; // vindo do check-in da tela Início
 }
 
-export default function DiarioForm({ editando, onFinalizar }: DiarioFormProps) {
+export default function DiarioForm({ editando, onFinalizar, humorInicial }: DiarioFormProps) {
   const salvar = useSalvarDiario();
   const [erroApi, setErroApi] = useState<string | null>(null);
 
@@ -26,7 +27,7 @@ export default function DiarioForm({ editando, onFinalizar }: DiarioFormProps) {
     formState: { errors, isSubmitting },
   } = useForm<DiarioFormData>({
     resolver: zodResolver(diarioSchema),
-    defaultValues: { humor: editando?.humor ?? "BEM", texto: editando?.texto ?? "" },
+    defaultValues: { humor: editando?.humor ?? humorInicial ?? "BEM", texto: editando?.texto ?? "" },
   });
 
   const texto = useWatch({ control, name: "texto" }) ?? "";

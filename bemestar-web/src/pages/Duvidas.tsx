@@ -6,6 +6,8 @@ import ConfirmarExclusaoDuvida from "../components/ConfirmarExclusaoDuvida";
 import { useDuvidas } from "../hooks/useDuvidas";
 import { getErrorMessage } from "../services/apiError";
 import type { Duvida } from "../types/duvida";
+import CabecalhoPagina from "../components/CabecalhoPagina";
+import EstadoVazio from "../components/EstadoVazio";
 
 export default function DuvidasPage() {
   const [pagina, setPagina] = useState(0);
@@ -32,12 +34,12 @@ export default function DuvidasPage() {
 
   return (
     <section className="duv-pagina">
-      <header className="duv-topo">
-        <h1>Tirar dúvidas</h1>
-        <p className="duv-sub">
-          Escreva sua dúvida para o enfermeiro. Ela fica guardada aqui, junto da resposta.
-        </p>
-      </header>
+      <CabecalhoPagina
+        sobretitulo="Seu enfermeiro"
+        titulo="Tirar dúvidas"
+        subtitulo="Escreva sua dúvida para o enfermeiro. Ela fica guardada aqui, junto da resposta."
+        ilustracao="conversa"
+      />
 
       <DuvidaForm
         key={editando?.id ?? "nova"}
@@ -63,9 +65,11 @@ export default function DuvidasPage() {
       )}
 
       {data && data.conteudo.length === 0 && (
-        <div className="duv-estado">
-          <p>Você ainda não enviou nenhuma dúvida.</p>
-        </div>
+        <EstadoVazio
+          ilustracao="conversa"
+          titulo="Nenhuma dúvida ainda"
+          texto="Pergunte o que quiser sobre seu cuidado. Você pode anexar foto ou documento."
+        />
       )}
 
       {data && data.conteudo.length > 0 && (

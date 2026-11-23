@@ -1,4 +1,4 @@
-import { ExternalLink, HeartHandshake, Headphones, Lightbulb } from "lucide-react";
+import { ExternalLink, HeartHandshake, Headphones } from "lucide-react";
 import BloqueioPremium from "../components/BloqueioPremium";
 import { useAuth } from "../contexts/useAuth";
 import { DICAS_GERAIS } from "../data/dicasGerais";
@@ -6,6 +6,7 @@ import { PODCAST } from "../data/podcast";
 import { useDicas } from "../hooks/useDicas";
 import { getErrorMessage } from "../services/apiError";
 import "../styles/dicas.css";
+import CabecalhoPagina from "../components/CabecalhoPagina";
 
 export default function DicasPage() {
   const { pode } = useAuth();
@@ -14,13 +15,12 @@ export default function DicasPage() {
 
   return (
     <section className="dicas">
-      <header className="dicas-topo">
-        <h1>Dicas para o seu bem-estar</h1>
-        <p className="dicas-sub">
-          <Lightbulb size={18} aria-hidden="true" />
-          Pequenos cuidados para o seu dia.
-        </p>
-      </header>
+      <CabecalhoPagina
+        sobretitulo="Autocuidado"
+        titulo="Dicas para o seu bem-estar"
+        subtitulo="Pequenos cuidados para o seu dia, e o podcast do enfermeiro."
+        ilustracao="folhas"
+      />
 
       {/* ---------- Podcast (todos os planos) ---------- */}
       <section className="dicas-podcast" aria-labelledby="dicas-podcast-titulo">

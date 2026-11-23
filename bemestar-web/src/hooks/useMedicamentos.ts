@@ -9,10 +9,12 @@ import type { MedicamentoRequest } from "../types/medicamento";
 
 const CHAVE = ["medicamentos"] as const;
 
-export function useMedicamentos(pagina: number) {
+// "ativo = false" não busca (ex.: tela Início de quem não tem o recurso MEDICAMENTOS)
+export function useMedicamentos(pagina: number, ativo = true) {
   return useQuery({
     queryKey: [...CHAVE, pagina],
     queryFn: () => listarMedicamentos(pagina),
+    enabled: ativo,
     placeholderData: keepPreviousData, // mantém a página anterior na tela enquanto carrega a próxima
   });
 }

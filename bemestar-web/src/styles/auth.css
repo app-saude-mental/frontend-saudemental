@@ -42,6 +42,21 @@
   --raio: 8px;
   --raio-medio: 10px;
   --raio-cartao: 14px;
+  --raio-grande: 20px;
+
+  /* elevação em camadas: sombras longas e suaves (nada de "caixa flutuando") */
+  --sombra-1: 0 1px 2px rgba(38, 48, 43, 0.04), 0 6px 18px -8px rgba(38, 48, 43, 0.12);
+  --sombra-2: 0 2px 4px rgba(38, 48, 43, 0.05), 0 18px 40px -18px rgba(38, 48, 43, 0.25);
+
+  /* ilustrações (traço = currentColor) */
+  --ilu-traco: #4f7363;
+  --ilu-fundo: #d3e1d7;
+  --ilu-fundo-forte: #eef3ef;
+  --ilu-destaque: #b9cfc0;
+
+  /* aura do fundo da área logada */
+  --aura-1: rgba(122, 160, 138, 0.28);
+  --aura-2: rgba(214, 199, 168, 0.3);
 }
 
 /* Tema escuro: grafite esverdeado, baixo contraste para descanso dos olhos */
@@ -71,6 +86,17 @@
   --perigo-fundo: #251e1d;
   --alerta-fundo: #27241c;
   --sombra: rgba(0, 0, 0, 0.3);
+
+  --sombra-1: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 20px -10px rgba(0, 0, 0, 0.5);
+  --sombra-2: 0 2px 6px rgba(0, 0, 0, 0.35), 0 22px 44px -18px rgba(0, 0, 0, 0.6);
+
+  --ilu-traco: #9dbcae;
+  --ilu-fundo: #1f2a25;
+  --ilu-fundo-forte: #26332d;
+  --ilu-destaque: #34483f;
+
+  --aura-1: rgba(84, 128, 108, 0.18);
+  --aura-2: rgba(62, 82, 110, 0.16);
 }
 
 body { background: var(--bege-claro); transition: background 0.3s; }
@@ -104,7 +130,10 @@ h3 { font-weight: 600; letter-spacing: -0.005em; }
   display: grid;
   place-items: center;
   padding: 24px;
-  background: var(--bege-claro);
+  background:
+    radial-gradient(60vmax 50vmax at -10% -10%, var(--aura-1), transparent 60%),
+    radial-gradient(50vmax 45vmax at 110% 110%, var(--aura-2), transparent 60%),
+    var(--bege-claro);
 }
 
 .auth-cartao {

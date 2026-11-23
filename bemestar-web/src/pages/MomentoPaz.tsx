@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Headphones, Lock, Square, Volume2 } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { ArrowRight, Headphones, Lock, Square, Volume2, Wind } from "lucide-react";
 import { useSom } from "../contexts/useSom";
 import {
   CATEGORIAS,
@@ -12,6 +12,7 @@ import {
 } from "../data/sonsNatureza";
 import { MENSAGEM_SEM_SUPORTE } from "../hooks/usePaisagemSonora";
 import "../styles/momento-paz.css";
+import CabecalhoPagina from "../components/CabecalhoPagina";
 
 type Respiracao = "inspire" | "expire";
 
@@ -86,13 +87,14 @@ export default function MomentoPazPage() {
       : "";
 
   return (
-    <section className="paz">
-      <header className="paz-topo">
-        <h1>Momento de paz</h1>
-        <p className="paz-sub">
-          Escolha um som, coloque o fone e respire. Ele continua tocando enquanto você usa o app.
-        </p>
-      </header>
+    // a "atmosfera" (cores do player) acompanha a categoria do som atual
+    <section className="paz" data-atmosfera={categoriaDoSom(somId)}>
+      <CabecalhoPagina
+        sobretitulo="Meditar"
+        titulo="Momento de paz"
+        subtitulo="Escolha um som, coloque o fone e respire. Ele continua tocando enquanto você usa o app."
+        ilustracao="pessoa"
+      />
 
       {!som.suportado && (
         <p className="erro-api" role="alert">
@@ -146,6 +148,15 @@ export default function MomentoPazPage() {
 
         {estado === "concluido" && <p className="paz-mensagem">{MENSAGEM_FIM}</p>}
       </div>
+
+      <Link to="/respirar" className="paz-respirar">
+        <Wind size={20} aria-hidden="true" />
+        <span>
+          <strong>Respiração guiada</strong>
+          <span>Técnicas 4-7-8, quadrada e coerente, com o ritmo na tela.</span>
+        </span>
+        <ArrowRight size={18} aria-hidden="true" />
+      </Link>
 
       {/* ---------- Categorias ---------- */}
       <div className="paz-cartao paz-sons">
