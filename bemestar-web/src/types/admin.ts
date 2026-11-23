@@ -1,3 +1,4 @@
+import type { Anexo } from "./duvida";
 // Contratos do painel do enfermeiro (/admin/**). Nenhum tipo aqui contém diário.
 import type { Perfil, PlanoEfetivo, PlanoPremium, SolicitacaoResumo, StatusPlano, TipoPlano } from "./auth";
 import type { Solicitacao } from "./assinatura";
@@ -78,6 +79,7 @@ export interface AdminDuvida {
   resposta: string | null;
   respondidaEm: string | null;
   respondidaPorNome: string | null;
+  anexos: Anexo[];
 }
 
 export interface AdminSolicitacao {

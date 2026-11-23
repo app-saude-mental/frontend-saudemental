@@ -288,3 +288,86 @@
   .duv-perigo,
   .duv-caixa textarea { transition: none; }
 }
+
+/* ---------- Anexos (formulário, cartão e painel do enfermeiro) ---------- */
+.duv-anexos { display: flex; flex-direction: column; gap: 8px; }
+.duv-anexar {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 8px;
+  padding: 9px 16px;
+  border: 1.5px dashed var(--linha-forte);
+  border-radius: var(--raio);
+  background: transparent;
+  color: var(--verde-escuro);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+.duv-anexar:hover:not(:disabled) { border-color: var(--verde); background: var(--verde-suave); }
+.duv-anexar:disabled { opacity: 0.5; cursor: not-allowed; }
+.duv-anexar:focus-visible { outline: 3px solid var(--verde); outline-offset: 2px; }
+.duv-anexos-ajuda { margin: 0; color: var(--suave); font-size: 0.8rem; }
+
+.anexos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 4px;
+  padding: 0;
+  list-style: none;
+}
+.anexo {
+  position: relative;
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  background: var(--campo);
+}
+.anexo.novo { border-style: dashed; }
+.anexo-abrir {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  max-width: 260px;
+  padding: 6px 10px 6px 6px;
+  border: 0;
+  background: transparent;
+  color: var(--texto);
+  font: inherit;
+  text-align: left;
+}
+button.anexo-abrir { cursor: pointer; }
+button.anexo-abrir:hover .anexo-nome { text-decoration: underline; }
+button.anexo-abrir:focus-visible { outline: 3px solid var(--verde); outline-offset: 2px; border-radius: var(--raio); }
+.anexo-miniatura,
+.anexo-icone {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+}
+.anexo-miniatura { object-fit: cover; }
+.anexo-icone { display: grid; place-items: center; background: var(--verde-suave); color: var(--verde-escuro); }
+.anexo-texto { display: flex; flex-direction: column; min-width: 0; }
+.anexo-nome { overflow: hidden; font-size: 0.88rem; text-overflow: ellipsis; white-space: nowrap; }
+.anexo-tamanho { color: var(--suave); font-size: 0.75rem; }
+.anexo-remover {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  margin-right: 6px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--suave);
+  cursor: pointer;
+}
+.anexo-remover:hover { background: var(--erro-suave); color: var(--erro); }
+.anexo-remover:disabled { opacity: 0.4; }

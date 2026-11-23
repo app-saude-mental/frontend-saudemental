@@ -1,4 +1,5 @@
 import { useState } from "react";
+import AnexosLista from "../../components/AnexosLista";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Check, Minus } from "lucide-react";
 import AcoesPlano from "../../components/admin/AcoesPlano";
@@ -168,6 +169,7 @@ function Duvidas({ usuarioId }: { usuarioId: number }) {
             <li key={d.id}>
               <span className="adm-sub">{formatarDataHora(d.criadoEm)}</span>
               <p className="adm-mensagem">{d.mensagem}</p>
+              <AnexosLista anexos={d.anexos ?? []} comoAdmin />
               <RespostaDuvidaForm key={`${d.id}-${d.resposta ?? ""}`} duvidaId={d.id} respostaAtual={d.resposta} />
             </li>
           ))}

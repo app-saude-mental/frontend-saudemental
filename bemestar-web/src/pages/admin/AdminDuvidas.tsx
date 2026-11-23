@@ -1,4 +1,5 @@
 import { Link, useSearchParams } from "react-router-dom";
+import AnexosLista from "../../components/AnexosLista";
 import Paginacao from "../../components/admin/Paginacao";
 import RespostaDuvidaForm from "../../components/admin/RespostaDuvidaForm";
 import { useAdminDuvidas } from "../../hooks/useAdmin";
@@ -56,6 +57,7 @@ export default function AdminDuvidas() {
                   <Link to={`/admin/usuarios/${d.usuario.id}`}>{d.usuario.nome}</Link> · {formatarDataHora(d.criadoEm)}
                 </p>
                 <p className="adm-mensagem">{d.mensagem}</p>
+                <AnexosLista anexos={d.anexos ?? []} comoAdmin />
                 <RespostaDuvidaForm key={`${d.id}-${d.resposta ?? ""}`} duvidaId={d.id} respostaAtual={d.resposta} />
                 {d.respondidaEm && (
                   <p className="adm-sub">
