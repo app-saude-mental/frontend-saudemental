@@ -1,8 +1,10 @@
-// "Natureza anti-estresse": receitas dos 7 sons gerados com Web Audio API.
+// Receitas de todos os sons do "Momento de paz", gerados com Web Audio API.
+// Natureza e chuva ficam aqui; meditar, concentração e ruídos em sonsMusicais.ts.
 // Cada fábrica monta seu grafo num Coletor, que libera tudo em parar().
 
 import type { SomId } from "../data/sonsNatureza";
 import { aleatorio, criarColetor, type Coletor } from "./ruido";
+import { FABRICAS_MUSICAIS } from "./sonsMusicais";
 import type { FabricaSom } from "./tipos";
 
 function fabrica(montar: (c: Coletor) => void): FabricaSom {
@@ -179,7 +181,72 @@ function onda(camada: CamadaOnda, t: number, duracao: number) {
 
 // ---------- Fábricas ----------
 export const FABRICAS: Record<SomId, FabricaSom> = {
+  ...FABRICAS_MUSICAIS,
+
   chuva: fabrica((c) => camadasChuva(c, 1)),
+
+  // chuva escura e lenta para dormir: sem chiado agudo, poucas gotas e graves
+  chuvaLenta: fabrica((c) => {
+    const corpo = c.ganho(0.34);
+    c.lfo(0.04, 0.05, corpo.gain);
+    c.ruido("rosa").connect(c.filtro("lowpass", 1800, 0.5)).connect(corpo).connect(c.saida);
+    c.ruido("marrom").connect(c.filtro("lowpass", 300)).connect(c.ganho(0.12)).connect(c.saida);
+    c.processo(0.4, (t) => {
+      c.rajada(t, {
+        tipo: "rosa",
+        duracao: aleatorio(0.02, 0.05),
+        ganho: aleatorio(0.01, 0.03),
+        filtro: "bandpass",
+        freq: aleatorio(700, 1600),
+        q: 1.5,
+        pan: aleatorio(-0.7, 0.7),
+      });
+      return aleatorio(0.12, 0.4);
+    });
+  }),
+
+  // chuva batendo no telhado: corpo médio + "tocs" graves e frequentes
+  telhado: fabrica((c) => {
+    camadasChuva(c, 0.55);
+    c.processo(0.1, (t) => {
+      c.rajada(t, {
+        duracao: aleatorio(0.01, 0.03),
+        ganho: aleatorio(0.03, 0.09),
+        filtro: "bandpass",
+        freq: aleatorio(600, 1500),
+        q: 3,
+        pan: aleatorio(-0.9, 0.9),
+      });
+      return aleatorio(0.03, 0.12);
+    });
+  }),
+
+  // vento: ruído rosa num filtro que "sopra" devagar, com rajadas suaves
+  vento: fabrica((c) => {
+    for (const [lado, taxa] of [
+      [-0.5, 0.05],
+      [0.5, 0.07],
+    ] as const) {
+      const bp = c.filtro("bandpass", 500, 0.8);
+      c.lfo(taxa, 300, bp.frequency);
+      const g = c.ganho(0.22);
+      c.lfo(taxa * 1.6, 0.12, g.gain);
+      c.ruido("rosa").connect(bp).connect(g).connect(c.pan(lado)).connect(c.saida);
+    }
+    // folhas: chiado agudo bem baixo
+    const folhas = c.ganho(0.02);
+    c.lfo(0.11, 0.012, folhas.gain);
+    c.ruido("branco").connect(c.filtro("highpass", 5000)).connect(folhas).connect(c.saida);
+  }),
+
+  // cachoeira: massa de água constante e cheia, com brilho leve
+  cachoeira: fabrica((c) => {
+    c.ruido("marrom").connect(c.filtro("lowpass", 1200)).connect(c.ganho(0.45)).connect(c.saida);
+    c.ruido("rosa").connect(c.filtro("lowpass", 4500)).connect(c.ganho(0.22)).connect(c.saida);
+    const brilho = c.ganho(0.05);
+    c.lfo(0.3, 0.015, brilho.gain);
+    c.ruido("branco").connect(c.filtro("bandpass", 3000, 0.6)).connect(brilho).connect(c.saida);
+  }),
 
   trovoada: fabrica((c) => {
     camadasChuva(c, 0.9);

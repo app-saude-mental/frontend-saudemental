@@ -53,7 +53,7 @@ export const DETALHES_PLANO = {
     resumo:
       "Este é o plano padrão de quem cria uma conta. Ele reúne o essencial para cuidar de você no dia a dia, com algumas atividades limitadas.",
     itens: [
-      "Meditação com 2 sons da natureza (chuva e mar).",
+      "Momento de paz com 6 sons: um de cada tipo (natureza, meditar, dormir, concentração e ruído sensorial).",
       "Diário de emoções e humor.",
       "Checklist diário de hábitos.",
       "Dicas gerais de saúde mental.",
@@ -66,7 +66,7 @@ export const DETALHES_PLANO = {
       "Para você que ainda não passou por uma consulta com o enfermeiro e quer ter acesso aos recursos premium.",
     itens: [
       "Tudo o que o plano Gratuito oferece.",
-      "Os 7 sons da natureza liberados para meditar.",
+      "Todos os 22 sons liberados: natureza, meditação, sono, concentração e ruído sensorial.",
       "Organização dos seus medicamentos por horário do dia, para manter uma rotina em ordem.",
     ],
     rodape: "R$ 30 por mês, pago por PIX e liberado pelo enfermeiro.",

@@ -110,7 +110,7 @@ export default function Planos() {
 
         <PlanoCard
           nome="Premium Assinante"
-          subtitulo="Todos os sons da natureza e a organização dos seus medicamentos."
+          subtitulo="Todos os sons para meditar, dormir e focar, e a organização dos seus medicamentos."
           preco={valor("ASSINANTE") ?? "30"}
           icone={<Crown size={22} />}
           beneficios={itensDoPlano("assinante")}

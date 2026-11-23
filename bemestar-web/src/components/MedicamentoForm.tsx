@@ -1,10 +1,11 @@
 import { useEffect, useRef } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { medicamentoSchema, type MedicamentoFormData } from "../schemas/medicamentoSchemas";
 import { useSalvarMedicamento } from "../hooks/useMedicamentos";
 import { getErrorMessage } from "../services/apiError";
 import type { Medicamento } from "../types/medicamento";
+import SeletorHorario from "./SeletorHorario";
 
 interface Props {
   aberto: boolean;
@@ -21,6 +22,7 @@ export default function MedicamentoForm({ aberto, medicamento, onFechar }: Props
 
   const {
     register,
+    control,
     handleSubmit,
     reset,
     formState: { errors },
@@ -105,12 +107,20 @@ export default function MedicamentoForm({ aberto, medicamento, onFechar }: Props
         </div>
 
         <div className="med-campo">
-          <label htmlFor="med-horas">Horário</label>
-          <input
-            id="med-horas"
-            type="time"
-            aria-invalid={errors.horas ? true : undefined}
-            {...register("horas")}
+          <label id="med-horas-rotulo" htmlFor="med-horas">
+            Horário
+          </label>
+          <Controller
+            name="horas"
+            control={control}
+            render={({ field }) => (
+              <SeletorHorario
+                id="med-horas"
+                value={field.value}
+                onChange={field.onChange}
+                invalido={!!errors.horas}
+              />
+            )}
           />
           {errors.horas && (
             <p className="med-erro" role="alert">

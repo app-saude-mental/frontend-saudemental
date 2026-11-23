@@ -92,3 +92,47 @@
 @media (prefers-reduced-motion: reduce) {
   .dicas-lista { transition: none; }
 }
+
+/* ---------- Podcast do enfermeiro ---------- */
+.dicas-podcast {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 36px;
+  padding: 20px 22px;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio-cartao);
+  background: var(--verde-suave);
+}
+.dicas-podcast-icone {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--verde);
+  color: #fff;
+}
+.dicas-podcast-texto { flex: 1; min-width: 0; }
+.dicas-podcast-texto h2 {
+  margin: 0;
+  color: var(--marrom);
+  font-family: var(--fonte-titulo);
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+.dicas-podcast-texto p { margin: 4px 0 0; color: var(--suave); }
+.dicas-podcast-botao {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 6px;
+  width: auto;
+  padding: 10px 22px;
+  text-decoration: none;
+}
+@media (max-width: 520px) {
+  .dicas-podcast { flex-wrap: wrap; }
+  .dicas-podcast-botao { justify-content: center; width: 100%; }
+}

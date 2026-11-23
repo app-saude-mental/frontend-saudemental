@@ -1,4 +1,5 @@
 import type { Duvida } from "../types/duvida";
+import AnexosLista from "./AnexosLista";
 
 interface Props {
   duvida: Duvida;
@@ -21,6 +22,7 @@ export default function DuvidaCard({ duvida, onEditar, onExcluir }: Props) {
       </p>
 
       <p className="duv-mensagem">{duvida.mensagem}</p>
+      <AnexosLista anexos={duvida.anexos ?? []} />
 
       <div className="duv-resposta">
         <h3>Resposta do enfermeiro</h3>

@@ -27,6 +27,7 @@ import { nomeDoPlano } from "../utils/plano";
 import SinoNotificacoes from "../components/admin/SinoNotificacoes";
 import CelebracaoPlano from "../components/CelebracaoPlano";
 import DicaInstalar from "../components/DicaInstalar";
+import MiniPlayer from "../components/MiniPlayer";
 import Logo from "../components/Logo";
 import "../styles/app.css";
 
@@ -223,6 +224,8 @@ export default function AppLayout() {
         <DicaInstalar />
         <Outlet />
       </main>
+
+      <MiniPlayer />
 
       {/* plano liberado/renovado pelo enfermeiro: celebra uma vez ao voltar ao app */}
       {!ehAdmin && <CelebracaoPlano />}
