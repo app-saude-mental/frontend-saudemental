@@ -2,7 +2,7 @@ import { useState } from "react";
 
 // Mesma chave lida pelo script do index.html (aplica o tema antes do primeiro desenho)
 const CHAVE = "bemestar-tema";
-const COR_BARRA = { claro: "#f6f4ef", escuro: "#161a19" } as const;
+const COR_BARRA = { claro: "#dfe8e1", escuro: "#141a17" } as const;
 
 export type Tema = "claro" | "escuro";
 

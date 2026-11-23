@@ -1,7 +1,8 @@
-import { HeartHandshake, Lightbulb } from "lucide-react";
+import { ExternalLink, HeartHandshake, Headphones, Lightbulb } from "lucide-react";
 import BloqueioPremium from "../components/BloqueioPremium";
 import { useAuth } from "../contexts/useAuth";
 import { DICAS_GERAIS } from "../data/dicasGerais";
+import { PODCAST } from "../data/podcast";
 import { useDicas } from "../hooks/useDicas";
 import { getErrorMessage } from "../services/apiError";
 import "../styles/dicas.css";
@@ -20,6 +21,22 @@ export default function DicasPage() {
           Pequenos cuidados para o seu dia.
         </p>
       </header>
+
+      {/* ---------- Podcast (todos os planos) ---------- */}
+      <section className="dicas-podcast" aria-labelledby="dicas-podcast-titulo">
+        <span className="dicas-podcast-icone" aria-hidden="true">
+          <Headphones size={26} />
+        </span>
+        <div className="dicas-podcast-texto">
+          <h2 id="dicas-podcast-titulo">{PODCAST.titulo}</h2>
+          <p>{PODCAST.descricao}</p>
+        </div>
+        <a className="btn-principal dicas-podcast-botao" href={PODCAST.url} target="_blank" rel="noopener noreferrer">
+          Ouvir
+          <ExternalLink size={16} aria-hidden="true" />
+          <span className="sr-only"> (abre em outra aba)</span>
+        </a>
+      </section>
 
       {/* ---------- Todos os planos ---------- */}
       <section className="dicas-secao" aria-labelledby="dicas-gerais">
