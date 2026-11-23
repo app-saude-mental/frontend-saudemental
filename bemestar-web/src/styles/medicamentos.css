@@ -166,6 +166,10 @@
 /* ---------- Modais ---------- */
 .med-modal {
   width: min(480px, calc(100% - 32px));
+  /* nunca maior que a tela: o conteúdo rola e os botões continuam alcançáveis */
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 0;
   border: 0;
   border-radius: var(--raio-cartao);
@@ -230,6 +234,35 @@
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--verde) 22%, transparent);
 }
 .med-campo input[aria-invalid="true"] { border-color: var(--erro); }
+
+/* Horário: dois selects lado a lado (Hora : Minuto) */
+.seletor-horario {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.seletor-horario span { color: var(--suave); font-size: 1.3rem; font-weight: 600; }
+.seletor-horario select {
+  flex: 1;
+  min-width: 0;
+  min-height: 52px;
+  padding: 0 12px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  background: var(--campo);
+  color: var(--texto);
+  font: inherit;
+  font-size: 16px; /* evita o zoom automático do iPhone */
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+.seletor-horario select:focus-visible {
+  outline: none;
+  border-color: var(--verde);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--verde) 22%, transparent);
+}
+.seletor-horario select:disabled { opacity: 0.55; cursor: not-allowed; }
+.seletor-horario select[aria-invalid="true"] { border-color: var(--erro); }
 
 .med-erro {
   margin: 0;
@@ -304,7 +337,15 @@
     justify-content: flex-end;
   }
 
-  .med-acoes { flex-direction: column-reverse; }
+  .med-acoes {
+    flex-direction: column-reverse;
+    /* botões fixos no fim do modal enquanto o formulário rola */
+    position: sticky;
+    bottom: 0;
+    margin: 0 -24px -22px;
+    padding: 12px 24px 22px;
+    background: var(--cartao);
+  }
   .med-acoes .btn-contorno,
   .med-acoes .btn-principal,
   .med-perigo { width: 100%; }
