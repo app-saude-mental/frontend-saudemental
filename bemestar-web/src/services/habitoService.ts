@@ -6,6 +6,12 @@ export async function buscarHabitosDoDia(data: string): Promise<HabitosDia> {
   return resposta;
 }
 
+// Histórico do próprio usuário: "dias" dias terminando em "ate" (máx. 31), um item por dia
+export async function buscarHistoricoHabitos(ate: string, dias: number): Promise<HabitosDia[]> {
+  const { data: resposta } = await api.get<HabitosDia[]>("/habitos/historico", { params: { ate, dias } });
+  return resposta;
+}
+
 export async function marcarHabito(
   habito: Habito,
   data: string,

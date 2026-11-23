@@ -92,3 +92,155 @@
 @media (prefers-reduced-motion: reduce) {
   .habito-caixa, .habito-caixa svg, .barra span { transition: none; }
 }
+/* ---------- Abas Hoje / Evolução ---------- */
+.habitos-abas {
+  display: inline-flex;
+  gap: 4px;
+  margin: -8px 0 22px;
+  padding: 4px;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio-medio);
+  background: var(--cartao);
+}
+.habitos-aba {
+  padding: 8px 20px;
+  border: 0;
+  border-radius: var(--raio);
+  background: transparent;
+  color: var(--suave);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+.habitos-aba[aria-selected="true"] { background: var(--verde); color: #fff; }
+.habitos-aba:focus-visible { outline: 3px solid var(--verde); outline-offset: 2px; }
+
+/* ---------- Evolução ---------- */
+.evolucao { display: flex; flex-direction: column; gap: 18px; transition: opacity 0.2s; }
+.evolucao[aria-busy="true"] { opacity: 0.75; }
+
+.evolucao-controles {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.evolucao-periodos { display: flex; gap: 8px; }
+.evolucao-periodo {
+  padding: 7px 14px;
+  border: 1px solid var(--linha-forte);
+  border-radius: var(--raio);
+  background: transparent;
+  color: var(--texto);
+  font: inherit;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+.evolucao-periodo[aria-pressed="true"] { border-color: var(--verde); background: var(--verde-suave); color: var(--verde-escuro); font-weight: 600; }
+.evolucao-navegar { display: flex; align-items: center; gap: 4px; }
+.evolucao-navegar button:disabled { opacity: 0.35; cursor: not-allowed; }
+.evolucao-intervalo { min-width: 112px; color: var(--marrom); font-weight: 500; text-align: center; font-variant-numeric: tabular-nums; }
+
+.evolucao-resumo {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 0;
+}
+.evolucao-resumo div {
+  padding: 14px 12px;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio-cartao);
+  background: var(--cartao);
+  text-align: center;
+}
+.evolucao-resumo dt { color: var(--suave); font-size: 0.82rem; }
+.evolucao-resumo dd {
+  margin: 4px 0 0;
+  color: var(--verde-escuro);
+  font-family: var(--fonte-titulo);
+  font-size: 1.9rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+.evolucao-resumo small { color: var(--suave); font-family: var(--fonte-texto); font-size: 0.8rem; font-weight: 400; }
+
+.evolucao-cartao {
+  padding: 20px;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio-cartao);
+  background: var(--cartao);
+  box-shadow: 0 6px 20px var(--sombra);
+}
+.evolucao-cartao h2 {
+  margin: 0;
+  color: var(--marrom);
+  font-family: var(--fonte-titulo);
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+.evolucao-dica { margin: 2px 0 14px; color: var(--suave); font-size: 0.9rem; }
+
+.evolucao-grade {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.evolucao-dia {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 8px 2px;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  /* intensidade = quanto do dia foi cumprido */
+  background: color-mix(in srgb, var(--verde) var(--pct, 0%), var(--campo));
+  color: var(--texto);
+  font: inherit;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.evolucao-dia:hover { transform: translateY(-1px); }
+.evolucao-dia[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--marrom); }
+.evolucao-dia.hoje { border-color: var(--verde-escuro); border-width: 2px; }
+.evolucao-dia:focus-visible { outline: 3px solid var(--verde); outline-offset: 2px; }
+.evolucao-dia-semana { font-size: 0.72rem; text-transform: uppercase; opacity: 0.8; }
+.evolucao-dia-numero { font-weight: 600; font-variant-numeric: tabular-nums; }
+.evolucao-dia-qtd { font-size: 0.72rem; opacity: 0.8; }
+/* texto legível quando o dia está bem verde */
+.evolucao-dia.forte { color: #fff; }
+.evolucao-grade.mes .evolucao-dia-semana,
+.evolucao-grade.mes .evolucao-dia-qtd { display: none; }
+.evolucao-grade.mes .evolucao-dia { padding: 9px 0; }
+
+.evolucao-detalhe {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--linha);
+}
+.evolucao-detalhe h3 { margin: 0 0 8px; color: var(--marrom); font-size: 1rem; font-weight: 600; }
+.evolucao-detalhe ul { display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.evolucao-detalhe li { display: flex; align-items: center; gap: 10px; color: var(--suave-2); }
+.evolucao-detalhe li.feito { color: var(--texto); }
+.evolucao-detalhe li svg { flex: none; }
+.evolucao-detalhe li.feito svg { color: var(--verde); }
+
+.evolucao-habitos { display: flex; flex-direction: column; gap: 14px; margin: 14px 0 0; padding: 0; list-style: none; }
+.evolucao-habito-topo { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 6px; color: var(--texto); }
+.evolucao-habito-topo strong { color: var(--marrom); font-variant-numeric: tabular-nums; }
+
+@media (max-width: 480px) {
+  .evolucao-controles { flex-direction: column; align-items: stretch; }
+  .evolucao-periodos > * { flex: 1; }
+  .evolucao-navegar { justify-content: space-between; }
+  .evolucao-resumo dd { font-size: 1.6rem; }
+  .evolucao-grade { gap: 4px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .evolucao-dia { transition: none; }
+}

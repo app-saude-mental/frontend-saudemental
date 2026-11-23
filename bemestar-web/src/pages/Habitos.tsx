@@ -1,10 +1,56 @@
+import { useState } from "react";
 import { Check } from "lucide-react";
+import HabitosEvolucao from "../components/HabitosEvolucao";
 import { useHabitosDoDia, useMarcarHabito } from "../hooks/useHabitos";
 import { getErrorMessage } from "../services/apiError";
 import { hojeISO } from "../utils/data";
 import "../styles/habitos.css";
 
+type Aba = "hoje" | "evolucao";
+
 export default function HabitosPage() {
+  const [aba, setAba] = useState<Aba>("hoje");
+
+  return (
+    <section className="habitos">
+      <header className="habitos-topo">
+        <h1>Hábitos</h1>
+        <p>Pequenos cuidados que fazem diferença.</p>
+      </header>
+
+      <div className="habitos-abas" role="tablist" aria-label="Hábitos">
+        <button
+          type="button"
+          role="tab"
+          id="aba-hoje"
+          aria-selected={aba === "hoje"}
+          aria-controls="painel-habitos"
+          className="habitos-aba"
+          onClick={() => setAba("hoje")}
+        >
+          Hoje
+        </button>
+        <button
+          type="button"
+          role="tab"
+          id="aba-evolucao"
+          aria-selected={aba === "evolucao"}
+          aria-controls="painel-habitos"
+          className="habitos-aba"
+          onClick={() => setAba("evolucao")}
+        >
+          Evolução
+        </button>
+      </div>
+
+      <div id="painel-habitos" role="tabpanel" aria-labelledby={aba === "hoje" ? "aba-hoje" : "aba-evolucao"}>
+        {aba === "hoje" ? <HabitosHoje /> : <HabitosEvolucao />}
+      </div>
+    </section>
+  );
+}
+
+function HabitosHoje() {
   const hoje = hojeISO();
   const { data, isPending, isError, error, refetch } = useHabitosDoDia(hoje);
   const marcar = useMarcarHabito(hoje);
@@ -12,12 +58,7 @@ export default function HabitosPage() {
   const percentual = data && data.total > 0 ? (data.concluidos / data.total) * 100 : 0;
 
   return (
-    <section className="habitos">
-      <header className="habitos-topo">
-        <h1>Hábitos de hoje</h1>
-        <p>Pequenos cuidados que fazem diferença.</p>
-      </header>
-
+    <>
       {isPending && <p className="habitos-aviso">Carregando seus hábitos...</p>}
 
       {isError && (
@@ -77,6 +118,6 @@ export default function HabitosPage() {
           </div>
         </>
       )}
-    </section>
+    </>
   );
 }

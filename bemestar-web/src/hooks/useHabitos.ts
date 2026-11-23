@@ -1,11 +1,19 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { buscarHabitosDoDia, marcarHabito } from "../services/habitoService";
+import { buscarHabitosDoDia, buscarHistoricoHabitos, marcarHabito } from "../services/habitoService";
 import type { Habito, HabitosDia } from "../types/habito";
 
 export function useHabitosDoDia(data: string) {
   return useQuery({
     queryKey: ["habitos", data],
     queryFn: () => buscarHabitosDoDia(data),
+  });
+}
+
+export function useHistoricoHabitos(ate: string, dias: number) {
+  return useQuery({
+    queryKey: ["habitos", "historico", ate, dias],
+    queryFn: () => buscarHistoricoHabitos(ate, dias),
+    placeholderData: (anterior) => anterior, // troca de período sem "piscar" a tela
   });
 }
 
@@ -42,6 +50,9 @@ export function useMarcarHabito(data: string) {
     },
 
     // no fim, confere com o que o back realmente tem
-    onSettled: () => queryClient.invalidateQueries({ queryKey: chave }),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: chave });
+      queryClient.invalidateQueries({ queryKey: ["habitos", "historico"] }); // aba Evolução
+    },
   });
 }
