@@ -119,6 +119,8 @@ export interface Coletor {
   filtro(tipo: BiquadFilterType, freq: number, q?: number): BiquadFilterNode;
   ganho(valor: number): GainNode;
   pan(valor: number): AudioNode;
+  // nó criado à mão (ex.: DelayNode) que deve ser desconectado em parar()
+  registrar<T extends AudioNode>(no: T): T;
   rajada(t: number, opcoes: OpcoesRajada): void;
   processo(atrasoInicial: number, evento: (t: number) => number): void;
   parar(): void;
@@ -201,6 +203,8 @@ export function criarColetor(ctx: AudioContext): Coletor {
     pan(valor) {
       return registrar(criarPan(ctx, valor));
     },
+
+    registrar,
 
     // Evento curto de ruído filtrado (gota, estalo...). Não é registrado:
     // desconecta a si mesmo ao terminar, para não acumular nós.

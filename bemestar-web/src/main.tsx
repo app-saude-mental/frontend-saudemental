@@ -18,6 +18,7 @@ import AvisoAtualizacao from "./components/AvisoAtualizacao";
 
 import App from "./App";
 import { AuthProvider } from "./contexts/AuthProvider";
+import { SomProvider } from "./contexts/SomProvider";
 
 registrarServiceWorker();
 
@@ -31,10 +32,13 @@ createRoot(document.getElementById("root")!).render(
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <AuthProvider>
-            <TransicaoProvider>
-              <App />
-              <AvisoAtualizacao />
-            </TransicaoProvider>
+            {/* som do Momento de paz: acima das rotas, continua tocando ao navegar */}
+            <SomProvider>
+              <TransicaoProvider>
+                <App />
+                <AvisoAtualizacao />
+              </TransicaoProvider>
+            </SomProvider>
           </AuthProvider>
         </BrowserRouter>
       </QueryClientProvider>

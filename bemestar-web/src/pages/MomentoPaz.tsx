@@ -1,21 +1,18 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Lock, Volume2 } from "lucide-react";
-import { useAuth } from "../contexts/useAuth";
+import { Headphones, Lock, Square, Volume2 } from "lucide-react";
+import { useSom } from "../contexts/useSom";
 import {
-  DURACAO_PADRAO_MINUTOS,
+  CATEGORIAS,
+  categoriaDoSom,
   DURACOES_MINUTOS,
-  SOM_INICIAL,
-  SONS_GRATUITOS,
-  SONS_NATUREZA,
-  VOLUME_PADRAO,
+  infoDoSom,
+  type CategoriaId,
   type SomId,
 } from "../data/sonsNatureza";
-import { MENSAGEM_SEM_SUPORTE, usePaisagemSonora } from "../hooks/usePaisagemSonora";
-import { useTemporizador } from "../hooks/useTemporizador";
+import { MENSAGEM_SEM_SUPORTE } from "../hooks/usePaisagemSonora";
 import "../styles/momento-paz.css";
 
-type Estado = "parado" | "tocando" | "pausado" | "concluido";
 type Respiracao = "inspire" | "expire";
 
 const MS_POR_MINUTO = 60_000;
@@ -29,37 +26,17 @@ function formatarTempo(ms: number) {
   return `${String(minutos).padStart(2, "0")}:${String(segundos).padStart(2, "0")}`;
 }
 
+// O som em si vive no SomProvider (main.tsx): ao sair desta tela ele continua
+// tocando e o MiniPlayer do topo do app assume os controles.
 export default function MomentoPazPage() {
   const navigate = useNavigate();
-  const { pode } = useAuth();
-  // Gratuito: só Chuva e Mar. Limite de interface (os sons são gerados no navegador).
-  const todosLiberados = pode("SONS_COMPLETOS");
-  const somLiberado = (id: SomId) => todosLiberados || SONS_GRATUITOS.includes(id);
-
-  const [somEscolhido, setSomId] = useState<SomId>(SOM_INICIAL);
-  // se o plano mudou e o som escolhido ficou bloqueado, volta ao som inicial
-  const somId = somLiberado(somEscolhido) ? somEscolhido : SOM_INICIAL;
-  const [duracaoMin, setDuracaoMin] = useState(DURACAO_PADRAO_MINUTOS);
-  const [volume, setVolume] = useState(VOLUME_PADRAO);
-  const [estado, setEstado] = useState<Estado>("parado");
-  const [respiracao, setRespiracao] = useState<Respiracao>("inspire");
-  const [ciclo, setCiclo] = useState(0); // muda a cada início/retomada: reinicia a animação em fase
-  const [iniciando, setIniciando] = useState(false);
-  const [anuncio, setAnuncio] = useState("");
-
-  const audio = usePaisagemSonora(VOLUME_PADRAO);
-  const { encerrar } = audio;
-
-  const aoTerminar = useCallback(() => {
-    encerrar();
-    setEstado("concluido");
-    setAnuncio(MENSAGEM_FIM);
-  }, [encerrar]);
-
-  const timer = useTemporizador(DURACAO_PADRAO_MINUTOS * MS_POR_MINUTO, aoTerminar);
-
+  const som = useSom();
+  const { estado, somId, duracaoMin, ciclo } = som;
   const tocando = estado === "tocando";
-  const somAtual = SONS_NATUREZA.find((s) => s.id === somId) ?? SONS_NATUREZA[0];
+
+  const [categoria, setCategoria] = useState<CategoriaId>(() => categoriaDoSom(somId));
+  const [respiracao, setRespiracao] = useState<Respiracao>("inspire");
+  const [anuncio, setAnuncio] = useState("");
 
   // alterna "Inspire…" / "Expire…" a cada 4 s enquanto toca
   useEffect(() => {
@@ -71,83 +48,60 @@ export default function MomentoPazPage() {
     return () => window.clearInterval(id);
   }, [tocando, ciclo]);
 
+  const somAtual = infoDoSom(somId);
+  const categoriaAtual = CATEGORIAS.find((c) => c.id === categoria) ?? CATEGORIAS[0];
+
   async function aoTocarEsfera() {
-    if (iniciando) return;
-
-    if (tocando) {
-      audio.pausar();
-      timer.pausar();
-      setEstado("pausado");
-      setAnuncio("Meditação pausada.");
-      return;
-    }
-
-    const retomando = estado === "pausado";
-    if (!retomando) timer.redefinir(duracaoMin * MS_POR_MINUTO);
-
-    setIniciando(true);
-    const ok = await audio.tocar(somId);
-    setIniciando(false);
-    if (!ok) return;
-
-    timer.iniciar();
-    setRespiracao("inspire");
-    setCiclo((c) => c + 1);
-    setEstado("tocando");
-    setAnuncio(retomando ? "Meditação retomada." : "Meditação iniciada.");
+    const antes = estado;
+    if (antes !== "tocando") setRespiracao("inspire");
+    await som.alternar();
+    setAnuncio(antes === "tocando" ? "Som pausado." : antes === "pausado" ? "Som retomado." : "Som iniciado.");
   }
 
   function escolherSom(id: SomId) {
-    if (!somLiberado(id)) {
+    if (!som.somLiberado(id)) {
       navigate("/planos");
       return;
     }
-    if (id === somId) return;
-    setSomId(id);
-    if (tocando) audio.trocar(id);
-    const nome = SONS_NATUREZA.find((s) => s.id === id)?.nome ?? "";
-    setAnuncio(`Som escolhido: ${nome}.`);
+    som.escolherSom(id);
+    setAnuncio(`Som escolhido: ${infoDoSom(id).nome}.`);
   }
 
-  function escolherDuracao(minutos: number) {
-    if (tocando) return;
-    setDuracaoMin(minutos);
-    timer.redefinir(minutos * MS_POR_MINUTO);
-    setEstado("parado");
-    setAnuncio(`Duração: ${minutos} minutos.`);
+  function escolherDuracao(minutos: number | null) {
+    som.escolherDuracao(minutos);
+    setAnuncio(minutos === null ? "Duração: sem limite." : `Duração: ${minutos} minutos.`);
   }
 
-  function mudarVolume(valor: number) {
-    setVolume(valor);
-    audio.definirVolume(valor);
+  function pararTudo() {
+    som.parar();
+    setAnuncio("Som encerrado.");
   }
 
-  const rotuloEsfera = tocando
-    ? "Pausar meditação"
-    : estado === "pausado"
-      ? "Continuar meditação"
-      : "Começar meditação";
+  const rotuloEsfera = tocando ? "Pausar" : estado === "pausado" ? "Continuar" : "Começar";
 
-  const minutosRestantes = Math.ceil(timer.restanteMs / MS_POR_MINUTO);
-  const anuncioMinutos = tocando
-    ? `${minutosRestantes} ${minutosRestantes === 1 ? "minuto restante" : "minutos restantes"}.`
-    : "";
+  const minutosRestantes = Math.ceil(som.restanteMs / MS_POR_MINUTO);
+  const anuncioMinutos =
+    tocando && duracaoMin !== null
+      ? `${minutosRestantes} ${minutosRestantes === 1 ? "minuto restante" : "minutos restantes"}.`
+      : "";
 
   return (
     <section className="paz">
       <header className="paz-topo">
         <h1>Momento de paz</h1>
-        <p className="paz-sub">Coloque o fone de ouvido e feche os olhos.</p>
+        <p className="paz-sub">
+          Escolha um som, coloque o fone e respire. Ele continua tocando enquanto você usa o app.
+        </p>
       </header>
 
-      {!audio.suportado && (
+      {!som.suportado && (
         <p className="erro-api" role="alert">
           {MENSAGEM_SEM_SUPORTE}
         </p>
       )}
-      {audio.erro && audio.suportado && (
+      {som.erro && som.suportado && (
         <p className="erro-api" role="alert">
-          {audio.erro}
+          {som.erro}
         </p>
       )}
 
@@ -156,26 +110,18 @@ export default function MomentoPazPage() {
           type="button"
           className="paz-esfera"
           onClick={aoTocarEsfera}
-          disabled={!audio.suportado}
-          aria-label={rotuloEsfera}
+          disabled={!som.suportado || som.iniciando}
+          aria-label={`${rotuloEsfera}: ${somAtual.nome}`}
         >
-          <span
-            key={ciclo}
-            className={`paz-esfera-forma ${tocando ? "respirando" : ""}`}
-            aria-hidden="true"
-          />
+          <span key={ciclo} className={`paz-esfera-forma ${tocando ? "respirando" : ""}`} aria-hidden="true" />
           <span className="paz-esfera-conteudo" aria-hidden="true">
             {tocando ? (
               <>
-                <span className="paz-esfera-texto">
-                  {respiracao === "inspire" ? "Inspire…" : "Expire…"}
-                </span>
+                <span className="paz-esfera-texto">{respiracao === "inspire" ? "Inspire…" : "Expire…"}</span>
                 <span className="paz-esfera-dica">toque para pausar</span>
               </>
             ) : (
-              <span className="paz-esfera-texto">
-                {estado === "pausado" ? "Continuar" : "Começar"}
-              </span>
+              <span className="paz-esfera-texto">{rotuloEsfera}</span>
             )}
           </span>
         </button>
@@ -183,40 +129,75 @@ export default function MomentoPazPage() {
         <div className="paz-info">
           <p className="paz-som-nome">{somAtual.nome}</p>
           <p className="paz-tempo" role="timer">
-            {formatarTempo(timer.restanteMs)} de meditação
+            {duracaoMin === null ? "Sem limite de tempo" : `${formatarTempo(som.restanteMs)} restantes`}
           </p>
+          {somAtual.fone && (
+            <p className="paz-fone">
+              <Headphones size={15} aria-hidden="true" /> Funciona só com fone de ouvido
+            </p>
+          )}
         </div>
 
-        {estado === "concluido" && <p className="paz-mensagem">{MENSAGEM_FIM}</p>}
+        {(tocando || estado === "pausado") && (
+          <button type="button" className="paz-parar" onClick={pararTudo}>
+            <Square size={14} aria-hidden="true" /> Parar
+          </button>
+        )}
 
-        <div className="paz-chips" role="group" aria-label="Natureza anti-estresse">
-          {SONS_NATUREZA.map((som) =>
-            somLiberado(som.id) ? (
-              <button
-                key={som.id}
-                type="button"
-                className="paz-chip"
-                aria-pressed={som.id === somId}
-                title={som.nome}
-                onClick={() => escolherSom(som.id)}
-              >
-                {som.rotulo}
-              </button>
-            ) : (
-              // bloqueado no Gratuito: leva à tela de planos
-              <button
-                key={som.id}
-                type="button"
-                className="paz-chip bloqueado"
-                aria-label={`${som.nome} (disponível no Premium)`}
-                title="Disponível no Premium"
-                onClick={() => escolherSom(som.id)}
-              >
-                <Lock size={13} aria-hidden="true" />
-                {som.rotulo}
-              </button>
-            ),
-          )}
+        {estado === "concluido" && <p className="paz-mensagem">{MENSAGEM_FIM}</p>}
+      </div>
+
+      {/* ---------- Categorias ---------- */}
+      <div className="paz-cartao paz-sons">
+        <div className="paz-categorias" role="tablist" aria-label="Tipos de som">
+          {CATEGORIAS.map((c) => (
+            <button
+              key={c.id}
+              type="button"
+              role="tab"
+              id={`paz-aba-${c.id}`}
+              aria-selected={c.id === categoria}
+              aria-controls="paz-painel-sons"
+              className="paz-categoria"
+              onClick={() => setCategoria(c.id)}
+            >
+              {c.rotulo}
+            </button>
+          ))}
+        </div>
+
+        <div id="paz-painel-sons" role="tabpanel" aria-labelledby={`paz-aba-${categoria}`}>
+          <p className="paz-categoria-descricao">{categoriaAtual.descricao}</p>
+          <div className="paz-chips" role="group" aria-label={categoriaAtual.rotulo}>
+            {categoriaAtual.sons.map((s) =>
+              som.somLiberado(s.id) ? (
+                <button
+                  key={s.id}
+                  type="button"
+                  className="paz-chip"
+                  aria-pressed={s.id === somId}
+                  title={s.nome}
+                  onClick={() => escolherSom(s.id)}
+                >
+                  {s.rotulo}
+                  {s.fone && <Headphones size={13} aria-label="(com fone)" />}
+                </button>
+              ) : (
+                // bloqueado no Gratuito: leva à tela de planos
+                <button
+                  key={s.id}
+                  type="button"
+                  className="paz-chip bloqueado"
+                  aria-label={`${s.nome} (disponível no Premium)`}
+                  title="Disponível no Premium"
+                  onClick={() => escolherSom(s.id)}
+                >
+                  <Lock size={13} aria-hidden="true" />
+                  {s.rotulo}
+                </button>
+              ),
+            )}
+          </div>
         </div>
       </div>
 
@@ -228,17 +209,18 @@ export default function MomentoPazPage() {
           <div className="paz-chips" role="group" aria-labelledby="paz-duracao-rotulo">
             {DURACOES_MINUTOS.map((minutos) => (
               <button
-                key={minutos}
+                key={minutos ?? "livre"}
                 type="button"
                 className="paz-chip"
                 aria-pressed={minutos === duracaoMin}
                 disabled={tocando}
                 onClick={() => escolherDuracao(minutos)}
               >
-                {minutos} min
+                {minutos === null ? "Sem limite" : `${minutos} min`}
               </button>
             ))}
           </div>
+          {tocando && <p className="paz-ajuda">Pause para mudar a duração.</p>}
         </div>
 
         <div className="paz-volume">
@@ -252,12 +234,12 @@ export default function MomentoPazPage() {
             min={0}
             max={100}
             step={5}
-            value={volume}
-            aria-valuetext={`${volume}%`}
-            onChange={(e) => mudarVolume(Number(e.target.value))}
+            value={som.volume}
+            aria-valuetext={`${som.volume}%`}
+            onChange={(e) => som.mudarVolume(Number(e.target.value))}
           />
           <span className="paz-volume-valor" aria-hidden="true">
-            {volume}%
+            {som.volume}%
           </span>
         </div>
       </div>

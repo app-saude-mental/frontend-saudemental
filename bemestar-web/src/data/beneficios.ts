@@ -11,7 +11,7 @@ export interface Beneficio {
 }
 
 export const BENEFICIOS: Beneficio[] = [
-  { texto: "Sons da natureza", gratuito: "2 sons", assinante: "7 sons", paciente: "7 sons" },
+  { texto: "Sons para meditar, dormir e focar", gratuito: "6 sons", assinante: "22 sons", paciente: "22 sons" },
   { texto: "Diário (emoções e humor)", gratuito: true, assinante: true, paciente: true },
   { texto: "Hábitos (checklist diário)", gratuito: true, assinante: true, paciente: true },
   { texto: "Dicas gerais de saúde mental", gratuito: true, assinante: true, paciente: true },

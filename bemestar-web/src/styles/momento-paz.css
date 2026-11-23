@@ -175,3 +175,128 @@
   .paz-esfera-forma.respirando { animation: none; transition: none; }
   .paz-chip { transition: none; }
 }
+
+/* ---------- Categorias de som ---------- */
+.paz-sons { padding: 20px 20px 24px; }
+.paz-categorias {
+  display: flex;
+  gap: 4px;
+  margin: 0 -4px 14px;
+  padding: 0 4px 4px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  border-bottom: 1px solid var(--linha);
+}
+.paz-categoria {
+  flex: none;
+  padding: 9px 14px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--suave);
+  font: inherit;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.paz-categoria:hover { color: var(--marrom); }
+.paz-categoria[aria-selected="true"] { border-bottom-color: var(--verde); color: var(--verde-escuro); font-weight: 600; }
+.paz-categoria:focus-visible { outline: 3px solid var(--verde); outline-offset: -3px; border-radius: var(--raio); }
+.paz-categoria-descricao { margin: 0 0 14px; color: var(--suave); font-size: 0.92rem; text-align: center; }
+.paz-sons .paz-chip { display: inline-flex; align-items: center; gap: 6px; }
+
+.paz-fone {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 8px 0 0;
+  color: var(--verde-escuro);
+  font-size: 0.85rem;
+}
+.paz-parar {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  border: 1px solid var(--linha-forte);
+  border-radius: var(--raio);
+  background: transparent;
+  color: var(--suave);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.paz-parar:hover { border-color: var(--erro); color: var(--erro); }
+.paz-parar:focus-visible { outline: 3px solid var(--verde); outline-offset: 2px; }
+.paz-ajuda { margin: 10px 0 0; color: var(--suave); font-size: 0.82rem; text-align: center; }
+
+/* ---------- Mini-player (som tocando em outras telas) ---------- */
+.mini-player {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  left: 16px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 10px 10px 10px 16px;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio-cartao);
+  background: var(--cartao);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+  animation: mini-player-entra 0.3s var(--ease);
+}
+/* espaço no fim da página para a barra não cobrir o conteúdo */
+body:has(.mini-player) .app-conteudo { padding-bottom: 104px; }
+
+.mini-player-onda { display: flex; flex: none; align-items: flex-end; gap: 3px; height: 18px; }
+.mini-player-onda span { width: 3px; height: 6px; border-radius: 2px; background: var(--verde); }
+.mini-player-onda.ativa span { animation: mini-player-onda 1.2s ease-in-out infinite; }
+.mini-player-onda.ativa span:nth-child(2) { animation-delay: 0.2s; }
+.mini-player-onda.ativa span:nth-child(3) { animation-delay: 0.4s; }
+
+.mini-player-info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  color: var(--marrom);
+  text-decoration: none;
+}
+.mini-player-nome { overflow: hidden; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+.mini-player-tempo { color: var(--suave); font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+.mini-player-info:focus-visible { outline: 3px solid var(--verde); outline-offset: 2px; border-radius: var(--raio); }
+
+.mini-player-botao {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--suave);
+  cursor: pointer;
+}
+.mini-player-botao:hover { background: var(--hover); color: var(--marrom); }
+.mini-player-botao.principal { background: var(--verde); color: #fff; }
+.mini-player-botao.principal:hover { background: var(--verde-escuro); color: #fff; }
+.mini-player-botao:disabled { opacity: 0.6; }
+.mini-player-botao:focus-visible { outline: 3px solid var(--verde); outline-offset: 2px; }
+
+@keyframes mini-player-entra {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes mini-player-onda {
+  0%, 100% { height: 5px; }
+  50% { height: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mini-player { animation: none; }
+  .mini-player-onda.ativa span { animation: none; height: 12px; }
+}
