@@ -4,6 +4,7 @@
 
 import type { SomId } from "../data/sonsNatureza";
 import { aleatorio, criarColetor, type Coletor } from "./ruido";
+import { borbulhar, chuva, gota, sala, toque } from "./agua";
 import { FABRICAS_MUSICAIS } from "./sonsMusicais";
 import type { FabricaSom } from "./tipos";
 
@@ -59,34 +60,9 @@ function nota(
 }
 
 // ---------- 1. Chuva ----------
+// A receita fica em agua.ts: fundo baixo + chuvisco + gotas com o "plic" tonal.
 function camadasChuva(c: Coletor, nivel: number) {
-  // corpo da chuva
-  const corpo = c.ruido("rosa");
-  const gCorpo = c.ganho(0.32 * nivel);
-  corpo
-    .connect(c.filtro("highpass", 400, 0.5))
-    .connect(c.filtro("lowpass", 7000, 0.5))
-    .connect(gCorpo)
-    .connect(c.saida);
-
-  // chiado que oscila devagar
-  const chiado = c.ruido("branco");
-  const gChiado = c.ganho(0.08 * nivel);
-  c.lfo(0.07, 0.012 * nivel, gChiado.gain);
-  chiado.connect(c.filtro("bandpass", 3500, 0.8)).connect(gChiado).connect(c.saida);
-
-  // gotas isoladas
-  c.processo(0.1, (t) => {
-    c.rajada(t, {
-      duracao: aleatorio(0.005, 0.015),
-      ganho: aleatorio(0.02, 0.07) * nivel,
-      filtro: "bandpass",
-      freq: aleatorio(2000, 6000),
-      q: 2,
-      pan: aleatorio(-0.8, 0.8),
-    });
-    return aleatorio(0.02, 0.09);
-  });
+  chuva(c, { nivel, densidade: 1, brilho: 1, fundo: 1 });
 }
 
 // ---------- 2. Chuva com trovão ----------
@@ -186,38 +162,36 @@ export const FABRICAS: Record<SomId, FabricaSom> = {
   chuva: fabrica((c) => camadasChuva(c, 1)),
 
   // chuva escura e lenta para dormir: sem chiado agudo, poucas gotas e graves
+  // (pingos espaçados, mais graves e macios; fundo abafado, nada agudo para não despertar)
   chuvaLenta: fabrica((c) => {
-    const corpo = c.ganho(0.34);
-    c.lfo(0.04, 0.05, corpo.gain);
-    c.ruido("rosa").connect(c.filtro("lowpass", 1800, 0.5)).connect(corpo).connect(c.saida);
-    c.ruido("marrom").connect(c.filtro("lowpass", 300)).connect(c.ganho(0.12)).connect(c.saida);
-    c.processo(0.4, (t) => {
-      c.rajada(t, {
-        tipo: "rosa",
-        duracao: aleatorio(0.02, 0.05),
-        ganho: aleatorio(0.01, 0.03),
-        filtro: "bandpass",
-        freq: aleatorio(700, 1600),
-        q: 1.5,
-        pan: aleatorio(-0.7, 0.7),
-      });
-      return aleatorio(0.12, 0.4);
-    });
+    chuva(c, { nivel: 0.75, densidade: 0.45, brilho: 0.6, fundo: 0.9 });
+    c.ruido("marrom").connect(c.filtro("lowpass", 260)).connect(c.ganho(0.08)).connect(c.saida);
   }),
 
   // chuva batendo no telhado: corpo médio + "tocs" graves e frequentes
+  // (o "toc toc" das gotas na telha, com a chuva de fora mais abafada e uma calha pingando)
   telhado: fabrica((c) => {
-    camadasChuva(c, 0.55);
-    c.processo(0.1, (t) => {
-      c.rajada(t, {
-        duracao: aleatorio(0.01, 0.03),
-        ganho: aleatorio(0.03, 0.09),
-        filtro: "bandpass",
-        freq: aleatorio(600, 1500),
-        q: 3,
-        pan: aleatorio(-0.9, 0.9),
+    const telha = sala(c, 0.7, 0.18);
+    // chuva lá fora, ouvida de dentro: abafada
+    const fora = c.ganho(0.12);
+    c.lfo(0.05, 0.03, fora.gain);
+    c.ruido("rosa").connect(c.filtro("lowpass", 1400, 0.5)).connect(fora).connect(c.saida);
+    // gotas na telha: toques secos e frequentes
+    c.processo(0.05, (t) => {
+      toque(c, telha, t, { ganho: aleatorio(0.03, 0.1), pan: aleatorio(-0.9, 0.9), grave: aleatorio(180, 380) });
+      return aleatorio(0.03, 0.11);
+    });
+    // calha: gotas maiores e ritmadas caindo numa poça
+    c.processo(0.6, (t) => {
+      gota(c, telha, t, {
+        freq: aleatorio(650, 900),
+        subida: aleatorio(1.7, 2.1),
+        duracao: aleatorio(0.09, 0.13),
+        ganho: aleatorio(0.08, 0.12),
+        pan: 0.55,
+        estalo: 0.4,
       });
-      return aleatorio(0.03, 0.12);
+      return aleatorio(0.5, 1.1);
     });
   }),
 
@@ -240,12 +214,25 @@ export const FABRICAS: Record<SomId, FabricaSom> = {
   }),
 
   // cachoeira: massa de água constante e cheia, com brilho leve
+  // (massa de água caindo + respingos e bolhas na base, para não soar só como ruído)
   cachoeira: fabrica((c) => {
-    c.ruido("marrom").connect(c.filtro("lowpass", 1200)).connect(c.ganho(0.45)).connect(c.saida);
-    c.ruido("rosa").connect(c.filtro("lowpass", 4500)).connect(c.ganho(0.22)).connect(c.saida);
-    const brilho = c.ganho(0.05);
-    c.lfo(0.3, 0.015, brilho.gain);
-    c.ruido("branco").connect(c.filtro("bandpass", 3000, 0.6)).connect(brilho).connect(c.saida);
+    c.ruido("marrom").connect(c.filtro("lowpass", 1000)).connect(c.ganho(0.38)).connect(c.saida);
+    const queda = c.ganho(0.16);
+    c.lfo(0.21, 0.04, queda.gain);
+    c.ruido("rosa").connect(c.filtro("lowpass", 3800)).connect(queda).connect(c.saida);
+    borbulhar(c, { nivel: 0.8, densidade: 1.4, grave: 0.8 });
+    // respingos: chuvisco de pingos finos
+    c.processo(0.1, (t) => {
+      c.rajada(t, {
+        duracao: aleatorio(0.003, 0.007),
+        ganho: aleatorio(0.01, 0.03),
+        filtro: "bandpass",
+        freq: aleatorio(2500, 6000),
+        q: 1.4,
+        pan: aleatorio(-0.9, 0.9),
+      });
+      return aleatorio(0.01, 0.03);
+    });
   }),
 
   trovoada: fabrica((c) => {
@@ -268,22 +255,13 @@ export const FABRICAS: Record<SomId, FabricaSom> = {
     });
   }),
 
+  // (correnteza baixa + o borbulhar de verdade: centenas de bolhinhas, como num riacho)
   rio: fabrica((c) => {
-    // massa de água
-    c.ruido("marrom").connect(c.filtro("lowpass", 900)).connect(c.ganho(0.4)).connect(c.saida);
-
-    // borbulhar: duas camadas com LFOs de taxas diferentes, uma de cada lado
-    const camadas: [number, number, number][] = [
-      [-0.4, 0.13, 0.21],
-      [0.4, 0.17, 0.27],
-    ];
-    for (const [lado, taxaFreq, taxaGanho] of camadas) {
-      const bp = c.filtro("bandpass", aleatorio(1200, 2000), 0.7);
-      c.lfo(taxaFreq, 300, bp.frequency);
-      const g = c.ganho(0.06);
-      c.lfo(taxaGanho, 0.025, g.gain);
-      c.ruido("branco").connect(bp).connect(g).connect(c.pan(lado)).connect(c.saida);
-    }
+    c.ruido("marrom").connect(c.filtro("lowpass", 700)).connect(c.ganho(0.26)).connect(c.saida);
+    const corrente = c.ganho(0.05);
+    c.lfo(0.13, 0.02, corrente.gain);
+    c.ruido("rosa").connect(c.filtro("bandpass", 1400, 0.6)).connect(corrente).connect(c.saida);
+    borbulhar(c, { nivel: 1, densidade: 1, grave: 1 });
   }),
 
   lareira: fabrica((c) => {
