@@ -1,0 +1,220 @@
+/* ---------- Início do paciente (/inicio) ---------- */
+.inicio { max-width: 1000px; margin: 0 auto; }
+
+/* check-in de humor */
+.inicio-checkin {
+  margin-bottom: 18px;
+  padding: 22px 24px;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio-grande);
+  background: var(--cartao);
+  box-shadow: var(--sombra-1);
+}
+.inicio-checkin h2 { margin: 0; color: var(--marrom); font-size: 1.6rem; font-weight: 500; }
+.inicio-checkin > p { margin: 4px 0 16px; color: var(--suave); font-size: 0.92rem; }
+.inicio-humores { display: flex; flex-wrap: wrap; gap: 8px; }
+.inicio-humor {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px 9px 12px;
+  border: 1.5px solid color-mix(in srgb, var(--cor-humor) 45%, var(--linha));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--cor-humor) 12%, var(--cartao));
+  color: var(--marrom);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.2s var(--ease), background 0.2s, box-shadow 0.2s;
+}
+.inicio-humor:hover {
+  transform: translateY(-2px);
+  background: color-mix(in srgb, var(--cor-humor) 24%, var(--cartao));
+  box-shadow: 0 8px 18px -10px var(--cor-humor);
+}
+.inicio-humor:focus-visible { outline: 3px solid var(--verde); outline-offset: 2px; }
+.inicio-humor-bolinha {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--cor-humor);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cor-humor) 25%, transparent);
+}
+
+/* frase do dia */
+.inicio-frase {
+  position: relative;
+  margin: 0 0 22px;
+  padding: 22px 26px 18px 58px;
+  border-radius: var(--raio-grande);
+  background:
+    radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--verde) 22%, transparent), transparent 55%),
+    var(--verde-suave);
+}
+.inicio-frase svg { position: absolute; top: 22px; left: 22px; color: var(--verde); opacity: 0.7; }
+.inicio-frase blockquote {
+  margin: 0;
+  color: var(--marrom);
+  font-family: var(--fonte-titulo);
+  font-size: 1.45rem;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.35;
+}
+.inicio-frase figcaption {
+  margin-top: 8px;
+  color: var(--verde-escuro);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* grade de cartões */
+.inicio-grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  margin-bottom: 22px;
+}
+.inicio-cartao {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  min-height: 200px;
+  padding: 20px;
+  overflow: hidden;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio-grande);
+  background: var(--cartao);
+  box-shadow: var(--sombra-1);
+  color: var(--texto);
+  text-decoration: none;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s, border-color 0.25s;
+}
+a.inicio-cartao:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--verde) 40%, var(--linha));
+  box-shadow: var(--sombra-2);
+}
+a.inicio-cartao:focus-visible { outline: 3px solid var(--verde); outline-offset: 3px; }
+.inicio-cartao-topo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--verde-escuro);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.inicio-cartao-texto { color: var(--suave); font-size: 0.92rem; line-height: 1.5; }
+.inicio-cartao-acao {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+  color: var(--verde-escuro);
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.inicio-cartao-acao svg { transition: transform 0.2s var(--ease); }
+.inicio-cartao:hover .inicio-cartao-acao svg,
+.inicio-cartao-acao:hover svg { transform: translateX(3px); }
+
+/* anel de progresso dos hábitos (conic-gradient) */
+.inicio-anel {
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: conic-gradient(var(--verde) calc(var(--pct, 0) * 360deg), var(--trilho) 0);
+  transition: --pct 0.6s;
+}
+.inicio-anel span {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--cartao);
+  color: var(--marrom);
+  font-family: var(--fonte-titulo);
+  font-size: 1.35rem;
+  font-weight: 600;
+  font-variant-numeric: lining-nums;
+}
+
+/* respirar: bolha que pulsa devagar */
+.inicio-cartao-respirar { background: linear-gradient(160deg, color-mix(in srgb, var(--verde) 9%, var(--cartao)), var(--cartao)); }
+.inicio-bolha {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--verde) 50%, #fff), var(--verde));
+  box-shadow: 0 0 0 10px color-mix(in srgb, var(--verde) 12%, transparent);
+  animation: inicio-respira 8s ease-in-out infinite;
+}
+@keyframes inicio-respira {
+  0%, 100% { transform: scale(0.8); }
+  50% { transform: scale(1); }
+}
+
+.inicio-cartao-som { background: linear-gradient(160deg, color-mix(in srgb, var(--verde) 10%, var(--cartao)), var(--cartao)); }
+.inicio-som-nome { color: var(--marrom); font-family: var(--fonte-titulo); font-size: 1.3rem; }
+.inicio-som-botao { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; padding: 8px 18px; }
+
+.inicio-med-hora { color: var(--marrom); font-family: var(--fonte-titulo); font-size: 2.2rem; font-weight: 600; font-variant-numeric: lining-nums; line-height: 1; }
+.inicio-med-hora small { color: var(--suave); font-family: var(--fonte-texto); font-size: 0.85rem; font-weight: 500; }
+
+.inicio-humor-selo {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--cor-humor) 22%, var(--cartao));
+  color: var(--marrom);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.inicio-dica-titulo { color: var(--marrom); font-size: 1rem; }
+.inicio-dica-texto {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+
+.inicio-cartao-premium {
+  border-style: dashed;
+  background: linear-gradient(150deg, var(--cartao), color-mix(in srgb, var(--verde) 8%, var(--cartao)));
+}
+
+@media (max-width: 600px) {
+  .inicio-checkin { padding: 18px 16px; }
+  .inicio-humor { padding: 8px 14px 8px 10px; font-size: 0.92rem; }
+  .inicio-frase { padding: 18px 18px 16px 50px; }
+  .inicio-frase svg { top: 18px; left: 16px; }
+  .inicio-frase blockquote { font-size: 1.25rem; }
+  .inicio-grade { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .inicio-cartao { min-height: 0; padding: 16px; gap: 8px; }
+  .inicio-cartao-texto { font-size: 0.85rem; }
+  .inicio-cartao-topo { font-size: 0.8rem; }
+  .inicio-cartao-acao { font-size: 0.85rem; }
+  .inicio-anel { width: 64px; height: 64px; }
+  .inicio-anel span { width: 50px; height: 50px; font-size: 1.15rem; }
+  .inicio-bolha { width: 52px; height: 52px; }
+}
+@media (max-width: 380px) {
+  .inicio-grade { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .inicio-bolha { animation: none; }
+  .inicio-cartao, .inicio-humor { transition: none; }
+}

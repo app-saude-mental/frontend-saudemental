@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import type { LucideIcon } from "lucide-react";
 import {
   BookOpen,
   Crown,
   Download,
   Headphones,
+  House,
   LayoutDashboard,
   Lightbulb,
   ListChecks,
@@ -16,6 +17,7 @@ import {
   Pill,
   Sun,
   User,
+  Wind,
   X,
 } from "lucide-react";
 import { useAuth } from "../contexts/useAuth";
@@ -29,7 +31,9 @@ import CelebracaoPlano from "../components/CelebracaoPlano";
 import DicaInstalar from "../components/DicaInstalar";
 import MiniPlayer from "../components/MiniPlayer";
 import Logo from "../components/Logo";
+import AjudaAgora from "../components/AjudaAgora";
 import "../styles/app.css";
+import "../styles/ux.css";
 
 interface ItemMenu {
   to: string;
@@ -41,15 +45,25 @@ interface ItemMenu {
 
 // Menu de quem usa o app
 const LINKS_USUARIO: ItemMenu[] = [
-  { to: "/planos", rotulo: "Planos", Icone: Crown },
+  { to: "/inicio", rotulo: "Início", Icone: House },
   { to: "/diario", rotulo: "Diário", Icone: BookOpen },
   { to: "/habitos", rotulo: "Hábitos", Icone: ListChecks },
   { to: "/meditacao", rotulo: "Meditar", Icone: Headphones },
+  { to: "/respirar", rotulo: "Respirar", Icone: Wind, soGaveta: true },
   { to: "/dicas", rotulo: "Dicas", Icone: Lightbulb },
   { to: "/medicamentos", rotulo: "Medicamentos", Icone: Pill, recurso: "MEDICAMENTOS" },
   { to: "/duvidas", rotulo: "Dúvidas", Icone: MessageCircle, recurso: "DUVIDAS" },
+  { to: "/planos", rotulo: "Planos", Icone: Crown, soGaveta: true }, // no topo vira o ícone da coroa
   { to: "/perfil", rotulo: "Perfil", Icone: User, soGaveta: true },
   { to: "/instalar", rotulo: "Instalar", Icone: Download, soGaveta: true },
+];
+
+// Barra inferior do celular (só paciente): o essencial a um toque; "Mais" abre a gaveta
+const LINKS_INFERIOR: ItemMenu[] = [
+  { to: "/inicio", rotulo: "Início", Icone: House },
+  { to: "/diario", rotulo: "Diário", Icone: BookOpen },
+  { to: "/habitos", rotulo: "Hábitos", Icone: ListChecks },
+  { to: "/meditacao", rotulo: "Meditar", Icone: Headphones },
 ];
 
 // Menu do enfermeiro (ADMIN): só o que faz sentido para ele
@@ -66,6 +80,7 @@ export default function AppLayout() {
   const { usuario, sair, pode, ehAdmin } = useAuth();
   const { comTransicao } = useTransicao();
   const { tema, alternar } = useTema();
+  const { pathname } = useLocation();
   const [menuAberto, setMenuAberto] = useState(false);
   const botaoMenuRef = useRef<HTMLButtonElement>(null);
   const primeiroLinkRef = useRef<HTMLAnchorElement>(null);
@@ -106,7 +121,7 @@ export default function AppLayout() {
   const rotuloTema = tema === "escuro" ? "Usar tema claro" : "Usar tema escuro";
 
   return (
-    <div className="app-shell">
+    <div className={`app-shell ${ehAdmin ? "" : "com-nav-inferior"}`}>
       <header className="app-topo">
         <button
           ref={botaoMenuRef}
@@ -137,6 +152,16 @@ export default function AppLayout() {
 
         <div className="app-usuario">
           {ehAdmin && <SinoNotificacoes />}
+          {!ehAdmin && (
+            <NavLink
+              to="/planos"
+              className={({ isActive }) => `app-icone-botao so-desktop ${isActive ? "ativo" : ""}`}
+              aria-label="Planos"
+              title="Planos"
+            >
+              <Crown size={18} aria-hidden="true" />
+            </NavLink>
+          )}
           <NavLink
             to="/instalar"
             className={({ isActive }) => `app-icone-botao so-desktop ${isActive ? "ativo" : ""}`}
@@ -209,6 +234,7 @@ export default function AppLayout() {
         </ul>
 
         <div className="menu-rodape">
+          {!ehAdmin && <AjudaAgora variante="cartao" className="menu-ajuda" />}
           <button type="button" className="app-link" onClick={alternar}>
             {tema === "escuro" ? <Sun size={20} aria-hidden="true" /> : <Moon size={20} aria-hidden="true" />}
             <span>{tema === "escuro" ? "Tema claro" : "Tema escuro"}</span>
@@ -222,8 +248,32 @@ export default function AppLayout() {
 
       <main className="app-conteudo">
         <DicaInstalar />
-        <Outlet />
+        {/* a key reinicia a animação de entrada a cada troca de tela */}
+        <div key={pathname.startsWith("/admin") ? "/admin" : pathname} className="pagina">
+          <Outlet />
+        </div>
       </main>
+
+      {!ehAdmin && (
+        <nav className="nav-inferior" aria-label="Atalhos">
+          {LINKS_INFERIOR.map(({ to, rotulo, Icone }) => (
+            <NavLink key={to} to={to} className={({ isActive }) => `nav-inferior-item ${isActive ? "ativo" : ""}`}>
+              <Icone size={21} aria-hidden="true" />
+              <span>{rotulo}</span>
+            </NavLink>
+          ))}
+          <button
+            type="button"
+            className={`nav-inferior-item ${menuAberto ? "ativo" : ""}`}
+            onClick={() => setMenuAberto(true)}
+            aria-expanded={menuAberto}
+            aria-controls="menu-lateral"
+          >
+            <Menu size={21} aria-hidden="true" />
+            <span>Mais</span>
+          </button>
+        </nav>
+      )}
 
       <MiniPlayer />
 
