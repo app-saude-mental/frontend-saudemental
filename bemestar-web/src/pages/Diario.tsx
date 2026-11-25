@@ -4,7 +4,6 @@ import { ChevronLeft, ChevronRight, Lock } from "lucide-react";
 import DiarioCard from "../components/DiarioCard";
 import DiarioForm from "../components/DiarioForm";
 import ModalExclusao from "../components/ModalExclusao";
-import { useAuth } from "../contexts/useAuth";
 import { useDiarios, useExcluirDiario } from "../hooks/useDiarios";
 import { getErrorMessage } from "../services/apiError";
 import { HUMORES_VALORES, type Diario, type Humor } from "../types/diario";
@@ -12,26 +11,17 @@ import "../styles/diario.css";
 import CabecalhoPagina from "../components/CabecalhoPagina";
 import EstadoVazio from "../components/EstadoVazio";
 
-function saudacao() {
-  const hora = new Date().getHours();
-  if (hora < 12) return "Bom dia";
-  if (hora < 18) return "Boa tarde";
-  return "Boa noite";
-}
-
 function resumir(texto: string) {
   return texto.length > 90 ? `${texto.slice(0, 90).trimEnd()}…` : texto;
 }
 
 export default function DiarioPage() {
-  const { usuario } = useAuth();
   const [pagina, setPagina] = useState(0);
   const [editando, setEditando] = useState<Diario | null>(null);
   const [alvoExclusao, setAlvoExclusao] = useState<Diario | null>(null);
   const { data, isPending, isError, error, isPlaceholderData, refetch } = useDiarios(pagina);
   const excluir = useExcluirDiario();
 
-  const primeiroNome = usuario?.nome.trim().split(" ")[0] ?? "";
   // /diario?humor=TRISTE (check-in da tela Início) já abre com o humor marcado
   const [params] = useSearchParams();
   const humorUrl = params.get("humor");
@@ -68,9 +58,8 @@ export default function DiarioPage() {
   return (
     <section className="diario">
       <CabecalhoPagina
-        sobretitulo="Seu diário"
-        titulo={`${saudacao()}, ${primeiroNome}`}
-        subtitulo="Respire fundo. Como você está se sentindo hoje?"
+        titulo="Diário"
+        subtitulo="Como você está se sentindo hoje?"
         ilustracao="caderno"
       >
         <p className="diario-privado">

@@ -5,13 +5,11 @@ import {
   BookOpen,
   Crown,
   Headphones,
-  Lightbulb,
   ListChecks,
   MessageCircle,
   Pause,
   Pill,
   Play,
-  Quote,
   Wind,
 } from "lucide-react";
 import CabecalhoPagina from "../components/CabecalhoPagina";
@@ -19,7 +17,6 @@ import AjudaAgora from "../components/AjudaAgora";
 import type { NomeIlustracao } from "../components/Ilustracao";
 import { useAuth } from "../contexts/useAuth";
 import { useSom } from "../contexts/useSom";
-import { DICAS_GERAIS } from "../data/dicasGerais";
 import { fraseDeHoje } from "../data/frases";
 import { HUMORES, buscarHumor } from "../data/humores";
 import { infoDoSom } from "../data/sonsNatureza";
@@ -34,10 +31,6 @@ function periodoDoDia(hora: number): { saudacao: string; ilustracao: NomeIlustra
   if (hora < 12) return { saudacao: "Bom dia", ilustracao: "amanhecer" };
   if (hora < 18) return { saudacao: "Boa tarde", ilustracao: "sol" };
   return { saudacao: "Boa noite", ilustracao: "lua" };
-}
-
-function diaDoAno(data: Date) {
-  return Math.floor((data.getTime() - new Date(data.getFullYear(), 0, 0).getTime()) / 86_400_000);
 }
 
 // Tela inicial do paciente: acolhe, mostra o dia e leva ao próximo cuidado em um toque.
@@ -58,7 +51,6 @@ export default function InicioPage() {
   const diarios = useDiarios(0);
   const medicamentos = useMedicamentos(0, temMedicamentos);
 
-  const dica = DICAS_GERAIS[diaDoAno(agora) % DICAS_GERAIS.length];
   const ultimo = diarios.data?.conteudo[0] ?? null;
   const humorUltimo = buscarHumor(ultimo?.humor ?? null);
 
@@ -79,14 +71,14 @@ export default function InicioPage() {
       <CabecalhoPagina
         sobretitulo={dataExtenso}
         titulo={`${saudacao}${primeiroNome ? `, ${primeiroNome}` : ""}`}
-        subtitulo="Que bom ter você aqui. Vamos cuidar de você hoje?"
+        subtitulo={fraseDeHoje(agora)}
         ilustracao={ilustracao}
       />
 
       {/* ---------- Check-in de humor ---------- */}
       <section className="inicio-checkin" aria-labelledby="inicio-checkin-titulo">
         <h2 id="inicio-checkin-titulo">Como você está agora?</h2>
-        <p>Toque no que mais combina. Você escreve sobre isso no seu diário, só você lê.</p>
+        <p>Toque no que mais combina para registrar no seu diário.</p>
         <div className="inicio-humores">
           {HUMORES.map((h) => (
             <button
@@ -102,13 +94,6 @@ export default function InicioPage() {
           ))}
         </div>
       </section>
-
-      {/* ---------- Frase do dia ---------- */}
-      <figure className="inicio-frase">
-        <Quote size={22} aria-hidden="true" />
-        <blockquote>{fraseDeHoje(agora)}</blockquote>
-        <figcaption>Frase do dia</figcaption>
-      </figure>
 
       {/* ---------- Atalhos de cuidado ---------- */}
       <div className="inicio-grade">
@@ -236,17 +221,6 @@ export default function InicioPage() {
             </span>
           </Link>
         )}
-
-        <Link to="/dicas" className="inicio-cartao inicio-cartao-dica">
-          <span className="inicio-cartao-topo">
-            <Lightbulb size={20} aria-hidden="true" /> Dica do dia
-          </span>
-          <strong className="inicio-dica-titulo">{dica.titulo}</strong>
-          <span className="inicio-cartao-texto inicio-dica-texto">{dica.texto}</span>
-          <span className="inicio-cartao-acao">
-            Mais dicas <ArrowRight size={16} aria-hidden="true" />
-          </span>
-        </Link>
 
         {gratuito && (
           <Link to="/planos" className="inicio-cartao inicio-cartao-premium">
