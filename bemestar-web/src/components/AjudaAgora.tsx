@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
-import { ExternalLink, HeartHandshake, Phone, Wind, X } from "lucide-react";
+import { ExternalLink, HeartHandshake, Phone, X } from "lucide-react";
 import Ilustracao from "./Ilustracao";
 
 interface Props {
@@ -84,13 +83,6 @@ export default function AjudaAgora({ variante = "botao", className = "" }: Props
               <span>Se preferir escrever em vez de ligar</span>
             </span>
           </a>
-
-          <div className="ajuda-respirar">
-            <p>Enquanto isso, tente respirar devagar com a gente.</p>
-            <Link to="/respirar" className="btn-secundario ajuda-respirar-link" onClick={() => setAberto(false)}>
-              <Wind size={17} aria-hidden="true" /> Respirar por 1 minuto
-            </Link>
-          </div>
         </div>
       </dialog>
     </>

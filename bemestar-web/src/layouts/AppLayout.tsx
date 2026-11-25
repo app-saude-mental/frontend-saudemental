@@ -17,7 +17,6 @@ import {
   Pill,
   Sun,
   User,
-  Wind,
   X,
 } from "lucide-react";
 import { useAuth } from "../contexts/useAuth";
@@ -49,7 +48,6 @@ const LINKS_USUARIO: ItemMenu[] = [
   { to: "/diario", rotulo: "Diário", Icone: BookOpen },
   { to: "/habitos", rotulo: "Hábitos", Icone: ListChecks },
   { to: "/meditacao", rotulo: "Meditar", Icone: Headphones },
-  { to: "/respirar", rotulo: "Respirar", Icone: Wind, soGaveta: true },
   { to: "/dicas", rotulo: "Dicas", Icone: Lightbulb },
   { to: "/medicamentos", rotulo: "Medicamentos", Icone: Pill, recurso: "MEDICAMENTOS" },
   { to: "/duvidas", rotulo: "Dúvidas", Icone: MessageCircle, recurso: "DUVIDAS" },
@@ -152,6 +150,59 @@ export default function AppLayout() {
 
   return (
     <div className={`app-shell ${ehAdmin ? "" : "com-nav-inferior"}`}>
+      {/* ---------- Barra lateral (desktop, a partir de 1024px) ---------- */}
+      <aside className="lateral">
+        <Link to="/" className="lateral-marca" aria-label="Respire — início">
+          <Logo tamanho={30} />
+        </Link>
+
+        <nav className="lateral-nav" aria-label="Principal">
+          <p className="lateral-titulo">{ehAdmin ? "Enfermeiro" : "Seu cuidado"}</p>
+          {links
+            .filter((link) => !link.soGaveta)
+            .map(({ to, rotulo, Icone }) => (
+              <NavLink key={to} to={to} className={({ isActive }) => `lateral-link ${isActive ? "ativo" : ""}`}>
+                <Icone size={19} aria-hidden="true" />
+                <span>{rotulo}</span>
+              </NavLink>
+            ))}
+
+          <p className="lateral-titulo">Conta</p>
+          {links
+            .filter((link) => link.soGaveta)
+            .map(({ to, rotulo, Icone }) => (
+              <NavLink key={to} to={to} className={({ isActive }) => `lateral-link ${isActive ? "ativo" : ""}`}>
+                <Icone size={19} aria-hidden="true" />
+                <span>{rotulo}</span>
+              </NavLink>
+            ))}
+        </nav>
+
+        <div className="lateral-rodape">
+          {!ehAdmin && <AjudaAgora variante="cartao" className="lateral-ajuda" />}
+          {usuario && (
+            <div className="lateral-usuario">
+              <span className="lateral-avatar" aria-hidden="true">
+                {inicial}
+              </span>
+              <span className="lateral-usuario-texto">
+                <strong>{usuario.nome}</strong>
+                <span>{ehAdmin ? "Enfermeiro" : nomeDoPlano(usuario.planoEfetivo)}</span>
+              </span>
+            </div>
+          )}
+          <div className="lateral-acoes">
+            {ehAdmin && <SinoNotificacoes />}
+            <button type="button" className="lateral-icone" onClick={alternar} aria-label={rotuloTema} title={rotuloTema}>
+              {tema === "escuro" ? <Sun size={18} aria-hidden="true" /> : <Moon size={18} aria-hidden="true" />}
+            </button>
+            <button type="button" className="lateral-icone" onClick={aoSair} aria-label="Sair" title="Sair">
+              <LogOut size={18} aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+      </aside>
+
       <header className="app-topo">
         <button
           ref={botaoMenuRef}
@@ -168,17 +219,6 @@ export default function AppLayout() {
         <Link to="/" className="app-marca" aria-label="Respire — início">
           <Logo tamanho={30} />
         </Link>
-
-        <nav className="app-nav" aria-label="Principal">
-          {/* no topo, só texto (mais leve); os ícones ficam na gaveta */}
-          {links
-            .filter((link) => !link.soGaveta)
-            .map(({ to, rotulo }) => (
-              <NavLink key={to} to={to} className={classeLink}>
-                {rotulo}
-              </NavLink>
-            ))}
-        </nav>
 
         <div className="app-usuario">
           {ehAdmin && <SinoNotificacoes />}

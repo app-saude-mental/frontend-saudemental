@@ -19,6 +19,8 @@ import AvisoAtualizacao from "./components/AvisoAtualizacao";
 import App from "./App";
 // refino visual: por último, para valer sobre o CSS de cada tela
 import "./styles/refino.css";
+// estrutura "Floresta" (barra lateral, navegação flutuante, cabeçalhos, Meditar, login)
+import "./styles/forma.css";
 import { AuthProvider } from "./contexts/AuthProvider";
 import { SomProvider } from "./contexts/SomProvider";
 

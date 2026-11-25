@@ -1,0 +1,309 @@
+/* =========================================================
+   Forma "Floresta": a estrutura nova do app.
+   - desktop: barra lateral verde-floresta fixa à esquerda (sem menu no topo);
+   - celular: topo enxuto + barra de navegação flutuante em pílula;
+   - cabeçalhos de tela editoriais, sem ilustração;
+   - Meditar com player imersivo; login com painel floresta.
+   Carregado depois de refino.css (main.tsx).
+   ========================================================= */
+
+:root { --lateral: 256px; }
+
+/* ---------- Barra lateral ---------- */
+.lateral { display: none; }
+
+@media (min-width: 1024px) {
+  .app-shell { padding-left: var(--lateral); }
+  .app-topo { display: none; }
+
+  .lateral {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    width: var(--lateral);
+    padding: 26px 14px 16px;
+    overflow-y: auto;
+    background:
+      radial-gradient(140% 50% at 0% 0%, color-mix(in srgb, var(--menta) 14%, transparent), transparent 60%),
+      var(--floresta);
+    color: var(--floresta-texto);
+    scrollbar-width: thin;
+  }
+
+  .lateral-marca { display: flex; margin: 0 10px 22px; color: #fff; text-decoration: none; }
+  .lateral-marca .logo-marca { color: var(--menta); }
+  .lateral-marca .logo-nome { font-size: 1.6rem; }
+  .lateral-marca:focus-visible { outline: 2px solid var(--menta); outline-offset: 4px; border-radius: 8px; }
+
+  .lateral-nav { display: flex; flex-direction: column; gap: 2px; }
+  .lateral-titulo {
+    margin: 18px 12px 8px;
+    color: color-mix(in srgb, var(--floresta-texto) 45%, transparent);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .lateral-titulo:first-child { margin-top: 0; }
+
+  .lateral-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    color: color-mix(in srgb, var(--floresta-texto) 72%, transparent);
+    font-size: 0.93rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+  }
+  .lateral-link svg { flex: none; opacity: 0.85; }
+  .lateral-link:hover { background: rgba(255, 255, 255, 0.06); color: #fff; }
+  .lateral-link.ativo { background: rgba(255, 255, 255, 0.1); color: #fff; }
+  .lateral-link.ativo svg { color: var(--menta); opacity: 1; }
+  .lateral-link.ativo::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: -14px;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: var(--menta);
+  }
+  .lateral-link:focus-visible { outline: 2px solid var(--menta); outline-offset: -2px; }
+
+  .lateral-rodape { display: flex; flex-direction: column; gap: 12px; margin-top: auto; padding-top: 20px; }
+
+  /* "Precisa de ajuda agora?" no tom da barra */
+  .lateral .ajuda-cartao.lateral-ajuda {
+    gap: 10px;
+    padding: 12px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: none;
+    color: #f2b3a9;
+  }
+  .lateral .ajuda-cartao.lateral-ajuda:hover { background: rgba(255, 255, 255, 0.09); }
+  .lateral .ajuda-cartao.lateral-ajuda strong { color: #fff; font-size: 0.88rem; }
+  .lateral .ajuda-cartao.lateral-ajuda span span { color: color-mix(in srgb, var(--floresta-texto) 60%, transparent); font-size: 0.76rem; }
+
+  .lateral-usuario {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 8px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .lateral-avatar {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--menta);
+    color: var(--floresta);
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+  .lateral-usuario-texto { display: flex; flex-direction: column; min-width: 0; }
+  .lateral-usuario-texto strong { overflow: hidden; color: #fff; font-size: 0.88rem; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+  .lateral-usuario-texto span { color: color-mix(in srgb, var(--floresta-texto) 60%, transparent); font-size: 0.76rem; }
+
+  .lateral-acoes { display: flex; gap: 4px; padding: 0 4px; }
+  .lateral-icone,
+  .lateral .sino-botao {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: color-mix(in srgb, var(--floresta-texto) 70%, transparent);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .lateral-icone:hover,
+  .lateral .sino-botao:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+  .lateral-icone:focus-visible,
+  .lateral .sino-botao:focus-visible { outline: 2px solid var(--menta); outline-offset: 1px; }
+  /* painel de notificações abre para cima e para a direita, a partir do rodapé */
+  .lateral .sino-painel { top: auto; right: auto; bottom: calc(100% + 10px); left: 0; color: var(--texto); }
+
+  .app-conteudo { width: min(1120px, 100%); padding: 48px 48px 80px; }
+  .mini-player { left: calc(var(--lateral) + 16px); }
+}
+
+/* ---------- Celular e tablet: topo enxuto + barra flutuante ---------- */
+@media (max-width: 1023px) {
+  .app-topo {
+    height: 58px;
+    border-bottom: 0;
+    background: color-mix(in srgb, var(--bege-claro) 85%, transparent);
+  }
+  .app-topo .app-marca .logo-nome { font-size: 1.4rem; }
+
+  .nav-inferior {
+    right: 12px;
+    bottom: calc(10px + env(safe-area-inset-bottom));
+    left: 12px;
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 22px;
+    background: color-mix(in srgb, var(--floresta) 94%, transparent);
+    box-shadow: 0 14px 36px -12px rgba(10, 30, 22, 0.55);
+    backdrop-filter: saturate(160%) blur(16px);
+  }
+  .nav-inferior-item {
+    gap: 2px;
+    padding: 8px 2px 6px;
+    border-radius: 16px;
+    color: color-mix(in srgb, var(--floresta-texto) 60%, transparent);
+    font-size: 0.66rem;
+  }
+  .nav-inferior-item.ativo { color: #fff; }
+  .nav-inferior-item.ativo::before { top: 0; bottom: 0; width: auto; left: 2px; right: 2px; height: auto; border-radius: 16px; background: rgba(255, 255, 255, 0.1); }
+  .nav-inferior-item.ativo svg { color: var(--menta); }
+  .nav-inferior-item:focus-visible { outline: 2px solid var(--menta); }
+
+  .app-shell.com-nav-inferior .app-conteudo { padding-bottom: calc(110px + env(safe-area-inset-bottom)); }
+  .app-shell.com-nav-inferior .mini-player { bottom: calc(86px + env(safe-area-inset-bottom)); }
+
+  /* gaveta no mesmo tom floresta */
+  .menu-lateral { background: var(--floresta); color: var(--floresta-texto); box-shadow: 12px 0 40px -12px rgba(0, 0, 0, 0.4); }
+  .menu-lateral .logo-nome { color: #fff; }
+  .menu-lateral .logo-marca { color: var(--menta); }
+  .menu-lateral .app-icone-botao { color: var(--floresta-texto); }
+  .menu-lateral .app-icone-botao:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+  .menu-usuario { border: 1px solid rgba(255, 255, 255, 0.08); background: rgba(255, 255, 255, 0.05); }
+  .menu-usuario strong { color: #fff; }
+  .menu-usuario span { color: color-mix(in srgb, var(--floresta-texto) 60%, transparent); }
+  .menu-usuario .app-avatar { background: var(--menta); color: var(--floresta); }
+  .menu-links .app-link,
+  .menu-rodape .app-link { color: color-mix(in srgb, var(--floresta-texto) 78%, transparent); }
+  .menu-links .app-link svg { color: inherit; }
+  .menu-links .app-link:hover,
+  .menu-rodape .app-link:hover { background: rgba(255, 255, 255, 0.06); color: #fff; }
+  .menu-links .app-link.ativo { background: rgba(255, 255, 255, 0.1); color: #fff; }
+  .menu-links .app-link.ativo svg { color: var(--menta); }
+  .menu-rodape { border-top-color: rgba(255, 255, 255, 0.08); }
+  .menu-rodape .app-link.sair { color: #f2b3a9; }
+  .menu-lateral .ajuda-cartao { border-color: rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.05); box-shadow: none; color: #f2b3a9; }
+  .menu-lateral .ajuda-cartao strong { color: #fff; }
+  .menu-lateral .ajuda-cartao span span { color: color-mix(in srgb, var(--floresta-texto) 60%, transparent); }
+}
+
+/* ---------- Cabeçalho das telas: editorial, sem ilustração ---------- */
+.cabecalho { display: block; margin-bottom: 32px; }
+.cabecalho-sobre {
+  display: inline-flex;
+  margin: 0 0 14px;
+  padding: 4px 11px;
+  border-radius: 999px;
+  background: var(--verde-suave);
+  color: var(--verde-escuro);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+.cabecalho h1 { font-size: clamp(2.2rem, 4vw, 3rem); font-weight: 500; letter-spacing: -0.015em; line-height: 1.05; }
+.cabecalho-sub { max-width: 600px; margin-top: 10px; font-size: 1.02rem; }
+@media (max-width: 760px) {
+  .cabecalho { margin-bottom: 24px; }
+  .cabecalho h1 { font-size: 2.2rem; }
+}
+
+/* ---------- Meditar: player imersivo ---------- */
+.paz { max-width: 760px; }
+.paz-player {
+  padding: 44px 24px 36px;
+  border: 0;
+  border-radius: 28px;
+  background:
+    radial-gradient(80% 70% at 50% 30%, color-mix(in srgb, var(--paz-cor) 45%, transparent), transparent 70%),
+    linear-gradient(170deg, #1d2b26, #0f1714);
+  color: #e6efe9;
+  box-shadow: 0 30px 60px -30px rgba(10, 30, 22, 0.6);
+}
+.paz-player::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-radial-gradient(circle at 50% 34%, transparent 0 46px, rgba(255, 255, 255, 0.035) 46px 47px);
+}
+.paz-esfera-forma {
+  background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--paz-cor) 40%, #fff), var(--paz-cor) 75%);
+  box-shadow: 0 0 60px -6px color-mix(in srgb, var(--paz-cor) 80%, transparent);
+}
+.paz-esfera:focus-visible { outline-color: #fff; }
+.paz-player .paz-som-nome { color: #fff; font-size: 1.7rem; }
+.paz-player .paz-tempo { color: rgba(230, 239, 233, 0.7); }
+.paz-player .paz-fone { color: var(--menta); }
+.paz-player .paz-parar { border-color: rgba(255, 255, 255, 0.2); color: rgba(230, 239, 233, 0.85); }
+.paz-player .paz-parar:hover { border-color: #f2b3a9; color: #f2b3a9; }
+.paz-player .paz-mensagem { background: rgba(255, 255, 255, 0.08); color: #fff; }
+
+/* sons em blocos, em vez de etiquetas */
+.paz-sons { padding: 22px; }
+.paz-categorias { gap: 6px; margin: 0 0 16px; padding: 0 0 2px; border-bottom: 0; }
+.paz-categoria {
+  padding: 8px 14px;
+  border: 1px solid var(--linha);
+  border-radius: 999px;
+  color: var(--texto);
+  font-size: 0.88rem;
+}
+.paz-categoria:hover { border-color: var(--linha-forte); }
+.paz-categoria[aria-selected="true"] { border-color: transparent; background: var(--marrom); color: var(--bege-claro); }
+.paz-categoria-descricao { text-align: left; }
+.paz-sons .paz-chips {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+}
+.paz-sons .paz-chip {
+  justify-content: flex-start;
+  min-height: 56px;
+  padding: 12px 14px;
+  border: 1px solid var(--linha);
+  border-radius: 16px;
+  background: var(--bege-claro);
+  font-size: 0.9rem;
+  text-align: left;
+}
+.paz-sons .paz-chip:hover:not(:disabled) { border-color: var(--linha-forte); background: var(--cartao); }
+.paz-sons .paz-chip[aria-pressed="true"] { border-color: transparent; background: var(--paz-cor, var(--verde)); color: #fff; box-shadow: 0 10px 24px -14px var(--paz-cor, var(--verde)); }
+
+/* ---------- Login e cadastro: painel floresta ---------- */
+.auth-pagina { background: var(--bege-claro); }
+.auth-cartao { border-radius: 28px; box-shadow: 0 30px 80px -40px rgba(10, 30, 22, 0.35); }
+.auth-painel {
+  background:
+    radial-gradient(120% 70% at 100% 0%, color-mix(in srgb, var(--menta) 26%, transparent), transparent 60%),
+    linear-gradient(160deg, var(--floresta-2), var(--floresta));
+  color: #fff;
+}
+.painel-texto h2 { color: #fff; }
+.painel-texto p { color: color-mix(in srgb, var(--floresta-texto) 85%, transparent); }
+.auth-painel .btn-contorno { border-color: rgba(255, 255, 255, 0.4); background: transparent; color: #fff; }
+.auth-painel .btn-contorno:hover:not(:disabled) { border-color: #fff; background: #fff; color: var(--floresta); }
+.auth-form h1 { font-size: 2.6rem; }
+.auth-form .btn-principal { align-self: stretch; }
+.auth-logo .logo-marca { color: var(--verde); }
+
+@media (prefers-reduced-motion: reduce) {
+  .lateral-link, .nav-inferior-item { transition: none; }
+}

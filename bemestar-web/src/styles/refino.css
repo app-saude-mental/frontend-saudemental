@@ -172,8 +172,6 @@ body { font-size: 15px; letter-spacing: -0.003em; }
 .perfil-cartao,
 .diario-form,
 .entrada,
-.inicio-checkin,
-.inicio-cartao,
 .plano-card,
 .bloqueio,
 .planos-regras {
@@ -279,7 +277,6 @@ body { font-size: 15px; letter-spacing: -0.003em; }
 .med-campo label { color: var(--marrom); font-weight: 500; font-size: 0.88rem; }
 .guia-chave code { background: var(--bege); }
 .anexo { background: var(--bege-claro); }
-.respirar-tecnica { background: var(--cartao); border-width: 1px; }
 
 /* ---------- Abas e chips ---------- */
 .habitos-abas,
@@ -311,40 +308,6 @@ body { font-size: 15px; letter-spacing: -0.003em; }
 
 @media (prefers-reduced-motion: reduce) {
   .conta-menu { animation: none; }
-}
-
-/* ---------- Início ---------- */
-.inicio-checkin { padding: 22px 24px; }
-.inicio-checkin > p { margin: 4px 0 16px; font-size: 0.9rem; }
-.inicio-humor {
-  padding: 8px 14px 8px 11px;
-  border: 1px solid var(--linha);
-  background: var(--cartao);
-  font-size: 0.9rem;
-  transition: border-color 0.15s, background 0.15s, transform 0.15s;
-}
-.inicio-humor:hover {
-  transform: none;
-  border-color: color-mix(in srgb, var(--cor-humor) 60%, var(--linha));
-  background: color-mix(in srgb, var(--cor-humor) 10%, var(--cartao));
-  box-shadow: none;
-}
-.inicio-humor-bolinha { width: 10px; height: 10px; box-shadow: none; }
-.inicio-grade { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
-.inicio-cartao { min-height: 180px; padding: 20px 22px; gap: 8px; }
-a.inicio-cartao:hover { transform: none; border-color: var(--linha-forte); box-shadow: var(--sombra-2); }
-.inicio-cartao-topo { color: var(--marrom); font-size: 0.88rem; letter-spacing: -0.005em; }
-.inicio-cartao-topo svg { color: var(--verde); }
-.inicio-cartao-acao { font-size: 0.86rem; }
-.inicio-cartao-premium { background: var(--verde-suave); border-color: transparent; }
-@media (max-width: 760px) {
-  .inicio-grade { grid-template-columns: 1fr 1fr; gap: 10px; }
-  .inicio-cartao { min-height: 0; padding: 16px; }
-  .inicio-cartao-texto { font-size: 0.85rem; }
-  .inicio-checkin { padding: 18px; }
-}
-@media (max-width: 400px) {
-  .inicio-grade { grid-template-columns: 1fr; }
 }
 
 /* ---------- Planos ---------- */
@@ -382,8 +345,7 @@ a.inicio-cartao:hover { transform: none; border-color: var(--linha-forte); box-s
 .texto-titulo,
 .paz-rotulo,
 .paz-volume-rotulo,
-.dicas-secao-titulo,
-.respirar-tecnica strong {
+.dicas-secao-titulo {
   font-family: var(--fonte-texto);
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -392,7 +354,6 @@ a.inicio-cartao:hover { transform: none; border-color: var(--linha-forte); box-s
 .paz-rotulo,
 .dicas-secao-titulo { color: var(--marrom); font-size: 1rem; }
 .paz-volume-rotulo { color: var(--suave); font-size: 0.88rem; font-weight: 500; }
-.respirar-tecnica strong { font-size: 0.98rem; }
 .paz-som-nome { font-size: 1.4rem; }
 
 /* diário: humores menores e mais leves */

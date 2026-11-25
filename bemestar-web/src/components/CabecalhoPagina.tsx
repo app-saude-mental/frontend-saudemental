@@ -1,17 +1,17 @@
 import type { ReactNode } from "react";
-import Ilustracao, { type NomeIlustracao } from "./Ilustracao";
+import type { NomeIlustracao } from "./Ilustracao";
 
 interface Props {
   titulo: ReactNode;
   subtitulo?: ReactNode;
   sobretitulo?: string; // texto pequeno acima do título (ex.: "Seu espaço")
-  ilustracao?: NomeIlustracao;
+  ilustracao?: NomeIlustracao; // mantido por compatibilidade; o cabeçalho novo não mostra ilustração
   acao?: ReactNode; // botão à direita (ex.: "+ Adicionar")
   children?: ReactNode; // conteúdo extra abaixo do subtítulo
 }
 
-// Cabeçalho padrão das telas do paciente: mesma hierarquia, respiro e ilustração em todas.
-export default function CabecalhoPagina({ titulo, subtitulo, sobretitulo, ilustracao, acao, children }: Props) {
+// Cabeçalho padrão das telas do paciente: selo, título editorial e subtítulo, em todas as telas.
+export default function CabecalhoPagina({ titulo, subtitulo, sobretitulo, acao, children }: Props) {
   return (
     <header className="cabecalho">
       <div className="cabecalho-texto">
@@ -21,7 +21,6 @@ export default function CabecalhoPagina({ titulo, subtitulo, sobretitulo, ilustr
         {children}
         {acao && <div className="cabecalho-acao">{acao}</div>}
       </div>
-      {ilustracao && <Ilustracao nome={ilustracao} tamanho={128} className="cabecalho-ilustracao" />}
     </header>
   );
 }
