@@ -55,6 +55,12 @@
   --ilu-fundo-forte: #ffffff;
   --ilu-destaque: #c5d8cc;
 
+  /* "floresta": superfícies de destaque (barra lateral, painel do Início, login) */
+  --floresta: #133328;
+  --floresta-2: #1f4a3b;
+  --floresta-texto: #e3efe8;
+  --menta: #9fd6b8;
+
   /* aura do fundo: desligada (fundo limpo) */
   --aura-1: transparent;
   --aura-2: transparent;
@@ -91,6 +97,11 @@
 
   --sombra-1: 0 1px 2px rgba(0, 0, 0, 0.25);
   --sombra-2: 0 1px 2px rgba(0, 0, 0, 0.3), 0 16px 36px -18px rgba(0, 0, 0, 0.6);
+
+  --floresta: #0d211a;
+  --floresta-2: #173b2f;
+  --floresta-texto: #d5e6dc;
+  --menta: #8fcaa9;
 
   --ilu-traco: #9cc2af;
   --ilu-fundo: #1c2b24;

@@ -1,20 +1,7 @@
 import type { CSSProperties } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  ArrowRight,
-  BookOpen,
-  Crown,
-  Headphones,
-  ListChecks,
-  MessageCircle,
-  Pause,
-  Pill,
-  Play,
-  Wind,
-} from "lucide-react";
-import CabecalhoPagina from "../components/CabecalhoPagina";
+import { ArrowRight, ArrowUpRight, BookOpen, Check, Crown, Headphones, MessageCircle, Pause, Pill, Play } from "lucide-react";
 import AjudaAgora from "../components/AjudaAgora";
-import type { NomeIlustracao } from "../components/Ilustracao";
 import { useAuth } from "../contexts/useAuth";
 import { useSom } from "../contexts/useSom";
 import { fraseDeHoje } from "../data/frases";
@@ -26,20 +13,27 @@ import { useMedicamentos } from "../hooks/useMedicamentos";
 import { formatarData, hojeISO } from "../utils/data";
 import "../styles/inicio.css";
 
-function periodoDoDia(hora: number): { saudacao: string; ilustracao: NomeIlustracao } {
-  if (hora < 5) return { saudacao: "Boa noite", ilustracao: "lua" };
-  if (hora < 12) return { saudacao: "Bom dia", ilustracao: "amanhecer" };
-  if (hora < 18) return { saudacao: "Boa tarde", ilustracao: "sol" };
-  return { saudacao: "Boa noite", ilustracao: "lua" };
+function saudacaoDoDia(hora: number) {
+  if (hora < 5) return "Boa noite";
+  if (hora < 12) return "Bom dia";
+  if (hora < 18) return "Boa tarde";
+  return "Boa noite";
 }
 
-// Tela inicial do paciente: acolhe, mostra o dia e leva ao próximo cuidado em um toque.
+// barrinhas do "equalizador" do bloco de som (alturas fixas, em %)
+const ALTURAS_ONDA = [38, 62, 45, 80, 56, 30, 70, 92, 60, 42, 76, 50, 34, 66, 88, 54, 40, 72, 58, 30, 64, 84, 48, 36];
+
+function resumir(texto: string, max = 110) {
+  return texto.length > max ? `${texto.slice(0, max).trimEnd()}…` : texto;
+}
+
+// Tela inicial do paciente: um painel de boas-vindas (com o check-in de humor)
+// e, abaixo, o dia em blocos de tamanhos diferentes, do mais importante ao complementar.
 export default function InicioPage() {
   const navigate = useNavigate();
   const { usuario, pode } = useAuth();
   const som = useSom();
   const agora = new Date();
-  const { saudacao, ilustracao } = periodoDoDia(agora.getHours());
   const primeiroNome = usuario?.nome.trim().split(" ")[0] ?? "";
   const dataExtenso = agora.toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long" });
 
@@ -57,6 +51,7 @@ export default function InicioPage() {
   const feitos = habitos.data?.concluidos ?? 0;
   const total = habitos.data?.total ?? 0;
   const pct = total > 0 ? feitos / total : 0;
+  const pendentes = (habitos.data?.habitos ?? []).filter((h) => !h.concluido).slice(0, 3);
 
   // próximo horário de hoje (a lista vem em ordem de horário); se já passou de todos, o primeiro de amanhã
   const horaAgora = `${String(agora.getHours()).padStart(2, "0")}:${String(agora.getMinutes()).padStart(2, "0")}`;
@@ -64,174 +59,192 @@ export default function InicioPage() {
   const proximoMed = listaMed.find((m) => m.horas >= horaAgora) ?? listaMed[0] ?? null;
   const medAmanha = proximoMed !== null && proximoMed.horas < horaAgora;
 
-  const somAtivo = som.estado === "tocando" || som.estado === "pausado";
+  const tocando = som.estado === "tocando";
+  const somAtivo = tocando || som.estado === "pausado";
+  const nomeSom = infoDoSom(som.somId).nome;
 
   return (
     <section className="inicio">
-      <CabecalhoPagina
-        sobretitulo={dataExtenso}
-        titulo={`${saudacao}${primeiroNome ? `, ${primeiroNome}` : ""}`}
-        subtitulo={fraseDeHoje(agora)}
-        ilustracao={ilustracao}
-      />
+      {/* ---------- Painel de boas-vindas ---------- */}
+      <header className="inicio-hero">
+        <p className="inicio-hero-data">{dataExtenso}</p>
+        <h1>
+          {saudacaoDoDia(agora.getHours())}
+          {primeiroNome && <>, {primeiroNome}</>}
+        </h1>
+        <p className="inicio-hero-frase">“{fraseDeHoje(agora)}”</p>
 
-      {/* ---------- Check-in de humor ---------- */}
-      <section className="inicio-checkin" aria-labelledby="inicio-checkin-titulo">
-        <h2 id="inicio-checkin-titulo">Como você está agora?</h2>
-        <p>Toque no que mais combina para registrar no seu diário.</p>
-        <div className="inicio-humores">
-          {HUMORES.map((h) => (
-            <button
-              key={h.valor}
-              type="button"
-              className="inicio-humor"
-              style={{ "--cor-humor": h.cor } as CSSProperties}
-              onClick={() => navigate(`/diario?humor=${h.valor}`)}
-            >
-              <span className="inicio-humor-bolinha" aria-hidden="true" />
-              {h.rotulo}
-            </button>
-          ))}
-        </div>
-      </section>
-
-      {/* ---------- Atalhos de cuidado ---------- */}
-      <div className="inicio-grade">
-        <Link to="/habitos" className="inicio-cartao">
-          <span className="inicio-cartao-topo">
-            <ListChecks size={20} aria-hidden="true" /> Hábitos de hoje
-          </span>
-          <span className="inicio-anel" style={{ "--pct": pct } as CSSProperties} aria-hidden="true">
-            <span>
-              {feitos}/{total || "–"}
-            </span>
-          </span>
-          <span className="inicio-cartao-texto">
-            {habitos.isPending
-              ? "Carregando…"
-              : total > 0 && feitos === total
-                ? "Todos os cuidados feitos. Orgulhe-se!"
-                : feitos > 0
-                  ? "Bom começo! Continue no seu ritmo."
-                  : "Que tal marcar o primeiro cuidado do dia?"}
-          </span>
-          <span className="inicio-cartao-acao">
-            Ver hábitos <ArrowRight size={16} aria-hidden="true" />
-          </span>
-        </Link>
-
-        <Link to="/respirar" className="inicio-cartao inicio-cartao-respirar">
-          <span className="inicio-cartao-topo">
-            <Wind size={20} aria-hidden="true" /> Respire 1 minuto
-          </span>
-          <span className="inicio-bolha" aria-hidden="true" />
-          <span className="inicio-cartao-texto">Uma pausa guiada para desacelerar a mente e o corpo.</span>
-          <span className="inicio-cartao-acao">
-            Começar <ArrowRight size={16} aria-hidden="true" />
-          </span>
-        </Link>
-
-        <div className="inicio-cartao inicio-cartao-som">
-          <span className="inicio-cartao-topo">
-            <Headphones size={20} aria-hidden="true" /> Momento de paz
-          </span>
-          {somAtivo ? (
-            <>
-              <strong className="inicio-som-nome">{infoDoSom(som.somId).nome}</strong>
-              <span className="inicio-cartao-texto">{som.estado === "tocando" ? "Tocando agora" : "Pausado"}</span>
-              <button type="button" className="btn-principal inicio-som-botao" onClick={() => void som.alternar()}>
-                {som.estado === "tocando" ? (
-                  <>
-                    <Pause size={16} aria-hidden="true" /> Pausar
-                  </>
-                ) : (
-                  <>
-                    <Play size={16} aria-hidden="true" /> Continuar
-                  </>
-                )}
+        <div className="inicio-checkin" role="group" aria-labelledby="inicio-checkin-titulo">
+          <p id="inicio-checkin-titulo" className="inicio-checkin-titulo">
+            Como você está agora?
+          </p>
+          <div className="inicio-humores">
+            {HUMORES.map((h) => (
+              <button
+                key={h.valor}
+                type="button"
+                className="inicio-humor"
+                style={{ "--cor-humor": h.cor } as CSSProperties}
+                onClick={() => navigate(`/diario?humor=${h.valor}`)}
+              >
+                <span className="inicio-humor-bolinha" aria-hidden="true" />
+                {h.rotulo}
               </button>
-            </>
-          ) : (
-            <span className="inicio-cartao-texto">
-              Sons da natureza, música para dormir, foco e ruído para abafar o ambiente.
+            ))}
+          </div>
+        </div>
+      </header>
+
+      {/* ---------- O dia em blocos ---------- */}
+      <div className="bento">
+        {/* Hábitos: o bloco principal do dia */}
+        <Link to="/habitos" className="bloco bloco-habitos">
+          <span className="bloco-rotulo">Hábitos de hoje</span>
+          <div className="habitos-resumo">
+            <span className="inicio-anel" style={{ "--pct": pct } as CSSProperties} aria-hidden="true">
+              <span>{Math.round(pct * 100)}%</span>
             </span>
+            <div>
+              <strong className="bloco-numero">
+                {feitos}
+                <small> de {total || "–"}</small>
+              </strong>
+              <span className="bloco-texto">
+                {habitos.isPending
+                  ? "Carregando…"
+                  : total > 0 && feitos === total
+                    ? "Todos os cuidados feitos. Orgulhe-se!"
+                    : feitos > 0
+                      ? "Bom começo. Continue no seu ritmo."
+                      : "Que tal marcar o primeiro cuidado?"}
+              </span>
+            </div>
+          </div>
+          {pendentes.length > 0 && (
+            <ul className="habitos-pendentes">
+              {pendentes.map((h) => (
+                <li key={h.habito}>
+                  <span className="habito-marca" aria-hidden="true" />
+                  {h.texto}
+                </li>
+              ))}
+            </ul>
           )}
-          <Link to="/meditacao" className="inicio-cartao-acao">
-            {somAtivo ? "Abrir" : "Escolher som"} <ArrowRight size={16} aria-hidden="true" />
+          {total > 0 && feitos === total && (
+            <p className="habitos-completo">
+              <Check size={16} aria-hidden="true" /> Dia completo
+            </p>
+          )}
+          <span className="bloco-acao">
+            Abrir hábitos <ArrowRight size={16} aria-hidden="true" />
+          </span>
+        </Link>
+
+        {/* Som: bloco escuro, imersivo, com play direto */}
+        <div className={`bloco bloco-som ${tocando ? "tocando" : ""}`}>
+          <span className="bloco-rotulo">
+            <Headphones size={16} aria-hidden="true" /> Momento de paz
+          </span>
+          <div className="som-ondas" aria-hidden="true">
+            {ALTURAS_ONDA.map((h, i) => (
+              <span key={i} style={{ "--i": i, height: `${h}%` } as CSSProperties} />
+            ))}
+          </div>
+          <div className="som-linha">
+            <button
+              type="button"
+              className="som-play"
+              onClick={() => void som.alternar()}
+              disabled={!som.suportado || som.iniciando}
+              aria-label={tocando ? `Pausar ${nomeSom}` : `Tocar ${nomeSom}`}
+            >
+              {tocando ? <Pause size={22} aria-hidden="true" /> : <Play size={22} aria-hidden="true" />}
+            </button>
+            <div>
+              <strong className="som-nome">{nomeSom}</strong>
+              <span className="som-estado">{tocando ? "Tocando agora" : somAtivo ? "Pausado" : "Toque para começar"}</span>
+            </div>
+          </div>
+          <Link to="/meditacao" className="bloco-acao">
+            Todos os sons <ArrowRight size={16} aria-hidden="true" />
           </Link>
         </div>
 
-        <Link to="/diario" className="inicio-cartao">
-          <span className="inicio-cartao-topo">
-            <BookOpen size={20} aria-hidden="true" /> Seu diário
+        {/* Diário */}
+        <Link to="/diario" className="bloco bloco-diario">
+          <span className="bloco-rotulo">
+            <BookOpen size={16} aria-hidden="true" /> Diário
           </span>
           {ultimo ? (
-            <span className="inicio-cartao-texto">
-              Último registro em {formatarData(ultimo.criadoEm)}
-              {humorUltimo && (
-                <span className="inicio-humor-selo" style={{ "--cor-humor": humorUltimo.cor } as CSSProperties}>
-                  {humorUltimo.rotulo}
-                </span>
-              )}
-            </span>
+            <>
+              <p className="diario-trecho">{resumir(ultimo.texto)}</p>
+              <span className="bloco-texto diario-meta">
+                {humorUltimo && (
+                  <span className="inicio-humor-selo" style={{ "--cor-humor": humorUltimo.cor } as CSSProperties}>
+                    {humorUltimo.rotulo}
+                  </span>
+                )}
+                {formatarData(ultimo.criadoEm)}
+              </span>
+            </>
           ) : (
-            <span className="inicio-cartao-texto">
+            <p className="bloco-texto">
               {diarios.isPending ? "Carregando…" : "Escrever ajuda a entender o que você sente. Comece quando quiser."}
-            </span>
+            </p>
           )}
-          <span className="inicio-cartao-acao">
+          <span className="bloco-acao">
             Escrever <ArrowRight size={16} aria-hidden="true" />
           </span>
         </Link>
 
         {temMedicamentos && (
-          <Link to="/medicamentos" className="inicio-cartao">
-            <span className="inicio-cartao-topo">
-              <Pill size={20} aria-hidden="true" /> Próximo remédio
+          <Link to="/medicamentos" className="bloco bloco-med">
+            <span className="bloco-rotulo">
+              <Pill size={16} aria-hidden="true" /> Próximo remédio
             </span>
             {proximoMed ? (
               <>
-                <strong className="inicio-med-hora">
+                <strong className="med-hora-grande">
                   {proximoMed.horas}
                   {medAmanha && <small> amanhã</small>}
                 </strong>
-                <span className="inicio-cartao-texto">
+                <span className="bloco-texto">
                   {proximoMed.nome} · {proximoMed.dosagem}
                 </span>
               </>
             ) : (
-              <span className="inicio-cartao-texto">
+              <p className="bloco-texto">
                 {medicamentos.isPending ? "Carregando…" : "Cadastre seus remédios para lembrar dos horários."}
-              </span>
+              </p>
             )}
-            <span className="inicio-cartao-acao">
+            <span className="bloco-acao">
               Ver lista <ArrowRight size={16} aria-hidden="true" />
             </span>
           </Link>
         )}
 
         {temDuvidas && (
-          <Link to="/duvidas" className="inicio-cartao">
-            <span className="inicio-cartao-topo">
-              <MessageCircle size={20} aria-hidden="true" /> Fale com o enfermeiro
+          <Link to="/duvidas" className="bloco bloco-enfermeiro">
+            <span className="bloco-rotulo">
+              <MessageCircle size={16} aria-hidden="true" /> Seu enfermeiro
             </span>
-            <span className="inicio-cartao-texto">Envie uma dúvida, com foto ou documento se precisar.</span>
-            <span className="inicio-cartao-acao">
-              Enviar <ArrowRight size={16} aria-hidden="true" />
+            <p className="bloco-destaque">Tem alguma dúvida?</p>
+            <span className="bloco-texto">Envie por aqui, com foto ou documento se precisar.</span>
+            <span className="bloco-acao">
+              Enviar dúvida <ArrowUpRight size={16} aria-hidden="true" />
             </span>
           </Link>
         )}
 
         {gratuito && (
-          <Link to="/planos" className="inicio-cartao inicio-cartao-premium">
-            <span className="inicio-cartao-topo">
-              <Crown size={20} aria-hidden="true" /> Premium
+          <Link to="/planos" className="bloco bloco-premium">
+            <span className="bloco-rotulo">
+              <Crown size={16} aria-hidden="true" /> Premium
             </span>
-            <span className="inicio-cartao-texto">
-              Todos os sons, organização dos remédios e contato direto com o enfermeiro.
-            </span>
-            <span className="inicio-cartao-acao">
-              Ver planos <ArrowRight size={16} aria-hidden="true" />
+            <p className="bloco-destaque">Mais cuidado, no seu ritmo.</p>
+            <span className="bloco-texto">Todos os sons, seus remédios organizados e contato direto com o enfermeiro.</span>
+            <span className="bloco-acao">
+              Conhecer os planos <ArrowRight size={16} aria-hidden="true" />
             </span>
           </Link>
         )}

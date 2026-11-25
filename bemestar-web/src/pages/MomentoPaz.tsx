@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, Headphones, Lock, Square, Volume2, Wind } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Headphones, Lock, Square, Volume2 } from "lucide-react";
 import { useSom } from "../contexts/useSom";
 import {
   CATEGORIAS,
@@ -148,15 +148,6 @@ export default function MomentoPazPage() {
 
         {estado === "concluido" && <p className="paz-mensagem">{MENSAGEM_FIM}</p>}
       </div>
-
-      <Link to="/respirar" className="paz-respirar">
-        <Wind size={20} aria-hidden="true" />
-        <span>
-          <strong>Respiração guiada</strong>
-          <span>Técnicas 4-7-8, quadrada e coerente, com o ritmo na tela.</span>
-        </span>
-        <ArrowRight size={18} aria-hidden="true" />
-      </Link>
 
       {/* ---------- Categorias ---------- */}
       <div className="paz-cartao paz-sons">

@@ -179,9 +179,6 @@
 .ajuda-contato:not(.principal) strong { color: var(--marrom); }
 .ajuda-contato span span { color: var(--suave); font-size: 0.85rem; }
 .ajuda-contato:focus-visible { outline: 3px solid var(--verde); outline-offset: 2px; }
-.ajuda-respirar { width: 100%; margin-top: 8px; padding-top: 14px; border-top: 1px solid var(--linha); }
-.ajuda-respirar p { margin: 0 0 10px; color: var(--suave); font-size: 0.9rem; }
-.ajuda-respirar-link { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; }
 
 /* ---------- Navegação inferior (celular e tablet) ---------- */
 .nav-inferior { display: none; }
@@ -260,7 +257,7 @@
 .menu-ajuda span span { font-size: 0.8rem; }
 
 /* Cormorant usa algarismos "antigos" (4/7 com o 7 descendo); em números de interface, alinhados */
-h1, h2, h3, .evolucao-resumo dd, .med-hora, .respirar-texto, .paz-tempo, .planos-preco, .plano-preco { font-variant-numeric: lining-nums; }
+h1, h2, h3, .evolucao-resumo dd, .med-hora, .paz-tempo, .planos-preco, .plano-preco { font-variant-numeric: lining-nums; }
 
 /* selo de privacidade do diário dentro do cabeçalho: discreto, em formato de pílula */
 .cabecalho .diario-privado {
