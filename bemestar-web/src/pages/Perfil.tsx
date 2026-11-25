@@ -114,16 +114,6 @@ export default function PerfilPage() {
           </div>
 
           <div className="perfil-cartao">
-            <h2>Instalar o app</h2>
-            <p className="perfil-plano-linha">
-              Use o Respire como aplicativo no Windows, Android ou iPhone.
-            </p>
-            <Link to="/instalar" className="btn-secundario perfil-link">
-              Como instalar
-            </Link>
-          </div>
-
-          <div className="perfil-cartao">
             <h2>Sessões</h2>
             <p className="perfil-plano-linha">
               Saia de todos os navegadores e celulares onde sua conta está aberta.

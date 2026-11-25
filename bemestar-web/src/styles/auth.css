@@ -5,98 +5,97 @@
    O index.html aplica data-tema="escuro" antes do primeiro desenho (sem piscar). */
 /* Paleta "verde névoa": neutra, calma e clínica. Os nomes antigos dos tokens
    (bege, marrom, verde) foram mantidos para não quebrar as telas; os valores mudaram. */
+/* Paleta "névoa clara": fundo quase branco, cartões brancos, sálvia só como destaque.
+   Os nomes antigos dos tokens (bege, marrom, verde) foram mantidos para não quebrar as telas. */
 :root {
   color-scheme: light;
-  --bege: #d2ddd5;         /* superfícies de apoio (painéis, ícones) */
-  --bege-claro: #dfe8e1;   /* fundo da página (verde névoa) */
-  --marrom: #26302b;       /* títulos e textos de destaque (grafite) */
-  --marrom-fixo: #2b2f2e;  /* fundos escuros que não mudam com o tema */
-  --verde: #4f7363;        /* cor principal (sálvia) */
-  --verde-escuro: #3f5d50;
-  --texto: #2f3a35;
-  --campo: #e8efea;
-  --erro: #a94438;
-  --erro-escuro: #8c3529;
-  --ease: cubic-bezier(0.65, 0, 0.35, 1);
+  --bege: #eef2ef;         /* superfícies de apoio (painéis, ícones) */
+  --bege-claro: #f6f7f5;   /* fundo da página */
+  --marrom: #1c2420;       /* títulos e textos de destaque */
+  --marrom-fixo: #1f2623;  /* fundos escuros que não mudam com o tema */
+  --verde: #3f6b58;        /* cor principal (sálvia profunda) */
+  --verde-escuro: #2f5444;
+  --texto: #36403b;
+  --campo: #ffffff;
+  --erro: #b3443a;
+  --erro-escuro: #93342b;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
 
-  --cartao: #eef3ef;
-  --suave: #5d6a64;        /* texto secundário */
-  --suave-2: #7f8b85;      /* texto terciário, placeholders */
-  --linha: #cfdad2;
-  --linha-forte: #bccabf;
-  --hover: #e3ebe5;
-  --trilho: #d5dfd8;
-  --verde-suave: #dbe7df;
-  --erro-suave: #f7e9e6;
-  --alerta-suave: #f6eedd;
+  --cartao: #ffffff;
+  --suave: #63706a;        /* texto secundário */
+  --suave-2: #8b9690;      /* texto terciário, placeholders */
+  --linha: #e5e9e6;
+  --linha-forte: #d3dad5;
+  --hover: #f1f4f2;
+  --trilho: #e7ece8;
+  --verde-suave: #e9f1ec;
+  --erro-suave: #fbeeec;
+  --alerta-suave: #fbf3e3;
   --alerta-texto: #7a5a1e;
-  --perigo-fundo: #f3efed;
-  --alerta-fundo: #f1f1e8;
-  --sombra: rgba(38, 48, 43, 0.08);
+  --perigo-fundo: #fdf7f6;
+  --alerta-fundo: #fcf8ee;
+  --sombra: rgba(20, 28, 24, 0.05);
 
-  /* tipografia: serifa fina nos títulos, sans limpa no texto */
+  /* tipografia: serifa só nos títulos grandes, sans limpa no resto */
   --fonte-titulo: "Cormorant Garamond", Georgia, serif;
   --fonte-texto: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  /* cantos discretos (nada de "pílulas") */
-  --raio: 8px;
-  --raio-medio: 10px;
-  --raio-cartao: 14px;
-  --raio-grande: 20px;
+  --raio: 10px;
+  --raio-medio: 12px;
+  --raio-cartao: 16px;
+  --raio-grande: 18px;
 
-  /* elevação em camadas: sombras longas e suaves (nada de "caixa flutuando") */
-  --sombra-1: 0 1px 2px rgba(38, 48, 43, 0.04), 0 6px 18px -8px rgba(38, 48, 43, 0.12);
-  --sombra-2: 0 2px 4px rgba(38, 48, 43, 0.05), 0 18px 40px -18px rgba(38, 48, 43, 0.25);
+  /* elevação mínima: a borda fina separa, a sombra só sugere */
+  --sombra-1: 0 1px 2px rgba(20, 28, 24, 0.04);
+  --sombra-2: 0 1px 2px rgba(20, 28, 24, 0.04), 0 12px 32px -16px rgba(20, 28, 24, 0.16);
 
   /* ilustrações (traço = currentColor) */
-  --ilu-traco: #4f7363;
-  --ilu-fundo: #d3e1d7;
-  --ilu-fundo-forte: #eef3ef;
-  --ilu-destaque: #b9cfc0;
+  --ilu-traco: #3f6b58;
+  --ilu-fundo: #e9f1ec;
+  --ilu-fundo-forte: #ffffff;
+  --ilu-destaque: #c5d8cc;
 
-  /* aura do fundo da área logada */
-  --aura-1: rgba(122, 160, 138, 0.28);
-  --aura-2: rgba(214, 199, 168, 0.3);
+  /* aura do fundo: desligada (fundo limpo) */
+  --aura-1: transparent;
+  --aura-2: transparent;
 }
 
-/* Tema escuro: grafite esverdeado, baixo contraste para descanso dos olhos */
+/* Tema escuro: grafite neutro com um toque de verde, contraste confortável */
 :root[data-tema="escuro"] {
   color-scheme: dark;
-  --bege: #232d28;
-  --bege-claro: #141a17;
-  --marrom: #ecebe6;
-  --texto: #cdd2cf;
-  --campo: #19211d;
-  --verde: #6e8c7f;
-  --verde-escuro: #8fab9e;
-  --erro: #e08a7e;
+  --bege: #1b2320;
+  --bege-claro: #0f1412;
+  --marrom: #eceeec;
+  --marrom-fixo: #1f2623;
+  --texto: #c9cfcb;
+  --campo: #131916;
+  --verde: #4f7d69;
+  --verde-escuro: #9cc2af;
+  --erro: #e48a7e;
   --erro-escuro: #c7685b;
 
-  --cartao: #1c2420;
-  --suave: #a9aeab;
-  --suave-2: #868b88;
-  --linha: #2c3731;
-  --linha-forte: #414946;
-  --hover: #26302b;
-  --trilho: #28332d;
-  --verde-suave: #22302b;
-  --erro-suave: #3a2522;
-  --alerta-suave: #362f20;
+  --cartao: #161d1a;
+  --suave: #9aa39e;
+  --suave-2: #77817c;
+  --linha: #232c28;
+  --linha-forte: #34403a;
+  --hover: #1d2622;
+  --trilho: #252f2a;
+  --verde-suave: #1c2b24;
+  --erro-suave: #34211f;
+  --alerta-suave: #30291b;
   --alerta-texto: #e6c88e;
-  --perigo-fundo: #251e1d;
-  --alerta-fundo: #27241c;
+  --perigo-fundo: #1f1918;
+  --alerta-fundo: #25221a;
   --sombra: rgba(0, 0, 0, 0.3);
 
-  --sombra-1: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 20px -10px rgba(0, 0, 0, 0.5);
-  --sombra-2: 0 2px 6px rgba(0, 0, 0, 0.35), 0 22px 44px -18px rgba(0, 0, 0, 0.6);
+  --sombra-1: 0 1px 2px rgba(0, 0, 0, 0.25);
+  --sombra-2: 0 1px 2px rgba(0, 0, 0, 0.3), 0 16px 36px -18px rgba(0, 0, 0, 0.6);
 
-  --ilu-traco: #9dbcae;
-  --ilu-fundo: #1f2a25;
-  --ilu-fundo-forte: #26332d;
-  --ilu-destaque: #34483f;
-
-  --aura-1: rgba(84, 128, 108, 0.18);
-  --aura-2: rgba(62, 82, 110, 0.16);
+  --ilu-traco: #9cc2af;
+  --ilu-fundo: #1c2b24;
+  --ilu-fundo-forte: #22322b;
+  --ilu-destaque: #2f453b;
 }
 
 body { background: var(--bege-claro); transition: background 0.3s; }

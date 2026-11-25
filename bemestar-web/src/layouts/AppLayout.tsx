@@ -82,6 +82,8 @@ export default function AppLayout() {
   const { tema, alternar } = useTema();
   const { pathname } = useLocation();
   const [menuAberto, setMenuAberto] = useState(false);
+  const [contaAberta, setContaAberta] = useState(false);
+  const contaRef = useRef<HTMLDivElement>(null);
   const botaoMenuRef = useRef<HTMLButtonElement>(null);
   const primeiroLinkRef = useRef<HTMLAnchorElement>(null);
   // mantém plano e recursos atualizados (ao abrir, ao focar a janela e periodicamente)
@@ -113,8 +115,36 @@ export default function AppLayout() {
     };
   }, [menuAberto]);
 
+  // menu da conta: fecha ao clicar fora, com Esc e ao trocar de tela
+  useEffect(() => {
+    if (!contaAberta) return;
+    function aoClicar(e: MouseEvent) {
+      if (!contaRef.current?.contains(e.target as Node)) setContaAberta(false);
+    }
+    function aoTeclar(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setContaAberta(false);
+        contaRef.current?.querySelector<HTMLButtonElement>(".app-avatar")?.focus();
+      }
+    }
+    document.addEventListener("mousedown", aoClicar);
+    window.addEventListener("keydown", aoTeclar);
+    return () => {
+      document.removeEventListener("mousedown", aoClicar);
+      window.removeEventListener("keydown", aoTeclar);
+    };
+  }, [contaAberta]);
+
+  // troca de tela fecha o menu da conta (ajuste de estado durante o render, sem efeito)
+  const [ultimaRota, setUltimaRota] = useState(pathname);
+  if (ultimaRota !== pathname) {
+    setUltimaRota(pathname);
+    setContaAberta(false);
+  }
+
   function aoSair() {
     setMenuAberto(false);
+    setContaAberta(false);
     comTransicao("Saindo com segurança…", sair, "Até logo! Cuide-se.");
   }
 
@@ -152,38 +182,48 @@ export default function AppLayout() {
 
         <div className="app-usuario">
           {ehAdmin && <SinoNotificacoes />}
-          {!ehAdmin && (
-            <NavLink
-              to="/planos"
-              className={({ isActive }) => `app-icone-botao so-desktop ${isActive ? "ativo" : ""}`}
-              aria-label="Planos"
-              title="Planos"
-            >
-              <Crown size={18} aria-hidden="true" />
-            </NavLink>
-          )}
-          <NavLink
-            to="/instalar"
-            className={({ isActive }) => `app-icone-botao so-desktop ${isActive ? "ativo" : ""}`}
-            aria-label="Instalar o app"
-            title="Instalar o app"
-          >
-            <Download size={18} aria-hidden="true" />
-          </NavLink>
           <button type="button" className="app-icone-botao" onClick={alternar} aria-label={rotuloTema} title={rotuloTema}>
-            {tema === "escuro" ? <Sun size={19} aria-hidden="true" /> : <Moon size={19} aria-hidden="true" />}
+            {tema === "escuro" ? <Sun size={18} aria-hidden="true" /> : <Moon size={18} aria-hidden="true" />}
           </button>
-          <NavLink
-            to="/perfil"
-            className={({ isActive }) => `app-avatar ${isActive ? "ativo" : ""}`}
-            aria-label="Seu perfil"
-            title="Seu perfil"
-          >
-            {inicial}
-          </NavLink>
-          <button type="button" className="app-sair so-desktop" onClick={aoSair} aria-label="Sair" title="Sair">
-            <LogOut size={18} aria-hidden="true" />
-          </button>
+
+          {/* conta: um só ponto de entrada para perfil, plano, instalar e sair */}
+          <div className="conta" ref={contaRef}>
+            <button
+              type="button"
+              className={`app-avatar ${pathname === "/perfil" ? "ativo" : ""}`}
+              onClick={() => setContaAberta((v) => !v)}
+              aria-label="Sua conta"
+              aria-haspopup="menu"
+              aria-expanded={contaAberta}
+            >
+              {inicial}
+            </button>
+            {contaAberta && (
+              <div className="conta-menu" role="menu" aria-label="Sua conta">
+                {usuario && (
+                  <div className="conta-cabecalho">
+                    <strong>{usuario.nome}</strong>
+                    <span>{ehAdmin ? "Enfermeiro" : nomeDoPlano(usuario.planoEfetivo)}</span>
+                  </div>
+                )}
+                <Link to="/perfil" role="menuitem" className="conta-item" onClick={() => setContaAberta(false)}>
+                  <User size={17} aria-hidden="true" /> Perfil
+                </Link>
+                {!ehAdmin && (
+                  <Link to="/planos" role="menuitem" className="conta-item" onClick={() => setContaAberta(false)}>
+                    <Crown size={17} aria-hidden="true" /> Planos
+                  </Link>
+                )}
+                <Link to="/instalar" role="menuitem" className="conta-item" onClick={() => setContaAberta(false)}>
+                  <Download size={17} aria-hidden="true" /> Instalar o app
+                </Link>
+                <div className="conta-separador" role="separator" />
+                <button type="button" role="menuitem" className="conta-item sair" onClick={aoSair}>
+                  <LogOut size={17} aria-hidden="true" /> Sair
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </header>
 

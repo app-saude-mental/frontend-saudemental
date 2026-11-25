@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Crown, HeartHandshake, RefreshCw, Sprout } from "lucide-react";
+import { ChevronDown, Crown, HeartHandshake, RefreshCw, Sprout } from "lucide-react";
 import PlanoCard from "../components/PlanoCard";
 import DesistirPlano from "../components/DesistirPlano";
 import ModalPlano from "../components/ModalPlano";
@@ -26,7 +26,6 @@ export default function Planos() {
   if (!usuario) return null;
 
   const plano = usuario.planoEfetivo;
-  const primeiroNome = usuario.nome.trim().split(" ")[0];
   const vigencia = textoVigencia(plano);
   const contratado: TipoPlano = plano.contratado ?? plano.tipo;
   const pendente = usuario.solicitacaoPendente;
@@ -59,7 +58,7 @@ export default function Planos() {
   return (
     <section>
       <header className="planos-topo">
-        <h1 className="planos-ola">Olá, {primeiroNome}</h1>
+        <h1 className="planos-ola">Planos</h1>
         <p className="planos-seu">
           Seu plano <span className="selo-plano">{nomeDoPlano(plano)}</span>
         </p>
@@ -139,14 +138,18 @@ export default function Planos() {
         />
       </div>
 
-      <section className="planos-regras" aria-labelledby="planos-regras-titulo">
-        <h2 id="planos-regras-titulo">{REGRAS_PLANO.titulo}</h2>
+      {/* regras completas ficam à mão, mas recolhidas: a tela mostra primeiro os planos */}
+      <details className="planos-regras">
+        <summary>
+          <h2>{REGRAS_PLANO.titulo}</h2>
+          <ChevronDown size={18} aria-hidden="true" className="planos-regras-seta" />
+        </summary>
         <ul>
           {REGRAS_PLANO.itens.map((regra) => (
             <li key={regra}>{regra}</li>
           ))}
         </ul>
-      </section>
+      </details>
 
       <ModalPlano plano={planoInfo} onFechar={() => setPlanoInfo(null)} />
     </section>
