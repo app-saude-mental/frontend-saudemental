@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Download, Headphones, HeartHandshake, LockKeyhole } from "lucide-react";
 import FormLogin from "../components/FormLogin";
 import FormCadastro from "../components/FormCadastro";
-import Orbe3D from "../components/Orbe3D";
+import Meditante3D from "../components/Meditante3D";
 import Logo from "../components/Logo";
 import "../styles/auth.css";
 import "../styles/entrada.css";
@@ -23,7 +23,7 @@ export default function AuthShell() {
   const [passo, setPasso] = useState(0);
   const fase = passo % 2 === 0 ? "inspire" : "expire";
   const frase = Math.floor(passo / 2) % FRASES.length;
-  // a esfera 3D avisa se o aparelho tem WebGL; sem ele, fica o anel em CSS
+  // a cena 3D avisa se o aparelho tem WebGL; sem ele, fica o anel em CSS
   const [tem3D, setTem3D] = useState(false);
 
   useEffect(() => {
@@ -44,10 +44,14 @@ export default function AuthShell() {
         <Logo tamanho={34} className="entrada-logo" />
 
         <div className="entrada-respiro">
-          <Orbe3D modo={modo} onSuporte={setTem3D} className="entrada-orbe" />
+          {/* pessoa meditando em 3D; sem WebGL fica o anel em CSS */}
+          <Meditante3D modo={modo} onSuporte={setTem3D} className="entrada-meditante" />
           <span className={`entrada-anel ${fase}`} />
-          <span className="entrada-anel-texto">{fase === "inspire" ? "Inspire…" : "Expire…"}</span>
         </div>
+        <p className={`entrada-fase ${fase}`}>
+          <span className="entrada-fase-ponto" />
+          {fase === "inspire" ? "Inspire…" : "Expire…"}
+        </p>
 
         <div className="entrada-cena-texto">
           <p key={frase} className="entrada-frase">
