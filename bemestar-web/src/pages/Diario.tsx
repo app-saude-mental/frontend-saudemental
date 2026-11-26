@@ -68,6 +68,8 @@ export default function DiarioPage() {
         </p>
       </CabecalhoPagina>
 
+      <div className="layout-dupla">
+      <div className="coluna-principal">
       {/* a key recria o formulário ao trocar entre "nova entrada" e "editar" */}
       <DiarioForm
         key={editando?.id ?? `novo-${humorInicial ?? ""}`}
@@ -75,6 +77,13 @@ export default function DiarioPage() {
         humorInicial={humorInicial}
         onFinalizar={() => setEditando(null)}
       />
+      </div>
+
+      <section className="coluna-lateral" aria-labelledby="diario-entradas-titulo">
+      <h2 id="diario-entradas-titulo" className="coluna-titulo">
+        Suas entradas
+        {data && data.totalElementos > 0 && <span className="coluna-contagem">{data.totalElementos}</span>}
+      </h2>
 
       {excluir.isError && (
         <p className="erro-api" role="alert">{getErrorMessage(excluir.error)}</p>
@@ -132,6 +141,9 @@ export default function DiarioPage() {
           )}
         </>
       )}
+
+      </section>
+      </div>
 
       <ModalExclusao
         aberto={alvoExclusao !== null}

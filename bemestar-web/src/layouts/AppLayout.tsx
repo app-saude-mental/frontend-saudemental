@@ -161,8 +161,14 @@ export default function AppLayout() {
           {links
             .filter((link) => !link.soGaveta)
             .map(({ to, rotulo, Icone }) => (
-              <NavLink key={to} to={to} className={({ isActive }) => `lateral-link ${isActive ? "ativo" : ""}`}>
-                <Icone size={19} aria-hidden="true" />
+              <NavLink
+                key={to}
+                to={to}
+                className={({ isActive }) => `lateral-link secao${to.replace("/", "-")} ${isActive ? "ativo" : ""}`}
+              >
+                <span className="lateral-icone-item" aria-hidden="true">
+                  <Icone size={17} />
+                </span>
                 <span>{rotulo}</span>
               </NavLink>
             ))}
@@ -171,8 +177,10 @@ export default function AppLayout() {
           {links
             .filter((link) => link.soGaveta)
             .map(({ to, rotulo, Icone }) => (
-              <NavLink key={to} to={to} className={({ isActive }) => `lateral-link ${isActive ? "ativo" : ""}`}>
-                <Icone size={19} aria-hidden="true" />
+              <NavLink key={to} to={to} className={({ isActive }) => `lateral-link conta-link ${isActive ? "ativo" : ""}`}>
+                <span className="lateral-icone-item" aria-hidden="true">
+                  <Icone size={17} />
+                </span>
                 <span>{rotulo}</span>
               </NavLink>
             ))}

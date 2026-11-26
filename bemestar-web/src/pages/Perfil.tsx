@@ -62,7 +62,8 @@ export default function PerfilPage() {
       )}
 
       {data && plano && (
-        <>
+        <div className="perfil-grade">
+          <div className="perfil-coluna">
           <div className="perfil-cartao perfil-identidade">
             <span className="perfil-avatar" aria-hidden="true">
               {data.nome.trim().charAt(0).toUpperCase()}
@@ -108,6 +109,9 @@ export default function PerfilPage() {
             <DesistirPlano />
           </div>
 
+          </div>
+
+          <div className="perfil-coluna">
           <div className="perfil-cartao">
             <h2>Dados pessoais</h2>
             <FormPerfil key={data.id} usuario={data} />
@@ -127,7 +131,8 @@ export default function PerfilPage() {
           <div className="perfil-cartao perfil-perigo">
             <ExcluirConta usuario={data} />
           </div>
-        </>
+          </div>
+        </div>
       )}
     </section>
   );

@@ -61,6 +61,17 @@
   --floresta-texto: #e3efe8;
   --menta: #9fd6b8;
 
+  /* cores por seção (acento = texto/botão; -suave = fundo) */
+  --lavanda: #6b57b0;  --lavanda-suave: #f0ecfa;
+  --coral: #b8543a;    --coral-suave: #fcebe5;
+  --ceu: #2a6f9f;      --ceu-suave: #e4eff8;
+  --ambar: #9a6614;    --ambar-suave: #fbf0d9;
+  --indigo: #4a54a0;   --indigo-suave: #eaecf8;
+  --salvia: #3f6b58;   --salvia-suave: #e9f1ec;
+  --acento: var(--salvia);
+  --acento-suave: var(--salvia-suave);
+  --acento-tinta: #ffffff; /* texto sobre botão no acento */
+
   /* aura do fundo: desligada (fundo limpo) */
   --aura-1: transparent;
   --aura-2: transparent;
@@ -97,6 +108,14 @@
 
   --sombra-1: 0 1px 2px rgba(0, 0, 0, 0.25);
   --sombra-2: 0 1px 2px rgba(0, 0, 0, 0.3), 0 16px 36px -18px rgba(0, 0, 0, 0.6);
+
+  --lavanda: #b6a7ee;  --lavanda-suave: #252036;
+  --coral: #f0a388;    --coral-suave: #35221c;
+  --ceu: #8fc4ea;      --ceu-suave: #182a37;
+  --ambar: #e9c070;    --ambar-suave: #30291a;
+  --indigo: #aab2ef;   --indigo-suave: #20243a;
+  --salvia: #9cc9b1;   --salvia-suave: #1c2b24;
+  --acento-tinta: #10140f;
 
   --floresta: #0d211a;
   --floresta-2: #173b2f;

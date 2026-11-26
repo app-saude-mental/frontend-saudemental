@@ -15,11 +15,14 @@ export default function DuvidaCard({ duvida, onEditar, onExcluir }: Props) {
   const editada = duvida.atualizadoEm !== duvida.criadoEm;
 
   return (
-    <li className="duv-item">
-      <p className="duv-data">
-        Enviada em {formatar(duvida.criadoEm)}
-        {editada && " · editada"}
-      </p>
+    <li className={`duv-item ${duvida.resposta ? "respondida" : "pendente"}`}>
+      <div className="duv-item-topo">
+        <span className="duv-status">{duvida.resposta ? "Respondida" : "Aguardando resposta"}</span>
+        <p className="duv-data">
+          {formatar(duvida.criadoEm)}
+          {editada && " · editada"}
+        </p>
+      </div>
 
       <p className="duv-mensagem">{duvida.mensagem}</p>
       <AnexosLista anexos={duvida.anexos ?? []} />

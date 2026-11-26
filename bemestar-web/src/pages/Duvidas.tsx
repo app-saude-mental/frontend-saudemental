@@ -41,13 +41,21 @@ export default function DuvidasPage() {
         ilustracao="conversa"
       />
 
+      <div className="layout-dupla">
+      <div className="coluna-principal">
       <DuvidaForm
         key={editando?.id ?? "nova"}
         editando={editando}
         onConcluir={() => setEditando(null)}
       />
 
-      <h2 className="duv-subtitulo">Minhas dúvidas</h2>
+      </div>
+
+      <section className="coluna-lateral" aria-labelledby="duv-lista-titulo">
+      <h2 id="duv-lista-titulo" className="duv-subtitulo coluna-titulo">
+        Minhas dúvidas
+        {data && data.totalElementos > 0 && <span className="coluna-contagem">{data.totalElementos}</span>}
+      </h2>
 
       {isPending && (
         <p className="duv-estado" role="status">
@@ -108,6 +116,9 @@ export default function DuvidasPage() {
           </button>
         </nav>
       )}
+
+      </section>
+      </div>
 
       <ConfirmarExclusaoDuvida
         duvida={excluindo}
