@@ -9,6 +9,8 @@ import { useDicas } from "../hooks/useDicas";
 import { getErrorMessage } from "../services/apiError";
 import "../styles/dicas.css";
 import CabecalhoPagina from "../components/CabecalhoPagina";
+import Paginacao from "../components/Paginacao";
+import { usePaginaLocal } from "../hooks/usePaginaLocal";
 
 // ícone e cor de cada dica geral (na ordem de DICAS_GERAIS; se faltar, repete o ciclo)
 const VISUAL_DICAS: { Icone: LucideIcon; cor: string; suave: string }[] = [
@@ -24,6 +26,7 @@ export default function DicasPage() {
   const { pode } = useAuth();
   const temOrientacoes = pode("ORIENTACOES");
   const { data, isPending, isError, error, refetch, isFetching } = useDicas(temOrientacoes);
+  const paginas = usePaginaLocal(data, 4);
 
   return (
     <section className="dicas">
@@ -105,13 +108,23 @@ export default function DicasPage() {
 
             {data && data.length > 0 && (
               <ul className="dicas-lista" aria-busy={isFetching}>
-                {data.map((dica) => (
+                {paginas.itens.map((dica) => (
                   <li key={dica.id} className="dicas-cartao enfermeiro">
                     <h3>{dica.titulo}</h3>
                     <p>{dica.texto}</p>
                   </li>
                 ))}
               </ul>
+            )}
+            {data && (
+              <Paginacao
+                pagina={paginas.pagina}
+                totalPaginas={paginas.totalPaginas}
+                onMudar={paginas.setPagina}
+                rotulo="Páginas de orientações"
+                totalItens={paginas.total}
+                nomeItem={["orientação", "orientações"]}
+              />
             )}
           </>
         )}

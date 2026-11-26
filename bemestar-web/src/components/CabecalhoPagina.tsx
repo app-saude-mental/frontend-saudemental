@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import type { NomeIlustracao } from "./Ilustracao";
+import TextoRevelado from "./TextoRevelado";
 
 interface Props {
   titulo: ReactNode;
@@ -16,7 +17,7 @@ export default function CabecalhoPagina({ titulo, subtitulo, sobretitulo, acao, 
     <header className="cabecalho">
       <div className="cabecalho-texto">
         {sobretitulo && <p className="cabecalho-sobre">{sobretitulo}</p>}
-        <h1>{titulo}</h1>
+        <h1>{typeof titulo === "string" ? <TextoRevelado texto={titulo} /> : titulo}</h1>
         {subtitulo && <p className="cabecalho-sub">{subtitulo}</p>}
         {children}
         {acao && <div className="cabecalho-acao">{acao}</div>}

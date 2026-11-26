@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { ChevronLeft, ChevronRight, Lock } from "lucide-react";
+import { Lock } from "lucide-react";
 import DiarioCard from "../components/DiarioCard";
 import DiarioForm from "../components/DiarioForm";
 import ModalExclusao from "../components/ModalExclusao";
@@ -10,6 +10,7 @@ import { HUMORES_VALORES, type Diario, type Humor } from "../types/diario";
 import "../styles/diario.css";
 import CabecalhoPagina from "../components/CabecalhoPagina";
 import EstadoVazio from "../components/EstadoVazio";
+import Paginacao from "../components/Paginacao";
 
 function resumir(texto: string) {
   return texto.length > 90 ? `${texto.slice(0, 90).trimEnd()}…` : texto;
@@ -122,23 +123,14 @@ export default function DiarioPage() {
             ))}
           </ul>
 
-          {data.totalPaginas > 1 && (
-            <nav className="paginacao" aria-label="Paginação">
-              <button type="button" disabled={pagina === 0} onClick={() => mudarPagina(pagina - 1)}>
-                <ChevronLeft size={16} aria-hidden="true" /> Anterior
-              </button>
-              <span>
-                Página {pagina + 1} de {data.totalPaginas}
-              </span>
-              <button
-                type="button"
-                disabled={pagina + 1 >= data.totalPaginas}
-                onClick={() => mudarPagina(pagina + 1)}
-              >
-                Próxima <ChevronRight size={16} aria-hidden="true" />
-              </button>
-            </nav>
-          )}
+          <Paginacao
+            pagina={pagina}
+            totalPaginas={data.totalPaginas}
+            onMudar={mudarPagina}
+            rotulo="Páginas do diário"
+            totalItens={data.totalElementos}
+            nomeItem={["entrada", "entradas"]}
+          />
         </>
       )}
 

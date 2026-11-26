@@ -23,6 +23,8 @@ import "./styles/refino.css";
 import "./styles/forma.css";
 // identidade de cada seção (cores e layouts em colunas)
 import "./styles/secoes.css";
+// identidade "Sereno": última camada (paleta, tipografia, movimento, paginação)
+import "./styles/sereno.css";
 import { AuthProvider } from "./contexts/AuthProvider";
 import { SomProvider } from "./contexts/SomProvider";
 

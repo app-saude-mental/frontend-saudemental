@@ -1,7 +1,7 @@
 import { useState } from "react";
 import AnexosLista from "../../components/AnexosLista";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Check, Minus } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Minus } from "lucide-react";
 import AcoesPlano from "../../components/admin/AcoesPlano";
 import OrientacaoForm from "../../components/admin/OrientacaoForm";
 import Paginacao from "../../components/admin/Paginacao";
@@ -22,6 +22,7 @@ import type { AdminUsuarioDetalhe, TipoEventoPlano } from "../../types/admin";
 import type { Dica } from "../../types/dica";
 import { formatarData, formatarDataHora, hojeISO } from "../../utils/data";
 import { ROTULO_STATUS, nomeDoPlano, textoVigencia } from "../../utils/plano";
+import { usePaginaLocal } from "../../hooks/usePaginaLocal";
 
 const ROTULO_EVENTO: Record<TipoEventoPlano, string> = {
   ATIVACAO: "Ativação",
@@ -74,6 +75,13 @@ function Historico({ usuarioId }: { usuarioId: number }) {
   );
 }
 
+// "2026-11-26" + n dias, sem passar por fuso (data local)
+function somarDias(iso: string, dias: number) {
+  const [a, m, d] = iso.split("-").map(Number);
+  const data = new Date(a, m - 1, d + dias);
+  return `${data.getFullYear()}-${String(data.getMonth() + 1).padStart(2, "0")}-${String(data.getDate()).padStart(2, "0")}`;
+}
+
 // ---------- Hábitos: 7 dias até a data escolhida ----------
 function Habitos({ usuarioId }: { usuarioId: number }) {
   const [ate, setAte] = useState(hojeISO());
@@ -81,10 +89,32 @@ function Habitos({ usuarioId }: { usuarioId: number }) {
   return (
     <section className="adm-cartao" aria-labelledby="adm-habitos">
       <h2 id="adm-habitos">Hábitos</h2>
-      <label className="adm-campo adm-data">
-        <span>Últimos 7 dias até</span>
-        <input type="date" value={ate} max={hojeISO()} onChange={(e) => e.target.value && setAte(e.target.value)} />
-      </label>
+      {/* navegação por semana (7 dias até a data escolhida) */}
+      <div className="adm-semana">
+        <button
+          type="button"
+          className="paginacao-seta"
+          onClick={() => setAte(somarDias(ate, -7))}
+          aria-label="Semana anterior"
+        >
+          <ArrowLeft size={16} aria-hidden="true" />
+          <span className="paginacao-seta-texto">Semana anterior</span>
+        </button>
+        <label className="adm-campo adm-data">
+          <span>7 dias até</span>
+          <input type="date" value={ate} max={hojeISO()} onChange={(e) => e.target.value && setAte(e.target.value)} />
+        </label>
+        <button
+          type="button"
+          className="paginacao-seta"
+          onClick={() => setAte(somarDias(ate, 7) > hojeISO() ? hojeISO() : somarDias(ate, 7))}
+          disabled={ate >= hojeISO()}
+          aria-label="Próxima semana"
+        >
+          <span className="paginacao-seta-texto">Próxima</span>
+          <ArrowRight size={16} aria-hidden="true" />
+        </button>
+      </div>
       <Estado carregando={isPending} erro={error} aoTentar={refetch} />
       {data && data.length > 0 && (
         <div className="adm-rolagem">
@@ -187,6 +217,7 @@ function Orientacoes({ usuario }: { usuario: AdminUsuarioDetalhe }) {
   const [editando, setEditando] = useState<Dica | null>(null);
   const [alvo, setAlvo] = useState<Dica | null>(null);
   const ehPaciente = usuario.planoEfetivo.tipo === "PACIENTE";
+  const paginas = usePaginaLocal(data, 5);
 
   return (
     <section className="adm-cartao" aria-labelledby="adm-orientacoes">
@@ -209,7 +240,7 @@ function Orientacoes({ usuario }: { usuario: AdminUsuarioDetalhe }) {
       {data && data.length === 0 && <p className="adm-vazio">Nenhuma orientação enviada.</p>}
       {data && data.length > 0 && (
         <ul className="adm-lista">
-          {data.map((d) => (
+          {paginas.itens.map((d) => (
             <li key={d.id}>
               <strong>{d.titulo}</strong>
               <p className="adm-mensagem">{d.texto}</p>
@@ -225,6 +256,15 @@ function Orientacoes({ usuario }: { usuario: AdminUsuarioDetalhe }) {
           ))}
         </ul>
       )}
+
+      <Paginacao
+        pagina={paginas.pagina}
+        totalPaginas={paginas.totalPaginas}
+        onMudar={paginas.setPagina}
+        rotulo="Orientações"
+        totalItens={paginas.total}
+        nomeItem={["orientação", "orientações"]}
+      />
 
       <ModalExclusao
         aberto={alvo !== null}

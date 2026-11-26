@@ -12,6 +12,7 @@ import { useHabitosDoDia } from "../hooks/useHabitos";
 import { useMedicamentos } from "../hooks/useMedicamentos";
 import { formatarData, hojeISO } from "../utils/data";
 import "../styles/inicio.css";
+import TextoRevelado from "../components/TextoRevelado";
 
 function saudacaoDoDia(hora: number) {
   if (hora < 5) return "Boa noite";
@@ -67,10 +68,14 @@ export default function InicioPage() {
     <section className="inicio">
       {/* ---------- Painel de boas-vindas ---------- */}
       <header className="inicio-hero">
+        {/* "aura" que respira devagar: decorativa */}
+        <span className="inicio-aura" aria-hidden="true">
+          <span />
+          <span />
+        </span>
         <p className="inicio-hero-data">{dataExtenso}</p>
         <h1>
-          {saudacaoDoDia(agora.getHours())}
-          {primeiroNome && <>, {primeiroNome}</>}
+          <TextoRevelado texto={`${saudacaoDoDia(agora.getHours())}${primeiroNome ? `, ${primeiroNome}` : ""}`} />
         </h1>
         <p className="inicio-hero-frase">“{fraseDeHoje(agora)}”</p>
 

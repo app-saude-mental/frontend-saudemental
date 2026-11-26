@@ -1,8 +1,7 @@
 /* =========================================================
    Seções com identidade própria (carregado por último, em main.tsx).
-   Cada seção tem uma cor de acento (tokens em auth.css):
-     Diário = lavanda · Hábitos = sálvia · Meditar = índigo
-     Remédios = coral · Dúvidas = céu · Dicas = âmbar
+   As seções usam --acento; desde o visual "Sereno" (sereno.css) todos os acentos
+   apontam para o mesmo verde. Os tokens por seção continuam aqui por compatibilidade.
    No notebook/desktop as seções usam duas colunas em vez de uma tira estreita.
    ========================================================= */
 
@@ -352,26 +351,6 @@
 .perfil-identidade p { color: color-mix(in srgb, var(--floresta-texto) 80%, transparent); }
 .perfil-identidade .perfil-avatar { background: var(--menta) !important; color: var(--floresta) !important; font-family: var(--fonte-texto); font-weight: 700; }
 .perfil-identidade .perfil-selo.premium { background: var(--menta); color: var(--floresta); }
-
-/* ---------- Início: cores das seções nos blocos ---------- */
-.bloco-diario .bloco-rotulo svg { color: var(--lavanda); }
-.bloco-diario { background: linear-gradient(160deg, var(--lavanda-suave), var(--cartao) 70%); }
-.bloco-med .bloco-rotulo svg { color: var(--coral); }
-.bloco-med { background: linear-gradient(160deg, var(--coral-suave), var(--cartao) 70%); }
-.bloco-med .bloco-acao,
-.bloco-med .med-hora-grande { color: var(--coral); }
-.bloco-diario .bloco-acao { color: var(--lavanda); }
-.bloco-enfermeiro { background: var(--ceu-suave); }
-.bloco-enfermeiro .bloco-rotulo svg,
-.bloco-enfermeiro .bloco-acao { color: var(--ceu); }
-.bloco-premium { background: radial-gradient(100% 90% at 100% 0%, color-mix(in srgb, var(--ambar) 22%, transparent), transparent 60%), var(--ambar-suave); }
-.bloco-premium .bloco-rotulo svg,
-.bloco-premium .bloco-acao { color: var(--ambar); }
-.bloco-som { background: radial-gradient(90% 80% at 100% 100%, color-mix(in srgb, #8f9cf0 26%, transparent), transparent 60%), linear-gradient(160deg, #1f2340, #12142a); }
-.bloco-som .bloco-rotulo svg,
-.bloco-som .bloco-acao { color: #b9c1ff; }
-.bloco-som .som-play { background: #b9c1ff; color: #12142a; box-shadow: 0 0 0 6px rgba(185, 193, 255, 0.18); }
-.bloco-som .som-ondas span { background: linear-gradient(180deg, #b9c1ff, rgba(185, 193, 255, 0.25)); }
 
 /* ---------- Barra lateral: ícones na cor de cada seção ---------- */
 @media (min-width: 1024px) {
