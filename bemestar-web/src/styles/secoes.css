@@ -1,0 +1,438 @@
+/* =========================================================
+   Seções com identidade própria (carregado por último, em main.tsx).
+   Cada seção tem uma cor de acento (tokens em auth.css):
+     Diário = lavanda · Hábitos = sálvia · Meditar = índigo
+     Remédios = coral · Dúvidas = céu · Dicas = âmbar
+   No notebook/desktop as seções usam duas colunas em vez de uma tira estreita.
+   ========================================================= */
+
+/* ---------- Acento de cada seção ---------- */
+.diario { --acento: var(--lavanda); --acento-suave: var(--lavanda-suave); }
+.habitos { --acento: var(--salvia); --acento-suave: var(--salvia-suave); }
+.paz { --acento: var(--indigo); --acento-suave: var(--indigo-suave); }
+.med-pagina { --acento: var(--coral); --acento-suave: var(--coral-suave); }
+.duv-pagina { --acento: var(--ceu); --acento-suave: var(--ceu-suave); }
+.dicas { --acento: var(--ambar); --acento-suave: var(--ambar-suave); }
+
+.pagina .cabecalho-sobre { background: var(--acento-suave); color: var(--acento); }
+.pagina .btn-principal { background: var(--acento); color: var(--acento-tinta); }
+.pagina .btn-principal:hover:not(:disabled) { background: color-mix(in srgb, var(--acento) 86%, #000); }
+:root[data-tema="escuro"] .pagina .btn-principal:hover:not(:disabled) { background: color-mix(in srgb, var(--acento) 85%, #fff); }
+.pagina .btn-principal:focus-visible { outline-color: var(--acento); }
+
+/* ---------- Largura e duas colunas ---------- */
+.diario,
+.habitos,
+.paz,
+.dicas,
+.med-pagina,
+.duv-pagina,
+.perfil { max-width: 1080px; margin: 0 auto; }
+
+.layout-dupla { display: grid; gap: 20px; }
+.coluna-principal,
+.coluna-lateral { min-width: 0; }
+.coluna-titulo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 14px;
+  color: var(--marrom);
+  font-size: 1.02rem;
+}
+.coluna-contagem {
+  display: inline-grid;
+  place-items: center;
+  min-width: 24px;
+  height: 22px;
+  padding: 0 7px;
+  border-radius: 999px;
+  background: var(--acento-suave);
+  color: var(--acento);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+@media (min-width: 1180px) {
+  .layout-dupla { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+  .layout-dupla .coluna-principal { position: sticky; top: 32px; }
+  .paz-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
+@media (max-width: 1179px) {
+  .diario, .paz, .duv-pagina { max-width: 720px; }
+  .layout-dupla .coluna-lateral { margin-top: 12px; }
+}
+
+/* cabeçalho: botão de ação à direita no desktop */
+@media (min-width: 761px) {
+  .cabecalho-texto:has(> .cabecalho-acao) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 24px;
+  }
+  .cabecalho-texto:has(> .cabecalho-acao) > * { grid-column: 1; }
+  .cabecalho-texto:has(> .cabecalho-acao) > .cabecalho-sobre { justify-self: start; }
+  .cabecalho-texto > .cabecalho-acao { grid-column: 2; grid-row: 1 / span 4; align-self: end; margin: 0; }
+}
+
+/* ---------- Diário ---------- */
+.diario .diario-lista { margin-top: 0; gap: 12px; }
+.diario .entrada { padding: 18px 20px; border-radius: 18px; }
+.diario .diario-form .texto-card,
+.diario .diario-form > * { border-radius: 20px; }
+.diario .humor-frase { background: var(--lavanda-suave); color: var(--marrom); }
+.cabecalho .diario-privado { background: var(--lavanda-suave); color: var(--lavanda); }
+.diario .diario-form .btn-principal { width: 100%; }
+.diario .humor-lista { flex-wrap: nowrap; gap: 4px; }
+.diario .humor-opcao { flex: 1 1 0; }
+.diario .humor-bolinha { width: min(40px, 100%); }
+.diario .humor-rotulo { font-size: 0.74rem; }
+
+/* ---------- Hábitos ---------- */
+.habitos-grade { display: grid; gap: 16px; }
+@media (min-width: 1100px) {
+  .habitos-grade { grid-template-columns: minmax(0, 1fr) 280px; align-items: start; }
+  .habitos-grade .habitos-progresso { position: sticky; top: 32px; }
+}
+.habitos .habitos-lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.habitos .habito {
+  gap: 14px;
+  min-height: 76px;
+  padding: 16px;
+  border: 1px solid var(--linha);
+  border-radius: 18px;
+  background: var(--cartao);
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+}
+.habitos .habito:hover { background: var(--cartao); border-color: color-mix(in srgb, var(--cor-habito) 45%, var(--linha)); }
+.habitos .habito:active { transform: scale(0.985); }
+.habito-icone {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--cor-habito) 14%, var(--cartao));
+  color: var(--cor-habito);
+}
+.habitos .habito-texto { flex: 1; font-size: 0.96rem; font-weight: 500; }
+.habitos .habito-caixa { width: 26px; height: 26px; border-width: 1.5px; border-radius: 50%; }
+.habitos .habito input:checked ~ .habito-caixa { border-color: var(--cor-habito); background: var(--cor-habito); color: var(--cartao); }
+.habitos .habito input:checked ~ .habito-caixa svg { opacity: 1; transform: none; }
+.habitos .habito input:focus-visible ~ .habito-caixa { outline: 2px solid var(--cor-habito); outline-offset: 3px; }
+.habitos .habito.feito { border-color: transparent; background: color-mix(in srgb, var(--cor-habito) 10%, var(--cartao)); }
+.habitos .habito.feito .habito-texto { color: var(--marrom); text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--cor-habito) 60%, transparent); }
+
+.habitos .habitos-progresso {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 24px;
+  border-radius: 22px;
+  text-align: center;
+}
+.habitos .habitos-progresso p { margin: 0; }
+.habitos-anel {
+  display: grid;
+  place-items: center;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: conic-gradient(var(--salvia) calc(var(--pct, 0) * 360deg), var(--trilho) 0);
+}
+.habitos-anel > span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  background: var(--cartao);
+}
+.habitos-anel strong { color: var(--marrom); font-family: var(--fonte-titulo); font-size: 2.6rem; font-weight: 500; line-height: 1; font-variant-numeric: lining-nums; }
+.habitos-anel small { color: var(--suave); font-size: 0.82rem; }
+.habitos .habitos-progresso .barra { width: 100%; }
+@media (max-width: 1099px) {
+  .habitos .habitos-progresso { flex-direction: row; text-align: left; }
+  .habitos-anel { width: 88px; height: 88px; flex: none; }
+  .habitos-anel > span { width: 70px; height: 70px; }
+  .habitos-anel strong { font-size: 1.7rem; }
+  .habitos .habitos-progresso .barra { display: none; }
+}
+
+/* ---------- Meditar ---------- */
+.paz-layout .coluna-lateral { display: flex; flex-direction: column; gap: 16px; }
+.paz-layout .paz-cartao { margin: 0; }
+.paz-layout .paz-player { min-height: 100%; justify-content: center; }
+@media (min-width: 1180px) {
+  .paz-layout .paz-player { min-height: 520px; }
+}
+.paz .paz-categoria[aria-selected="true"] { background: var(--indigo); color: var(--acento-tinta); }
+.paz .paz-sons .paz-chips { grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); }
+.paz .paz-chip[aria-pressed="true"]:not(.paz-sons .paz-chip) { border-color: var(--indigo); background: var(--indigo); color: var(--acento-tinta); }
+.paz .paz-volume input { accent-color: var(--indigo); }
+
+/* ---------- Remédios ---------- */
+.med-pagina { padding: 0; }
+.med-periodos { display: grid; gap: 22px; }
+@media (min-width: 1100px) {
+  .med-periodos { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; align-items: start; }
+  .med-periodo { min-height: 220px; padding: 16px; border-radius: 22px; background: color-mix(in srgb, var(--cor-periodo-suave) 55%, transparent); }
+}
+.med-periodo { --cor-periodo: var(--ambar); --cor-periodo-suave: var(--ambar-suave); }
+.med-periodo.tarde { --cor-periodo: var(--coral); --cor-periodo-suave: var(--coral-suave); }
+.med-periodo.noite { --cor-periodo: var(--indigo); --cor-periodo-suave: var(--indigo-suave); }
+.med-periodo-titulo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 12px;
+  color: var(--marrom);
+  font-size: 1rem;
+}
+.med-periodo-titulo small { color: var(--suave-2); font-size: 0.78rem; font-weight: 500; }
+.med-periodo-icone {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  background: var(--cor-periodo-suave);
+  color: var(--cor-periodo);
+}
+@media (min-width: 1100px) {
+  .med-periodo-icone { background: var(--cartao); }
+}
+.med-periodo-vazio { margin: 4px 0 0; color: var(--suave-2); font-size: 0.86rem; }
+.med-pagina .med-lista { display: flex; flex-direction: column; gap: 10px; }
+.med-pagina .med-lista:empty { display: none; }
+
+/* cada remédio: hora | nome e dose | ações */
+.med-pagina .med-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 12px 14px 16px;
+  border-radius: 16px;
+  animation: none;
+}
+.med-item-topo { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.med-pagina .med-hora {
+  min-width: 0;
+  padding: 0;
+  background: none;
+  color: var(--cor-periodo);
+  font-family: var(--fonte-texto);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  text-align: left;
+}
+.med-pagina .med-item.proximo { border-color: var(--coral); box-shadow: 0 0 0 1px var(--coral), 0 12px 26px -18px var(--coral); }
+.med-selo-proximo {
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--coral);
+  color: var(--acento-tinta);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.med-pagina .med-info { display: block; min-width: 0; }
+.med-pagina .med-info > div { display: flex; flex-direction: column; min-width: 0; }
+.med-icone { display: none; }
+.med-pagina .med-info strong { overflow: hidden; font-size: 0.96rem; text-overflow: ellipsis; white-space: nowrap; }
+.med-pagina .med-info span { font-size: 0.84rem; }
+.med-pagina .med-acoes-item { display: flex; gap: 2px; }
+.med-pagina .med-acao {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  min-height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 9px;
+  color: var(--suave-2);
+}
+.med-pagina .med-acao:hover { background: var(--hover); color: var(--marrom); }
+.med-pagina .med-acao.perigo { color: var(--suave-2); }
+.med-pagina .med-acao.perigo:hover { background: var(--erro-suave); color: var(--erro); }
+.med-pagina .med-contagem { margin: 0 0 18px; color: var(--suave); font-size: 0.9rem; }
+
+/* ---------- Dúvidas ---------- */
+.duv-pagina .duv-caixa { border-radius: 22px; }
+.duv-pagina .duv-subtitulo { margin-top: 0; }
+.duv-pagina .duv-lista { gap: 12px; }
+.duv-pagina .duv-item { padding: 18px 20px; border-radius: 20px; }
+.duv-item-topo { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+.duv-item-topo .duv-data { margin: 0; font-size: 0.8rem; }
+.duv-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--ambar-suave);
+  color: var(--ambar);
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+.duv-status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.duv-item.respondida .duv-status { background: var(--salvia-suave); color: var(--salvia); }
+.duv-pagina .duv-mensagem { color: var(--marrom); font-weight: 500; }
+.duv-pagina .duv-resposta { background: var(--ceu-suave); }
+.duv-pagina .duv-resposta h3 { color: var(--ceu); font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; }
+.duv-pagina .duv-acoes-item { justify-content: flex-end; }
+.duv-pagina .duv-acao { min-height: 34px; padding: 0 12px; border: 0; border-radius: 10px; background: transparent; color: var(--suave); font-size: 0.86rem; }
+.duv-pagina .duv-acao:hover { background: var(--hover); color: var(--marrom); }
+.duv-pagina .duv-acao.perigo:hover { background: var(--erro-suave); color: var(--erro); }
+
+/* ---------- Dicas ---------- */
+.dicas .dicas-podcast {
+  border: 0;
+  border-radius: 24px;
+  background:
+    radial-gradient(90% 120% at 100% 0%, color-mix(in srgb, var(--ambar) 30%, transparent), transparent 60%),
+    linear-gradient(150deg, #2a2418, #17140d);
+  color: #f6eedc;
+}
+.dicas .dicas-podcast h2 { color: #fff; }
+.dicas .dicas-podcast p { color: rgba(246, 238, 220, 0.75); }
+.dicas .dicas-podcast-icone { background: var(--ambar); color: #17140d; }
+:root[data-tema="escuro"] .dicas .dicas-podcast-icone { color: #17140d; }
+.dicas .dicas-podcast .btn-principal { background: #f6eedc; color: #17140d; }
+.dicas .dicas-podcast .btn-principal:hover:not(:disabled) { background: #fff; }
+.dicas .dicas-lista { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.dicas .dicas-cartao { display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 20px; }
+.dicas .dicas-cartao h3 { margin: 6px 0 0; }
+.dicas .dicas-cartao p { margin: 0; color: var(--suave); font-size: 0.92rem; line-height: 1.55; }
+.dicas-icone {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--cor-dica-suave);
+  color: var(--cor-dica);
+}
+.dicas .dicas-cartao.enfermeiro { background: var(--ambar-suave); border-color: transparent; }
+.dicas .dicas-secao-titulo svg { color: var(--ambar); }
+
+/* ---------- Perfil ---------- */
+.perfil-grade { display: grid; gap: 16px; }
+.perfil-coluna { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.perfil-grade .perfil-cartao { margin: 0; border-radius: 20px; }
+@media (min-width: 1100px) {
+  .perfil-grade { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); align-items: start; }
+}
+.perfil-identidade {
+  border: 0 !important;
+  background:
+    radial-gradient(100% 120% at 100% 0%, color-mix(in srgb, var(--menta) 28%, transparent), transparent 60%),
+    linear-gradient(150deg, var(--floresta-2), var(--floresta)) !important;
+  color: var(--floresta-texto);
+}
+.perfil-identidade h2 { color: #fff; }
+.perfil-identidade p { color: color-mix(in srgb, var(--floresta-texto) 80%, transparent); }
+.perfil-identidade .perfil-avatar { background: var(--menta) !important; color: var(--floresta) !important; font-family: var(--fonte-texto); font-weight: 700; }
+.perfil-identidade .perfil-selo.premium { background: var(--menta); color: var(--floresta); }
+
+/* ---------- Início: cores das seções nos blocos ---------- */
+.bloco-diario .bloco-rotulo svg { color: var(--lavanda); }
+.bloco-diario { background: linear-gradient(160deg, var(--lavanda-suave), var(--cartao) 70%); }
+.bloco-med .bloco-rotulo svg { color: var(--coral); }
+.bloco-med { background: linear-gradient(160deg, var(--coral-suave), var(--cartao) 70%); }
+.bloco-med .bloco-acao,
+.bloco-med .med-hora-grande { color: var(--coral); }
+.bloco-diario .bloco-acao { color: var(--lavanda); }
+.bloco-enfermeiro { background: var(--ceu-suave); }
+.bloco-enfermeiro .bloco-rotulo svg,
+.bloco-enfermeiro .bloco-acao { color: var(--ceu); }
+.bloco-premium { background: radial-gradient(100% 90% at 100% 0%, color-mix(in srgb, var(--ambar) 22%, transparent), transparent 60%), var(--ambar-suave); }
+.bloco-premium .bloco-rotulo svg,
+.bloco-premium .bloco-acao { color: var(--ambar); }
+.bloco-som { background: radial-gradient(90% 80% at 100% 100%, color-mix(in srgb, #8f9cf0 26%, transparent), transparent 60%), linear-gradient(160deg, #1f2340, #12142a); }
+.bloco-som .bloco-rotulo svg,
+.bloco-som .bloco-acao { color: #b9c1ff; }
+.bloco-som .som-play { background: #b9c1ff; color: #12142a; box-shadow: 0 0 0 6px rgba(185, 193, 255, 0.18); }
+.bloco-som .som-ondas span { background: linear-gradient(180deg, #b9c1ff, rgba(185, 193, 255, 0.25)); }
+
+/* ---------- Barra lateral: ícones na cor de cada seção ---------- */
+@media (min-width: 1024px) {
+  .lateral { padding: 22px 14px 14px; }
+  .lateral-marca { margin-bottom: 16px; }
+  .lateral-titulo { margin: 14px 12px 6px; }
+  .lateral-link { gap: 11px; padding: 7px 10px; }
+  .lateral-icone-item {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 9px;
+    background: color-mix(in srgb, var(--cor-item, #fff) 16%, transparent);
+    color: var(--cor-item, var(--floresta-texto));
+  }
+  .lateral-link .lateral-icone-item svg { opacity: 1; }
+  .lateral-link.ativo .lateral-icone-item { background: var(--cor-item, var(--menta)); color: var(--floresta); }
+  .lateral-link.ativo svg { color: inherit; }
+  .lateral-link.ativo::before { background: var(--cor-item, var(--menta)); }
+  .secao-inicio { --cor-item: #9fd6b8; }
+  .secao-diario { --cor-item: #c3b6f2; }
+  .secao-habitos { --cor-item: #a8dcbf; }
+  .secao-meditacao { --cor-item: #b9c1ff; }
+  .secao-dicas { --cor-item: #f0cd84; }
+  .secao-medicamentos { --cor-item: #f4ad93; }
+  .secao-duvidas { --cor-item: #9fd0f2; }
+  .secao-admin { --cor-item: #9fd6b8; }
+  .conta-link { --cor-item: #cfe0d7; }
+  .conta-link .lateral-icone-item { background: transparent; }
+
+  /* rodapé mais enxuto: cabe em telas de 768px */
+  .lateral-rodape { gap: 10px; padding-top: 14px; }
+  .lateral .ajuda-cartao.lateral-ajuda { padding: 10px 12px; }
+  .lateral .ajuda-cartao.lateral-ajuda span span { display: none; }
+  .lateral-usuario { padding-top: 10px; }
+}
+@media (min-width: 1024px) and (max-height: 760px) {
+  .lateral-titulo { margin-top: 10px; }
+  .lateral-link { padding: 6px 10px; }
+  .lateral-icone-item { width: 26px; height: 26px; }
+}
+
+/* ---------- Celular ---------- */
+@media (max-width: 600px) {
+  .habitos .habitos-lista { grid-template-columns: 1fr; gap: 8px; }
+  .habitos .habito { min-height: 64px; padding: 12px 14px; }
+  .dicas .dicas-lista { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .habitos .habito, .med-pagina .med-item { transition: none; }
+}
+
+/* Meditar: categorias quebram linha em vez de rolar escondidas */
+.paz .paz-categorias { flex-wrap: wrap; overflow: visible; }
+
+/* Remédios no celular: hora | nome | ações na mesma linha */
+@media (max-width: 600px) {
+  .med-pagina .med-item { grid-template-columns: 64px minmax(0, 1fr) auto; gap: 10px; padding: 12px 8px 12px 14px; }
+  .med-pagina .med-hora { min-width: 0; font-size: 1.05rem; }
+  .med-pagina .med-acoes-item { grid-column: auto; }
+}

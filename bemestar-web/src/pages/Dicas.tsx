@@ -1,4 +1,6 @@
-import { ExternalLink, HeartHandshake, Headphones } from "lucide-react";
+import type { CSSProperties } from "react";
+import type { LucideIcon } from "lucide-react";
+import { Coffee, ExternalLink, Footprints, HeartHandshake, Headphones, LifeBuoy, MessageCircle, Moon, Wind } from "lucide-react";
 import BloqueioPremium from "../components/BloqueioPremium";
 import { useAuth } from "../contexts/useAuth";
 import { DICAS_GERAIS } from "../data/dicasGerais";
@@ -7,6 +9,16 @@ import { useDicas } from "../hooks/useDicas";
 import { getErrorMessage } from "../services/apiError";
 import "../styles/dicas.css";
 import CabecalhoPagina from "../components/CabecalhoPagina";
+
+// ícone e cor de cada dica geral (na ordem de DICAS_GERAIS; se faltar, repete o ciclo)
+const VISUAL_DICAS: { Icone: LucideIcon; cor: string; suave: string }[] = [
+  { Icone: Wind, cor: "var(--ceu)", suave: "var(--ceu-suave)" },
+  { Icone: Moon, cor: "var(--indigo)", suave: "var(--indigo-suave)" },
+  { Icone: MessageCircle, cor: "var(--lavanda)", suave: "var(--lavanda-suave)" },
+  { Icone: Coffee, cor: "var(--ambar)", suave: "var(--ambar-suave)" },
+  { Icone: Footprints, cor: "var(--salvia)", suave: "var(--salvia-suave)" },
+  { Icone: LifeBuoy, cor: "var(--coral)", suave: "var(--coral-suave)" },
+];
 
 export default function DicasPage() {
   const { pode } = useAuth();
@@ -44,12 +56,18 @@ export default function DicasPage() {
           Dicas de saúde mental
         </h2>
         <ul className="dicas-lista">
-          {DICAS_GERAIS.map((dica) => (
-            <li key={dica.titulo} className="dicas-cartao">
+          {DICAS_GERAIS.map((dica, i) => {
+            const { Icone, cor, suave } = VISUAL_DICAS[i % VISUAL_DICAS.length];
+            return (
+            <li key={dica.titulo} className="dicas-cartao" style={{ "--cor-dica": cor, "--cor-dica-suave": suave } as CSSProperties}>
+              <span className="dicas-icone" aria-hidden="true">
+                <Icone size={20} />
+              </span>
               <h3>{dica.titulo}</h3>
               <p>{dica.texto}</p>
             </li>
-          ))}
+            );
+          })}
         </ul>
       </section>
 

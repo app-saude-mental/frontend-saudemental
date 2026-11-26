@@ -107,6 +107,8 @@ export default function MomentoPazPage() {
         </p>
       )}
 
+      <div className="layout-dupla paz-layout">
+      <div className="coluna-principal">
       <div className="paz-cartao paz-player">
         <button
           type="button"
@@ -149,6 +151,9 @@ export default function MomentoPazPage() {
         {estado === "concluido" && <p className="paz-mensagem">{MENSAGEM_FIM}</p>}
       </div>
 
+      </div>
+
+      <div className="coluna-lateral">
       {/* ---------- Categorias ---------- */}
       <div className="paz-cartao paz-sons">
         <div className="paz-categorias" role="tablist" aria-label="Tipos de som">
@@ -244,6 +249,8 @@ export default function MomentoPazPage() {
             {som.volume}%
           </span>
         </div>
+      </div>
+      </div>
       </div>
 
       <p className="sr-only" aria-live="polite">

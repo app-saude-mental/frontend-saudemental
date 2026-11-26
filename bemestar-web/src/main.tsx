@@ -21,6 +21,8 @@ import App from "./App";
 import "./styles/refino.css";
 // estrutura "Floresta" (barra lateral, navegação flutuante, cabeçalhos, Meditar, login)
 import "./styles/forma.css";
+// identidade de cada seção (cores e layouts em colunas)
+import "./styles/secoes.css";
 import { AuthProvider } from "./contexts/AuthProvider";
 import { SomProvider } from "./contexts/SomProvider";
 
