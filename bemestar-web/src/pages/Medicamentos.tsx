@@ -10,6 +10,7 @@ import { getErrorMessage } from "../services/apiError";
 import type { Medicamento } from "../types/medicamento";
 import CabecalhoPagina from "../components/CabecalhoPagina";
 import EstadoVazio from "../components/EstadoVazio";
+import Paginacao from "../components/Paginacao";
 
 interface Periodo {
   id: "manha" | "tarde" | "noite";
@@ -143,28 +144,15 @@ export default function MedicamentosPage() {
         </>
       )}
 
-      {data && data.totalPaginas > 1 && (
-        <nav className="med-paginacao" aria-label="Páginas de medicações">
-          <button
-            type="button"
-            className="btn-contorno"
-            onClick={() => setPagina(pagina - 1)}
-            disabled={pagina === 0}
-          >
-            Anterior
-          </button>
-          <span>
-            Página {data.pagina + 1} de {data.totalPaginas}
-          </span>
-          <button
-            type="button"
-            className="btn-contorno"
-            onClick={() => setPagina(pagina + 1)}
-            disabled={pagina + 1 >= data.totalPaginas}
-          >
-            Próxima
-          </button>
-        </nav>
+      {data && (
+        <Paginacao
+          pagina={data.pagina}
+          totalPaginas={data.totalPaginas}
+          onMudar={setPagina}
+          rotulo="Páginas de medicações"
+          totalItens={data.totalElementos}
+          nomeItem={["medicação", "medicações"]}
+        />
       )}
 
       <MedicamentoForm

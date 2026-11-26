@@ -8,6 +8,7 @@ import { getErrorMessage } from "../services/apiError";
 import type { Duvida } from "../types/duvida";
 import CabecalhoPagina from "../components/CabecalhoPagina";
 import EstadoVazio from "../components/EstadoVazio";
+import Paginacao from "../components/Paginacao";
 
 export default function DuvidasPage() {
   const [pagina, setPagina] = useState(0);
@@ -93,28 +94,15 @@ export default function DuvidasPage() {
         </ul>
       )}
 
-      {data && data.totalPaginas > 1 && (
-        <nav className="duv-paginacao" aria-label="Páginas de dúvidas">
-          <button
-            type="button"
-            className="btn-contorno"
-            onClick={() => setPagina(pagina - 1)}
-            disabled={pagina === 0}
-          >
-            Anterior
-          </button>
-          <span>
-            Página {data.pagina + 1} de {data.totalPaginas}
-          </span>
-          <button
-            type="button"
-            className="btn-contorno"
-            onClick={() => setPagina(pagina + 1)}
-            disabled={pagina + 1 >= data.totalPaginas}
-          >
-            Próxima
-          </button>
-        </nav>
+      {data && (
+        <Paginacao
+          pagina={data.pagina}
+          totalPaginas={data.totalPaginas}
+          onMudar={setPagina}
+          rotulo="Páginas de dúvidas"
+          totalItens={data.totalElementos}
+          nomeItem={["dúvida", "dúvidas"]}
+        />
       )}
 
       </section>
