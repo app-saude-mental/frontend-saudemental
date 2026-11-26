@@ -68,8 +68,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     iniciarSessao(await login(dados));
   }
 
-  async function entrarComGoogle(idToken: string) {
-    iniciarSessao(await loginComGoogle(idToken));
+  async function entrarComGoogle(idToken: string, intencao?: "ENTRAR" | "CRIAR") {
+    iniciarSessao(await loginComGoogle(idToken, intencao));
   }
 
   // troca só os dados do usuário, mantendo os tokens

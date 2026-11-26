@@ -7,7 +7,7 @@ export interface AuthContextData {
   // true enquanto a sessão salva é renovada em silêncio ao abrir o app
   inicializando: boolean;
   entrar: (dados: LoginRequest) => Promise<void>;
-  entrarComGoogle: (idToken: string) => Promise<void>;
+  entrarComGoogle: (idToken: string, intencao?: "ENTRAR" | "CRIAR") => Promise<void>;
   atualizarUsuario: (usuario: Usuario) => void;
   sair: () => void;
   sairDeTodos: () => Promise<void>;

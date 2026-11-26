@@ -13,8 +13,11 @@ export async function cadastrar(dados: CadastroRequest): Promise<Usuario> {
   return data;
 }
 
-export async function loginComGoogle(idToken: string): Promise<SessaoResponse> {
-  const { data } = await api.post<SessaoResponse>("/auth/google", { idToken }, { semRenovacao: true });
+// intencao: de qual tela veio ("ENTRAR" não cria conta; "CRIAR" não entra numa conta existente)
+export type IntencaoGoogle = "ENTRAR" | "CRIAR";
+
+export async function loginComGoogle(idToken: string, intencao?: IntencaoGoogle): Promise<SessaoResponse> {
+  const { data } = await api.post<SessaoResponse>("/auth/google", { idToken, intencao }, { semRenovacao: true });
   return data;
 }
 
