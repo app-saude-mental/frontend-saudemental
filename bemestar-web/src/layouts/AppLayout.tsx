@@ -33,6 +33,7 @@ import Logo from "../components/Logo";
 import AjudaAgora from "../components/AjudaAgora";
 import "../styles/app.css";
 import "../styles/ux.css";
+import { useRevelarAoRolar } from "../hooks/useRevelarAoRolar";
 
 interface ItemMenu {
   to: string;
@@ -86,6 +87,8 @@ export default function AppLayout() {
   const primeiroLinkRef = useRef<HTMLAnchorElement>(null);
   // mantém plano e recursos atualizados (ao abrir, ao focar a janela e periodicamente)
   useUsuarioAtual();
+  // blocos entram em sequência ao aparecer na tela (refaz a cada troca de tela)
+  useRevelarAoRolar(pathname);
 
   const inicial = usuario?.nome.trim().charAt(0).toUpperCase() ?? "?";
   const links = ehAdmin ? LINKS_ADMIN : LINKS_USUARIO.filter((link) => !link.recurso || pode(link.recurso));
