@@ -1,7 +1,7 @@
 import { useState, type CSSProperties } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ArrowRight, Check, Lock, Mail, User } from "lucide-react";
 import { cadastroSchema, type CadastroFormData } from "../schemas/authSchemas";
 import { cadastrar } from "../services/authService";
@@ -77,7 +77,7 @@ export default function FormCadastro() {
   return (
     <>
       <form className="acesso-form" onSubmit={handleSubmit(onSubmit)} noValidate>
-        <header className="acesso-form-topo">
+        <header className="acesso-form-topo sr-only">
           <h1>Crie sua conta</h1>
           <p>Leva menos de um minuto e é grátis.</p>
         </header>
@@ -113,10 +113,13 @@ export default function FormCadastro() {
           erro={errors.email?.message}
           registro={register("email")}
         />
+        {/* senha e confirmação lado a lado no notebook (cabe sem rolar) */}
+        <div className="acesso-par">
+          <div className="acesso-par-item">
         <CampoAuth
           id="cad-senha"
           rotulo="Crie uma senha"
-          dica={senha.length === 0 ? "Pelo menos 6 caracteres." : undefined}
+          dica={senha.length === 0 ? "Mínimo de 6 caracteres." : undefined}
           Icone={Lock}
           tipo="password"
           autoComplete="new-password"
@@ -133,6 +136,7 @@ export default function FormCadastro() {
             <span className="acesso-forca-texto">Senha: {NIVEIS[forca].toLowerCase()}</span>
           </div>
         )}
+          </div>
         <CampoAuth
           id="cad-confirmar"
           rotulo="Repita a senha"
@@ -142,6 +146,7 @@ export default function FormCadastro() {
           erro={errors.confirmarSenha?.message}
           registro={register("confirmarSenha")}
         />
+        </div>
 
         <div className={`acesso-termos ${errors.aceitouTermos ? "invalido" : ""}`}>
           <input id="aceitouTermos" type="checkbox" {...register("aceitouTermos")} />
@@ -151,7 +156,7 @@ export default function FormCadastro() {
           <span>
             <label htmlFor="aceitouTermos">Li e aceito os </label>
             <button type="button" className="acesso-link" onClick={() => setModalAberto(true)}>
-              termos de uso e a política de privacidade (LGPD)
+              termos de uso e a privacidade (LGPD)
             </button>
           </span>
         </div>
@@ -178,10 +183,6 @@ export default function FormCadastro() {
             </>
           )}
         </button>
-
-        <p className="acesso-troca">
-          Já tem conta? <Link to="/login">Entrar</Link>
-        </p>
       </form>
 
       <ModalTermos aberto={modalAberto} onFechar={() => setModalAberto(false)} onAceitar={aceitarPeloModal} />
