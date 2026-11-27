@@ -38,26 +38,27 @@ export default function FormLogin() {
   }
 
   return (
-    <form className="entrada-form" onSubmit={handleSubmit(onSubmit)} noValidate>
-      <header className="entrada-form-topo">
-        <h1>Que bom te ver de novo</h1>
+    <form className="acesso-form" onSubmit={handleSubmit(onSubmit)} noValidate>
+      <header className="acesso-form-topo">
+        <h1>Bem-vindo de volta</h1>
         <p>Entre para continuar cuidando de você.</p>
       </header>
 
       {chegada?.aviso && (
-        <p className="entrada-aviso" role="status">
+        <p className="acesso-aviso" role="status">
           {chegada.aviso}
         </p>
       )}
 
       <GoogleButton intencao="ENTRAR" onErro={setErroApi} />
-      <div className="entrada-divisor">
+      <div className="acesso-divisor">
         <span>ou com seu e-mail</span>
       </div>
 
       <CampoAuth
         id="login-email"
         rotulo="E-mail"
+        placeholder="voce@email.com"
         Icone={Mail}
         tipo="email"
         autoComplete="email"
@@ -76,15 +77,15 @@ export default function FormLogin() {
       />
 
       {erroApi && (
-        <p className="entrada-erro-api" role="alert">
+        <p className="acesso-erro-api" role="alert">
           {erroApi}
         </p>
       )}
 
-      <button type="submit" className="entrada-enviar" disabled={isSubmitting}>
+      <button type="submit" className="acesso-enviar" disabled={isSubmitting}>
         {isSubmitting ? (
           <>
-            <span className="entrada-girando" aria-hidden="true" /> Entrando…
+            <span className="acesso-girando" aria-hidden="true" /> Entrando…
           </>
         ) : (
           <>
@@ -93,7 +94,7 @@ export default function FormLogin() {
         )}
       </button>
 
-      <p className="entrada-troca">
+      <p className="acesso-troca">
         Ainda não tem conta? <Link to="/cadastro">Crie a sua, é grátis</Link>
       </p>
     </form>

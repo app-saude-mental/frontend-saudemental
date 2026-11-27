@@ -4,6 +4,8 @@ import { Bell, CircleDollarSign, HeartHandshake, MessageCircleQuestion, Undo2 } 
 import type { LucideIcon } from "lucide-react";
 import { useNotificacoes } from "../../hooks/useAdmin";
 import type { NotificacaoItem, TipoNotificacao } from "../../types/admin";
+import Paginacao from "../Paginacao";
+import { usePaginaLocal } from "../../hooks/usePaginaLocal";
 import "../../styles/notificacoes.css";
 
 const CHAVE_VISTO = "respire-notificacoes-vistas";
@@ -50,6 +52,8 @@ export default function SinoNotificacoes() {
 
   const total = data?.total ?? 0;
   const itens = data?.itens ?? [];
+  // até 15 avisos: 5 por página no painel
+  const paginas = usePaginaLocal(itens, 5);
   const novos = itens.filter((i) => i.criadoEm > visto).length;
 
   // número no título da aba e no ícone do app instalado
@@ -135,7 +139,7 @@ export default function SinoNotificacoes() {
             <p className="sino-vazio">Tudo em dia. Nenhum paciente aguardando você.</p>
           ) : (
             <ul className="sino-lista">
-              {itens.map((item: NotificacaoItem) => {
+              {paginas.itens.map((item: NotificacaoItem) => {
                 const { Icone, destino } = POR_TIPO[item.tipo];
                 const novo = item.criadoEm > base;
                 return (
@@ -158,6 +162,14 @@ export default function SinoNotificacoes() {
               })}
             </ul>
           )}
+
+          <Paginacao
+            pagina={paginas.pagina}
+            totalPaginas={paginas.totalPaginas}
+            onMudar={paginas.setPagina}
+            rotulo="Páginas de notificações"
+            rolar={false}
+          />
 
           <footer className="sino-rodape">
             <Link to="/admin/solicitacoes?status=PENDENTE" onClick={() => setAberto(false)}>
