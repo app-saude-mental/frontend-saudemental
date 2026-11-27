@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ArrowRight, Lock, Mail } from "lucide-react";
 import { loginSchema, type LoginFormData } from "../schemas/authSchemas";
 import { getErrorMessage } from "../services/apiError";
@@ -39,7 +39,7 @@ export default function FormLogin() {
 
   return (
     <form className="acesso-form" onSubmit={handleSubmit(onSubmit)} noValidate>
-      <header className="acesso-form-topo">
+      <header className="acesso-form-topo sr-only">
         <h1>Bem-vindo de volta</h1>
         <p>Entre para continuar cuidando de você.</p>
       </header>
@@ -93,10 +93,6 @@ export default function FormLogin() {
           </>
         )}
       </button>
-
-      <p className="acesso-troca">
-        Ainda não tem conta? <Link to="/cadastro">Crie a sua, é grátis</Link>
-      </p>
     </form>
   );
 }

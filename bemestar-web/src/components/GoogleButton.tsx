@@ -64,7 +64,7 @@ export default function GoogleButton({ intencao, onErro }: GoogleButtonProps) {
       />
       {criando && (
         <small className="google-aviso">
-          Ao continuar, você concorda com os termos de uso e a política de privacidade.
+          Ao continuar, você aceita os termos de uso e a privacidade.
         </small>
       )}
     </div>

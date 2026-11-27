@@ -122,6 +122,19 @@ export default function PaisagemAcesso() {
             <path key={`d${x}`} d={pinheiro(x, y, s)} fill="var(--arvore)" />
           ))}
         </g>
+        {/* celular: o recorte mostra só o centro, então ganha margens e pinheiros próprios */}
+        <g className="pa-camada pa-perto pa-movel" fill="var(--monte-3)">
+          <path d="M540 872 C 600 848 660 856 702 884 S 770 950 800 1000 H 540 Z" />
+          <path d="M1060 862 C 1000 846 952 860 912 892 S 852 962 836 1000 H 1060 Z" />
+          {[
+            [584, 884, 0.78],
+            [636, 876, 0.62],
+            [1012, 872, 0.82],
+            [966, 884, 0.58],
+          ].map(([x, y, e]) => (
+            <path key={`m${x}`} d={pinheiro(x, y, e)} fill="var(--arvore)" />
+          ))}
+        </g>
       </svg>
     </div>
   );
