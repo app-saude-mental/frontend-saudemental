@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 interface PaginacaoProps {
@@ -7,6 +8,7 @@ interface PaginacaoProps {
   rotulo?: string; // nome acessível da navegação (ex.: "Páginas do diário")
   totalItens?: number; // mostra "12 registros" ao lado
   nomeItem?: [singular: string, plural: string];
+  rolar?: boolean; // ao trocar de página, volta ao começo da lista (false dentro de painéis com rolagem própria)
 }
 
 type Item = number | "…";
@@ -32,18 +34,36 @@ export default function Paginacao({
   rotulo = "Paginação",
   totalItens,
   nomeItem = ["item", "itens"],
+  rolar = true,
 }: PaginacaoProps) {
+  const navRef = useRef<HTMLElement>(null);
   if (totalPaginas <= 1) return null;
+
+  // muda de página e, se o começo da lista ficou para trás, rola suavemente até ele
+  function mudar(nova: number) {
+    if (nova === pagina || nova < 0 || nova >= totalPaginas) return;
+    onMudar(nova);
+    if (!rolar) return;
+    const ancora = navRef.current?.previousElementSibling ?? navRef.current?.parentElement;
+    window.requestAnimationFrame(() => {
+      if (!ancora) return;
+      const topo = ancora.getBoundingClientRect().top;
+      if (topo < 0) {
+        const semMovimento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        window.scrollTo({ top: window.scrollY + topo - 96, behavior: semMovimento ? "auto" : "smooth" });
+      }
+    });
+  }
   const primeira = pagina === 0;
   const ultima = pagina + 1 >= totalPaginas;
 
   return (
-    <nav className="paginacao-v2" aria-label={rotulo}>
+    <nav ref={navRef} className="paginacao-v2" aria-label={rotulo}>
       <button
         type="button"
         className="paginacao-seta"
         disabled={primeira}
-        onClick={() => onMudar(pagina - 1)}
+        onClick={() => mudar(pagina - 1)}
         aria-label="Página anterior"
       >
         <ArrowLeft size={16} aria-hidden="true" />
@@ -63,7 +83,7 @@ export default function Paginacao({
                 className="paginacao-numero"
                 aria-current={item === pagina ? "page" : undefined}
                 aria-label={`Página ${item + 1}`}
-                onClick={() => item !== pagina && onMudar(item)}
+                onClick={() => mudar(item)}
               >
                 {item + 1}
               </button>
@@ -80,7 +100,7 @@ export default function Paginacao({
         type="button"
         className="paginacao-seta"
         disabled={ultima}
-        onClick={() => onMudar(pagina + 1)}
+        onClick={() => mudar(pagina + 1)}
         aria-label="Próxima página"
       >
         <span className="paginacao-seta-texto">Próxima</span>

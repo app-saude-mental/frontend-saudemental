@@ -118,3 +118,9 @@
   .sino-botao.tem-novos svg,
   .sino-painel { animation: none; }
 }
+
+/* paginação compacta dentro do painel */
+.sino-painel .paginacao-v2 { margin: 6px 0 4px; gap: 4px 6px; }
+.sino-painel .paginacao-numero,
+.sino-painel .paginacao-seta { min-width: 32px; height: 32px; padding: 0 8px; font-size: 0.82rem; }
+.sino-painel .paginacao-seta-texto { display: none; }
