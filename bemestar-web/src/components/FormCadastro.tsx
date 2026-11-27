@@ -76,26 +76,27 @@ export default function FormCadastro() {
 
   return (
     <>
-      <form className="entrada-form" onSubmit={handleSubmit(onSubmit)} noValidate>
-        <header className="entrada-form-topo">
-          <h1>Um espaço seu para respirar</h1>
-          <p>Crie sua conta em menos de um minuto. É grátis.</p>
+      <form className="acesso-form" onSubmit={handleSubmit(onSubmit)} noValidate>
+        <header className="acesso-form-topo">
+          <h1>Crie sua conta</h1>
+          <p>Leva menos de um minuto e é grátis.</p>
         </header>
 
         {chegada?.aviso && (
-          <p className="entrada-aviso" role="status">
+          <p className="acesso-aviso" role="status">
             {chegada.aviso}
           </p>
         )}
 
         <GoogleButton intencao="CRIAR" onErro={setErroApi} />
-        <div className="entrada-divisor">
+        <div className="acesso-divisor">
           <span>ou com seu e-mail</span>
         </div>
 
         <CampoAuth
           id="cad-nome"
           rotulo="Como podemos te chamar?"
+          placeholder="Seu nome ou apelido"
           Icone={User}
           autoComplete="name"
           erro={errors.nome?.message}
@@ -104,6 +105,7 @@ export default function FormCadastro() {
         <CampoAuth
           id="cad-email"
           rotulo="E-mail"
+          placeholder="voce@email.com"
           Icone={Mail}
           tipo="email"
           autoComplete="email"
@@ -114,6 +116,7 @@ export default function FormCadastro() {
         <CampoAuth
           id="cad-senha"
           rotulo="Crie uma senha"
+          dica={senha.length === 0 ? "Pelo menos 6 caracteres." : undefined}
           Icone={Lock}
           tipo="password"
           autoComplete="new-password"
@@ -121,13 +124,13 @@ export default function FormCadastro() {
           registro={register("senha")}
         />
         {senha.length > 0 && (
-          <div className="entrada-forca" style={{ "--nivel": forca } as CSSProperties} aria-live="polite">
-            <span className="entrada-forca-barras" aria-hidden="true">
+          <div className="acesso-forca" style={{ "--nivel": forca } as CSSProperties} aria-live="polite">
+            <span className="acesso-forca-barras" aria-hidden="true">
               {[1, 2, 3, 4].map((n) => (
                 <span key={n} className={n <= forca ? "cheia" : ""} />
               ))}
             </span>
-            <span className="entrada-forca-texto">Senha: {NIVEIS[forca].toLowerCase()}</span>
+            <span className="acesso-forca-texto">Senha: {NIVEIS[forca].toLowerCase()}</span>
           </div>
         )}
         <CampoAuth
@@ -140,34 +143,34 @@ export default function FormCadastro() {
           registro={register("confirmarSenha")}
         />
 
-        <div className={`entrada-termos ${errors.aceitouTermos ? "invalido" : ""}`}>
+        <div className={`acesso-termos ${errors.aceitouTermos ? "invalido" : ""}`}>
           <input id="aceitouTermos" type="checkbox" {...register("aceitouTermos")} />
-          <span className="entrada-termos-caixa" aria-hidden="true">
+          <span className="acesso-termos-caixa" aria-hidden="true">
             <Check size={14} strokeWidth={3} />
           </span>
           <span>
             <label htmlFor="aceitouTermos">Li e aceito os </label>
-            <button type="button" className="entrada-link" onClick={() => setModalAberto(true)}>
+            <button type="button" className="acesso-link" onClick={() => setModalAberto(true)}>
               termos de uso e a política de privacidade (LGPD)
             </button>
           </span>
         </div>
         {errors.aceitouTermos && (
-          <span className="entrada-campo-erro" role="alert">
+          <span className="acesso-campo-erro" role="alert">
             {errors.aceitouTermos.message}
           </span>
         )}
 
         {erroApi && (
-          <p className="entrada-erro-api" role="alert">
+          <p className="acesso-erro-api" role="alert">
             {erroApi}
           </p>
         )}
 
-        <button type="submit" className="entrada-enviar" disabled={isSubmitting}>
+        <button type="submit" className="acesso-enviar" disabled={isSubmitting}>
           {isSubmitting ? (
             <>
-              <span className="entrada-girando" aria-hidden="true" /> Criando sua conta…
+              <span className="acesso-girando" aria-hidden="true" /> Criando sua conta…
             </>
           ) : (
             <>
@@ -176,7 +179,7 @@ export default function FormCadastro() {
           )}
         </button>
 
-        <p className="entrada-troca">
+        <p className="acesso-troca">
           Já tem conta? <Link to="/login">Entrar</Link>
         </p>
       </form>
